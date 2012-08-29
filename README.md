@@ -1,4 +1,4 @@
-wiki-test
+project-thesis
 =========
 
-enter description here
+Go to the [wiki](wiki/).
