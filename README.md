@@ -1,4 +1,4 @@
 project-thesis
 =========
 
-Go to the [wiki](wiki/).
+Go to the [wiki](project-thesis/wiki/).
