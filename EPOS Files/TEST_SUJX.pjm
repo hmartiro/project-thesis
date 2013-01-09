@@ -33,15 +33,63 @@
 			</NetworkTopology>
 			<WindowInformation>
 				<ControlWindow>
-					<Name>Profile Position Mode - EPOS2 [Node 2]</Name>
+					<Name>Profile Position Mode - EPOS2 [Node 3]</Name>
 					<SystemTag>3FFF563F-B837-4d53-AEF3-1869BEFF6C23</SystemTag>
 					<FunctionId>104</FunctionId>
 					<InvokeId>31C37CC2-97BD-4221-99EC-BCBA3CBDB9CD</InvokeId>
 					<Position>
-						<XPosition>-8</XPosition>
-						<YPosition>-30</YPosition>
-						<Width>694</Width>
-						<Height>822</Height>
+						<XPosition>-9</XPosition>
+						<YPosition>-38</YPosition>
+						<Width>1565</Width>
+						<Height>786</Height>
+					</Position>
+				</ControlWindow>
+				<ControlWindow>
+					<Name>Interpolated Position Mode - EPOS2 [Node 3]</Name>
+					<SystemTag>3FFF563F-B837-4d53-AEF3-1869BEFF6C23</SystemTag>
+					<FunctionId>106</FunctionId>
+					<InvokeId>B9AF8239-57CA-4079-8E72-0E19CF3DD81B</InvokeId>
+					<Position>
+						<XPosition>30</XPosition>
+						<YPosition>32</YPosition>
+						<Width>1337</Width>
+						<Height>515</Height>
+					</Position>
+				</ControlWindow>
+				<ControlWindow>
+					<Name>Interpolated Position Mode - EPOS2 [Node 3]</Name>
+					<SystemTag>9333EFD7-AF15-4c4a-9425-245107BC7B7A</SystemTag>
+					<FunctionId>106</FunctionId>
+					<InvokeId>43E52184-6A68-43db-9642-9AA86B302264</InvokeId>
+					<Position>
+						<XPosition>60</XPosition>
+						<YPosition>64</YPosition>
+						<Width>1337</Width>
+						<Height>515</Height>
+					</Position>
+				</ControlWindow>
+				<ControlWindow>
+					<Name>Homing Mode - EPOS2 [Node 3]</Name>
+					<SystemTag>9333EFD7-AF15-4c4a-9425-245107BC7B7A</SystemTag>
+					<FunctionId>103</FunctionId>
+					<InvokeId>B5FFE31A-F73F-4731-A448-5B7471EB1410</InvokeId>
+					<Position>
+						<XPosition>90</XPosition>
+						<YPosition>96</YPosition>
+						<Width>1337</Width>
+						<Height>515</Height>
+					</Position>
+				</ControlWindow>
+				<ControlWindow>
+					<Name>Homing Mode - EPOS2 [Node 3]</Name>
+					<SystemTag>3FFF563F-B837-4d53-AEF3-1869BEFF6C23</SystemTag>
+					<FunctionId>103</FunctionId>
+					<InvokeId>2223EA59-DAE7-45ef-95AE-DBD01D2D68B1</InvokeId>
+					<Position>
+						<XPosition>120</XPosition>
+						<YPosition>128</YPosition>
+						<Width>1337</Width>
+						<Height>515</Height>
 					</Position>
 				</ControlWindow>
 			</WindowInformation>
@@ -98,7 +146,7 @@
 			<DeviceTypeSettings>
 				<Parameters>
 					<Name>EPOS2</Name>
-					<NodeId>2</NodeId>
+					<NodeId>3</NodeId>
 				</Parameters>
 				<ObjectFilters>
 					<SelectedObjectFilter></SelectedObjectFilter>
