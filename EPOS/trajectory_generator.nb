@@ -1,0 +1,487 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     16150,        478]
+NotebookOptionsPosition[     14747,        425]
+NotebookOutlinePosition[     15126,        441]
+CellTagsIndexPosition[     15083,        438]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[StyleBox["xJ\[UDoubleDot]s - Flexible Hexapod",
+ FontSize->24]], "Title",
+ CellChangeTimes->{{3.5638345388964367`*^9, 3.5638345829579563`*^9}}],
+
+Cell["\<\
+PVT Trajectory Generation for EPOS2 IPM Mode\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.5673657759595366`*^9, 3.567365798258812*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Definitions", "Section",
+ CellChangeTimes->{{3.567365694457875*^9, 3.567365707738634*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ClearAll", "[", "\"\<`*\>\"", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.5673644341397886`*^9, 3.5673644411761913`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"M", "=", "10"}], ";", "  ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"#", " ", "of", " ", "Fourier", " ", "terms", " ", "used"}], " ", 
+   "*)"}]}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["Trajectory functions", "Subsubsection",
+ CellChangeTimes->{{3.5673638499543753`*^9, 3.5673638548726563`*^9}, {
+  3.567363979282772*^9, 3.5673640008610067`*^9}, {3.567364165755438*^9, 
+  3.5673641692496376`*^9}, {3.567364516370492*^9, 3.5673645240569315`*^9}, {
+  3.5673646307930365`*^9, 3.567364644212804*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Theta]", "[", "t_", "]"}], "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      FractionBox[
+       RowBox[{"2", " ", "\[Pi]"}], "T"], ")"}], "t"}], "+", 
+    RowBox[{
+     SubsuperscriptBox["\[Sum]", 
+      RowBox[{"m", "=", "1"}], "M"], 
+     RowBox[{
+      FractionBox[
+       RowBox[{"4", " ", 
+        RowBox[{"(", 
+         RowBox[{"\[Theta]g", "-", "\[Pi]"}], ")"}]}], 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", "m"}], "-", "1"}], ")"}], "2"], 
+        SuperscriptBox[
+         RowBox[{"\[Pi]", " "}], "2"]}]], 
+      RowBox[{"(", 
+       RowBox[{"1", "-", 
+        RowBox[{"Cos", "[", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"2", "\[Pi]", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"2", "m"}], "-", "1"}], ")"}]}], "T"], "t"}], "]"}]}], 
+       ")"}]}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Theta]dot", "[", "t_", "]"}], "=", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"2", " ", "\[Pi]"}], "T"], "+", 
+    RowBox[{
+     SubsuperscriptBox["\[Sum]", 
+      RowBox[{"m", "=", "1"}], "M"], 
+     RowBox[{
+      FractionBox[
+       RowBox[{"8", " ", 
+        RowBox[{"(", 
+         RowBox[{"\[Theta]g", "-", "\[Pi]"}], ")"}]}], 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"2", "m"}], "-", "1"}], ")"}], "\[Pi]", " ", "T"}]], 
+      RowBox[{"Sin", "[", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", "\[Pi]", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"2", "m"}], "-", "1"}], ")"}]}], "T"], "t"}], 
+       "]"}]}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Theta]dotdot", "[", "t_", "]"}], "=", 
+   RowBox[{
+    SubsuperscriptBox["\[Sum]", 
+     RowBox[{"m", "=", "1"}], "M"], 
+    RowBox[{
+     FractionBox[
+      RowBox[{"16", 
+       RowBox[{"(", 
+        RowBox[{"\[Theta]g", "-", "\[Pi]"}], ")"}]}], 
+      SuperscriptBox["T", "2"]], 
+     RowBox[{"Cos", "[", 
+      RowBox[{
+       FractionBox[
+        RowBox[{"2", "\[Pi]", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", "m"}], "-", "1"}], ")"}]}], "T"], "t"}], "]"}]}]}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.5673638593899145`*^9, 3.5673638890156093`*^9}, {
+  3.5673640158648643`*^9, 3.5673641037158895`*^9}, {3.567364197304242*^9, 
+  3.5673642253058443`*^9}, {3.5673642590737753`*^9, 3.567364260148837*^9}, {
+  3.567364312501831*^9, 3.5673643744873767`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Conversion constants", "Subsubsection",
+ CellChangeTimes->{{3.567363621085284*^9, 3.5673636261665754`*^9}, {
+  3.5673645290232153`*^9, 3.5673645401918545`*^9}, {3.567364636257349*^9, 
+  3.5673646473819857`*^9}, {3.5673659481713867`*^9, 3.5673659500144916`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"gearRatio", " ", "=", " ", 
+   RowBox[{"729", "/", "25"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"angleToQC", "=", 
+   RowBox[{
+    RowBox[{"(", 
+     FractionBox[
+      RowBox[{"512", "*", "4"}], 
+      RowBox[{"2", "\[Pi]"}]], ")"}], "*", "gearRatio"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"angVelToRPM", "=", 
+    RowBox[{
+     RowBox[{"(", 
+      FractionBox["60", 
+       RowBox[{"2", "\[Pi]"}]], ")"}], "*", "gearRatio"}]}], ";"}], 
+  " "}]}], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["PVT generation function", "Subsubsection",
+ CellChangeTimes->{{3.567365046716826*^9, 3.5673650538032312`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"generatePVT", "[", "]"}], ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"generating", " ", "time", " ", "vector"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"tPoints", "=", 
+     RowBox[{"Range", "[", 
+      RowBox[{
+       RowBox[{"t0", "+", 
+        FractionBox["dt", "2000"]}], ",", 
+       RowBox[{"t0", "+", "tTotal"}], ",", 
+       FractionBox["dt", "1000"]}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"tPoints", "=", 
+     RowBox[{"Append", "[", 
+      RowBox[{"tPoints", ",", 
+       RowBox[{"t0", "+", "tTotal"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"generating", " ", "PVT", " ", "trajectory"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"positions", "=", 
+     RowBox[{"Round", "[", 
+      RowBox[{
+       RowBox[{"\[Theta]", "[", "tPoints", "]"}], "*", "angleToQC"}], "]"}]}],
+     ";", "\[IndentingNewLine]", 
+    RowBox[{"velocities", "=", 
+     RowBox[{"Round", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[Theta]", "'"}], "[", "tPoints", "]"}], "*", 
+       "angVelToRPM"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"timeIntervals", "=", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{"dt", ",", 
+       RowBox[{"Length", "[", "tPoints", "]"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{"appending", " ", "last", " ", "PVT", " ", "point"}], ",", " ", 
+      RowBox[{"signal", " ", "to", " ", "stop"}]}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"positions", "=", 
+     RowBox[{"Append", "[", 
+      RowBox[{"positions", ",", 
+       RowBox[{"positions", "[", 
+        RowBox[{"[", 
+         RowBox[{"-", "1"}], "]"}], "]"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"velocities", "=", 
+     RowBox[{"Append", "[", 
+      RowBox[{"velocities", ",", "0"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"timeIntervals", "=", 
+     RowBox[{"Append", "[", 
+      RowBox[{"timeIntervals", ",", "0"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"returning", " ", "the", " ", "trajectory"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"direction", "*", "positions"}], ",", 
+       RowBox[{"direction", "*", "velocities"}], ",", "timeIntervals"}], 
+      "}"}], "\[Transpose]"}]}], "\[IndentingNewLine]", ")"}]}]], "Input",
+ CellChangeTimes->{{3.5673650554373245`*^9, 3.5673650836669397`*^9}, {
+  3.567365125341323*^9, 3.567365228352215*^9}, {3.5673652615491133`*^9, 
+  3.5673653086128054`*^9}, {3.5673654776714754`*^9, 3.5673654830827847`*^9}, {
+  3.567365579788316*^9, 3.5673656081549387`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Function that saves to file", "Subsubsection",
+ CellChangeTimes->{{3.563898267357379*^9, 3.563898268494444*^9}, {
+  3.567364951693391*^9, 3.5673649556186156`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"saveFile", "[", 
+   RowBox[{"trajectory_", ",", "name_"}], "]"}], ":=", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"file", "=", 
+     RowBox[{"FileNameJoin", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"NotebookDirectory", "[", "]"}], ",", "name"}], "}"}], 
+      "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"str", "=", 
+     RowBox[{"ExportString", "[", 
+      RowBox[{"trajectory", ",", "\"\<CSV\>\"", ",", 
+       RowBox[{"\"\<TableHeadings\>\"", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<qc\>\"", ",", "\"\<rpm\>\"", ",", "\"\<ms\>\""}], 
+         "}"}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"str", "=", 
+     RowBox[{"StringReplace", "[", 
+      RowBox[{"str", ",", 
+       RowBox[{"\"\<,\>\"", "\[Rule]", "\"\<;\>\""}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"str", "=", 
+     RowBox[{"StringReplace", "[", 
+      RowBox[{"str", ",", 
+       RowBox[{"\"\<\\n\>\"", "\[Rule]", "\"\<;\\n\>\""}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"str", "=", 
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"str", ",", "\"\<;\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Export", "[", 
+     RowBox[{"file", ",", "str"}], "]"}], ";"}], "\[IndentingNewLine]", 
+   ")"}]}]], "Input",
+ CellChangeTimes->{{3.5673629294147234`*^9, 3.567363003241946*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Usage", "Section",
+ CellChangeTimes->{{3.567365694457875*^9, 3.5673657144900208`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Define trajectory parameters", "Subsubsection",
+ CellChangeTimes->{{3.563898033572007*^9, 3.5638980351180954`*^9}, {
+  3.567363632943963*^9, 3.567363635290097*^9}, {3.56736462525872*^9, 
+  3.567364641779665*^9}, {3.5673657171801744`*^9, 3.567365718818268*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Theta]g", "=", 
+    RowBox[{"\[Pi]", "/", "8"}]}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"ground", " ", "contact", " ", 
+    RowBox[{"angle", " ", "[", "rad", "]"}]}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"T", "=", "2.0"}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"revolution", " ", 
+    RowBox[{"period", " ", "[", "s", "]"}]}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"t0", "=", "0"}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"start", " ", 
+    RowBox[{"time", " ", "[", "s", "]"}]}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"tTotal", "=", 
+    RowBox[{"4", "T"}]}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"total", " ", "time", " ", "of", " ", "trajectory"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"dt", "=", "50"}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"PVT", " ", 
+    RowBox[{"timestep", " ", "[", "ms", "]"}]}], " ", "*)"}], 
+  " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"direction", "=", 
+    RowBox[{"+", "1"}]}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"+", "1"}], "/", 
+     RowBox[{"-", "1"}]}], " ", "for", " ", 
+    RowBox[{"left", "/", "right"}], " ", "leg"}], " ", "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.5638979620499163`*^9, 3.563898006220443*^9}, {
+   3.5638980445826373`*^9, 3.5638980897442203`*^9}, {3.5638987590765038`*^9, 
+   3.563898789697255*^9}, {3.56389893437753*^9, 3.563898943477051*^9}, {
+   3.5638991570792685`*^9, 3.5638991651127276`*^9}, {3.5638997692712836`*^9, 
+   3.5638997734415216`*^9}, {3.5638998346980257`*^9, 3.563899836828148*^9}, {
+   3.5641538525962*^9, 3.5641538527872114`*^9}, {3.5641540359348497`*^9, 
+   3.564154036269869*^9}, {3.564154553964037*^9, 3.5641545912559443`*^9}, {
+   3.564154909067091*^9, 3.564154909421111*^9}, 3.564155250767141*^9, {
+   3.5641554615972214`*^9, 3.5641554651274233`*^9}, {3.564156057274562*^9, 
+   3.5641560575045757`*^9}, {3.5641564657945733`*^9, 3.564156465949582*^9}, {
+   3.564156589326629*^9, 3.5641565895906444`*^9}, {3.5641571947584906`*^9, 
+   3.5641571950285063`*^9}, {3.564157352194787*^9, 3.5641573533678513`*^9}, {
+   3.566661505421068*^9, 3.5666615078633785`*^9}, 3.5666655914248075`*^9, 
+   3.5666656592509203`*^9, {3.5666657305704765`*^9, 3.566665736033671*^9}, {
+   3.566667258276971*^9, 3.5666672601067033`*^9}, {3.5666693487074223`*^9, 
+   3.5666693488564405`*^9}, {3.566669666150732*^9, 3.5666696662447443`*^9}, {
+   3.5666713154746695`*^9, 3.566671316037241*^9}, {3.56667146888465*^9, 
+   3.5666714693667116`*^9}, {3.567360283266688*^9, 3.567360283640709*^9}, {
+   3.5673625959386497`*^9, 3.56736267427713*^9}, {3.5673636154859643`*^9, 
+   3.5673636450226536`*^9}, {3.5673636801196613`*^9, 
+   3.5673637191678944`*^9}, {3.5673638284161434`*^9, 
+   3.5673638286561565`*^9}, {3.567364468312743*^9, 3.5673644684777527`*^9}, {
+   3.5673653328811936`*^9, 3.567365470270052*^9}, {3.567365519053842*^9, 
+   3.567365600384494*^9}, 3.5673659247430463`*^9, 3.5673659681735306`*^9, {
+   3.5673660611298475`*^9, 3.5673660711484203`*^9}, {3.5673747580602784`*^9, 
+   3.5673747630525637`*^9}, 3.5673759316394033`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Save a left leg trajectory to file\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.563898267357379*^9, 3.563898268494444*^9}, {
+  3.567364951693391*^9, 3.5673649718685446`*^9}, {3.567370743851679*^9, 
+  3.5673707526191807`*^9}, {3.567370808839396*^9, 3.567370809360426*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"trajectoryLeft", "=", 
+   RowBox[{"generatePVT", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"saveFile", "[", 
+   RowBox[{"trajectoryLeft", ",", "\"\<leftLeg.csv\>\""}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.5673658274264803`*^9, 3.567365864118579*^9}, {
+  3.5673660748596325`*^9, 3.5673660751046467`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Save a right leg trajectory to file\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.567370793633526*^9, 3.567370805027178*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"direction", "=", 
+   RowBox[{"-", "1"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"trajectoryRight", "=", 
+   RowBox[{"generatePVT", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"saveFile", "[", 
+   RowBox[{"trajectoryRight", ",", "\"\<rightLeg.csv\>\""}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.567370786986146*^9, 3.567370877218307*^9}, 
+   3.567374752794977*^9, {3.5673781816692753`*^9, 3.5673781817347836`*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{906, 819},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification->1.4000000953674316`,
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (November 20, 2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 157, 2, 96, "Title"],
+Cell[739, 26, 143, 3, 39, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[907, 33, 96, 1, 98, "Section"],
+Cell[1006, 36, 158, 3, 41, "Input"],
+Cell[1167, 41, 186, 5, 41, "Input"],
+Cell[CellGroupData[{
+Cell[1378, 50, 316, 4, 35, "Subsubsection"],
+Cell[1697, 56, 2544, 83, 184, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4278, 144, 267, 3, 35, "Subsubsection"],
+Cell[4548, 149, 541, 19, 150, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5126, 173, 116, 1, 35, "Subsubsection"],
+Cell[5245, 176, 2770, 69, 465, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8052, 250, 169, 2, 35, "Subsubsection"],
+Cell[8224, 254, 1397, 35, 242, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9670, 295, 92, 1, 98, "Section"],
+Cell[CellGroupData[{
+Cell[9787, 300, 266, 3, 35, "Subsubsection"],
+Cell[10056, 305, 3287, 72, 167, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13380, 382, 281, 5, 35, "Subsubsection"],
+Cell[13664, 389, 375, 9, 67, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14076, 403, 134, 3, 35, "Subsubsection"],
+Cell[14213, 408, 494, 12, 92, "Input"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
