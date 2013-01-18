@@ -1,0 +1,673 @@
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+/bin/sh: 1: g++: not found
+make: *** [src/xJus-epos.o] Error 127
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:15:6: error: ‘hey’ was not declared in this scope
+../src/xJus-epos.cpp: In function ‘int hey()’:
+../src/xJus-epos.cpp:24:1: error: expected ‘;’ before ‘}’ token
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int hey()’:
+../src/xJus-epos.cpp:15:1: error: expected ‘;’ before ‘}’ token
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int hey()’:
+../src/xJus-epos.cpp:15:1: error: expected ‘;’ before ‘}’ token
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:25:1: error: expected ‘;’ before ‘}’ token
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int hey()’:
+../src/xJus-epos.cpp:15:1: error: expected ‘;’ before ‘}’ token
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:25:1: error: expected ‘;’ before ‘}’ token
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:14:2: error: ‘a’ was not declared in this scope
+../src/xJus-epos.cpp:15:2: error: ‘b’ was not declared in this scope
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:14:2: error: ‘a’ was not declared in this scope
+../src/xJus-epos.cpp:15:2: error: ‘b’ was not declared in this scope
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:14:2: error: ‘a’ was not declared in this scope
+../src/xJus-epos.cpp:15:2: error: ‘b’ was not declared in this scope
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:14:2: error: ‘a’ was not declared in this scope
+../src/xJus-epos.cpp:15:2: error: ‘b’ was not declared in this scope
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:16:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:16:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp:23:16: warning: character constant too long for its type [enabled by default]
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:16:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:16:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:16:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:16:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:16:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp:15:10: warning: character constant too long for its type [enabled by default]
+../src/xJus-epos.cpp: In function ‘int whatever()’:
+../src/xJus-epos.cpp:16:2: error: expected ‘;’ before ‘return’
+../src/xJus-epos.cpp:17:1: warning: no return statement in function returning non-void [-Wreturn-type]
+../src/xJus-epos.cpp: At global scope:
+../src/xJus-epos.cpp:18:1: error: expected declaration before ‘}’ token
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp:15:10: warning: character constant too long for its type [enabled by default]
+../src/xJus-epos.cpp:18:1: error: expected declaration before ‘}’ token
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp:18:1: error: expected declaration before ‘}’ token
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:22:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:32:24: error: ‘whatever’ was not declared in this scope
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:22:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:29:25: error: ‘whatever’ was not declared in this scope
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:21:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:34:25: error: no match for ‘operator<<’ in ‘std::cout.std::basic_ostream<_CharT, _Traits>::operator<< [with _CharT = char, _Traits = std::char_traits<char>](a) << whatever()’
+../src/xJus-epos.cpp:34:25: note: candidates are:
+/usr/include/c++/4.6/ostream:110:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>::__ostream_type& (*)(std::basic_ostream<_CharT, _Traits>::__ostream_type&)) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:110:7: note:   no known conversion for argument 1 from ‘void’ to ‘std::basic_ostream<char>::__ostream_type& (*)(std::basic_ostream<char>::__ostream_type&) {aka std::basic_ostream<char>& (*)(std::basic_ostream<char>&)}’
+/usr/include/c++/4.6/ostream:119:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>::__ios_type& (*)(std::basic_ostream<_CharT, _Traits>::__ios_type&)) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>, std::basic_ostream<_CharT, _Traits>::__ios_type = std::basic_ios<char>]
+/usr/include/c++/4.6/ostream:119:7: note:   no known conversion for argument 1 from ‘void’ to ‘std::basic_ostream<char>::__ios_type& (*)(std::basic_ostream<char>::__ios_type&) {aka std::basic_ios<char>& (*)(std::basic_ios<char>&)}’
+/usr/include/c++/4.6/ostream:129:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::ios_base& (*)(std::ios_base&)) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:129:7: note:   no known conversion for argument 1 from ‘void’ to ‘std::ios_base& (*)(std::ios_base&)’
+/usr/include/c++/4.6/ostream:167:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long int) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:167:7: note:   no known conversion for argument 1 from ‘void’ to ‘long int’
+/usr/include/c++/4.6/ostream:171:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long unsigned int) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:171:7: note:   no known conversion for argument 1 from ‘void’ to ‘long unsigned int’
+/usr/include/c++/4.6/ostream:175:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(bool) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:175:7: note:   no known conversion for argument 1 from ‘void’ to ‘bool’
+/usr/include/c++/4.6/bits/ostream.tcc:93:5: note: std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(short int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.6/bits/ostream.tcc:93:5: note:   no known conversion for argument 1 from ‘void’ to ‘short int’
+/usr/include/c++/4.6/ostream:182:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(short unsigned int) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:182:7: note:   no known conversion for argument 1 from ‘void’ to ‘short unsigned int’
+/usr/include/c++/4.6/bits/ostream.tcc:107:5: note: std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.6/bits/ostream.tcc:107:5: note:   no known conversion for argument 1 from ‘void’ to ‘int’
+/usr/include/c++/4.6/ostream:193:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(unsigned int) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:193:7: note:   no known conversion for argument 1 from ‘void’ to ‘unsigned int’
+/usr/include/c++/4.6/ostream:202:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long long int) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:202:7: note:   no known conversion for argument 1 from ‘void’ to ‘long long int’
+/usr/include/c++/4.6/ostream:206:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long long unsigned int) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:206:7: note:   no known conversion for argument 1 from ‘void’ to ‘long long unsigned int’
+/usr/include/c++/4.6/ostream:211:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(double) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:211:7: note:   no known conversion for argument 1 from ‘void’ to ‘double’
+/usr/include/c++/4.6/ostream:215:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(float) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:215:7: note:   no known conversion for argument 1 from ‘void’ to ‘float’
+/usr/include/c++/4.6/ostream:223:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long double) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:223:7: note:   no known conversion for argument 1 from ‘void’ to ‘long double’
+/usr/include/c++/4.6/ostream:227:7: note: std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(const void*) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]
+/usr/include/c++/4.6/ostream:227:7: note:   no known conversion for argument 1 from ‘void’ to ‘const void*’
+/usr/include/c++/4.6/bits/ostream.tcc:121:5: note: std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>::__streambuf_type*) [with _CharT = char, _Traits = std::char_traits<char>, std::basic_ostream<_CharT, _Traits>::__streambuf_type = std::basic_streambuf<char>]
+/usr/include/c++/4.6/bits/ostream.tcc:121:5: note:   no known conversion for argument 1 from ‘void’ to ‘std::basic_ostream<char>::__streambuf_type* {aka std::basic_streambuf<char>*}’
+/usr/include/c++/4.6/bits/basic_string.h:2693:5: note: template<class _CharT, class _Traits, class _Alloc> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::basic_string<_CharT, _Traits, _Alloc>&)
+/usr/include/c++/4.6/ostream:451:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, _CharT)
+/usr/include/c++/4.6/ostream:456:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, char)
+/usr/include/c++/4.6/ostream:462:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, char)
+/usr/include/c++/4.6/ostream:468:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, signed char)
+/usr/include/c++/4.6/ostream:473:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, unsigned char)
+/usr/include/c++/4.6/ostream:493:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const _CharT*)
+/usr/include/c++/4.6/bits/ostream.tcc:323:5: note: template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const char*)
+/usr/include/c++/4.6/ostream:510:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const char*)
+/usr/include/c++/4.6/ostream:523:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const signed char*)
+/usr/include/c++/4.6/ostream:528:5: note: template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const unsigned char*)
+make: *** [src/xJus-epos.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:21:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:18:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+../src/xJus-epos.cpp: In function ‘int main()’:
+../src/xJus-epos.cpp:18:9: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++  -o "xJus-epos"  ./src/xJus-epos.o   
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Default for project working ****
+
+make all 
+make: *** No rule to make target `/opt/qtsdk-2010.04/qt/mkspecs/linux-g++/qmake.conf', needed by `Makefile'.  Stop.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****

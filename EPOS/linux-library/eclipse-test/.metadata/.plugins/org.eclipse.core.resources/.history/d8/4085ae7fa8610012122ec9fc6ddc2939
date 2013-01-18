@@ -6,6 +6,7 @@
  *      Copyright: maxonmotor ag (c) 2010
  */
 
+
 #include "settings_dialog.h"
 
 settings_dialog::settings_dialog(QWidget *parent)
