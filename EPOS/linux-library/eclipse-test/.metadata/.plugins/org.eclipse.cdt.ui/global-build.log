@@ -763,3 +763,193 @@ Finished building target: xJus-epos
  
 
 **** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -m32 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++ -m32 -L/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos -o "xJus-epos"  ./src/xJus-epos.o   -lEposCmd
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -m32 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++ -m32 -L/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos -o "xJus-epos"  ./src/xJus-epos.o   -lEposCmd
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -m32 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++ -m32 -L/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos -o "xJus-epos"  ./src/xJus-epos.o   -lEposCmd
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -m32 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++ -m32 -L/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos -o "xJus-epos"  ./src/xJus-epos.o   -lEposCmd
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -m32 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++ -m32 -L/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos -o "xJus-epos"  ./src/xJus-epos.o   -lEposCmd
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: GCC C++ Compiler
+g++ -m32 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: GCC C++ Linker
+g++ -m32 -L/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos -o "xJus-epos"  ./src/xJus-epos.o   -lEposCmd
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: Cross G++ Linker
+g++ -L/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos -o "xJus-epos"  ./src/xJus-epos.o   -lEposCmd
+/usr/bin/ld: skipping incompatible /home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos/libEposCmd.so when searching for -lEposCmd
+/usr/bin/ld: cannot find -lEposCmd
+collect2: ld returned 1 exit status
+make: *** [xJus-epos] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building file: ../src/xJus-epos.cpp
+Invoking: Cross G++ Compiler
+g++ -m32 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/xJus-epos.d" -MT"src/xJus-epos.d" -o "src/xJus-epos.o" "../src/xJus-epos.cpp"
+Finished building: ../src/xJus-epos.cpp
+ 
+Building target: xJus-epos
+Invoking: Cross G++ Linker
+g++ -m32 -L/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos -o "xJus-epos"  ./src/xJus-epos.o   -lEposCmd
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+Building target: xJus-epos
+Invoking: Cross G++ Linker
+g++ -m32 -L/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos -o "xJus-epos"  ./src/xJus-epos.o   -lEposCmd
+Finished building target: xJus-epos
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project xJus-epos ****
+
+make all 
+make: Nothing to be done for `all'.
+
+**** Build Finished ****

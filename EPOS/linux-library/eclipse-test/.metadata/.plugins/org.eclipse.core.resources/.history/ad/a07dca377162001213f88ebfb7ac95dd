@@ -13,7 +13,7 @@ using namespace std;
 char deviceName[] = "EPOS2";
 char protocolStackName[] = "EPOS2_USB";
 char interfaceName[] = "USB";
-char portName[] = "USB3";
+char portName[] = "USB7";
 
 // Protocol stack settings
 const unsigned long BAUDRATE = 1000000;
