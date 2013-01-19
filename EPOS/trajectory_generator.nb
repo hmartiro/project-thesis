@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     16150,        478]
-NotebookOptionsPosition[     14747,        425]
-NotebookOutlinePosition[     15126,        441]
-CellTagsIndexPosition[     15083,        438]
+NotebookDataLength[     16164,        479]
+NotebookOptionsPosition[     14761,        426]
+NotebookOutlinePosition[     15140,        442]
+CellTagsIndexPosition[     15097,        439]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -41,7 +41,8 @@ Cell[BoxData[
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"M", "=", "10"}], ";", "  ", 
+  RowBox[{
+   RowBox[{"M", "=", "10"}], ";"}], "  ", 
   RowBox[{"(*", " ", 
    RowBox[{"#", " ", "of", " ", "Fourier", " ", "terms", " ", "used"}], " ", 
    "*)"}]}]], "Input"],
@@ -446,37 +447,37 @@ Cell[739, 26, 143, 3, 39, "Subsubtitle"],
 Cell[CellGroupData[{
 Cell[907, 33, 96, 1, 98, "Section"],
 Cell[1006, 36, 158, 3, 41, "Input"],
-Cell[1167, 41, 186, 5, 41, "Input"],
+Cell[1167, 41, 200, 6, 41, "Input"],
 Cell[CellGroupData[{
-Cell[1378, 50, 316, 4, 35, "Subsubsection"],
-Cell[1697, 56, 2544, 83, 184, "Input"]
+Cell[1392, 51, 316, 4, 35, "Subsubsection"],
+Cell[1711, 57, 2544, 83, 184, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[4278, 144, 267, 3, 35, "Subsubsection"],
-Cell[4548, 149, 541, 19, 150, "Input"]
+Cell[4292, 145, 267, 3, 35, "Subsubsection"],
+Cell[4562, 150, 541, 19, 150, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5126, 173, 116, 1, 35, "Subsubsection"],
-Cell[5245, 176, 2770, 69, 465, "Input"]
+Cell[5140, 174, 116, 1, 35, "Subsubsection"],
+Cell[5259, 177, 2770, 69, 465, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8052, 250, 169, 2, 35, "Subsubsection"],
-Cell[8224, 254, 1397, 35, 242, "Input"]
+Cell[8066, 251, 169, 2, 35, "Subsubsection"],
+Cell[8238, 255, 1397, 35, 242, "Input"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[9670, 295, 92, 1, 98, "Section"],
+Cell[9684, 296, 92, 1, 98, "Section"],
 Cell[CellGroupData[{
-Cell[9787, 300, 266, 3, 35, "Subsubsection"],
-Cell[10056, 305, 3287, 72, 167, "Input"]
+Cell[9801, 301, 266, 3, 35, "Subsubsection"],
+Cell[10070, 306, 3287, 72, 167, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[13380, 382, 281, 5, 35, "Subsubsection"],
-Cell[13664, 389, 375, 9, 67, "Input"]
+Cell[13394, 383, 281, 5, 35, "Subsubsection"],
+Cell[13678, 390, 375, 9, 67, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[14076, 403, 134, 3, 35, "Subsubsection"],
-Cell[14213, 408, 494, 12, 92, "Input"]
+Cell[14090, 404, 134, 3, 35, "Subsubsection"],
+Cell[14227, 409, 494, 12, 92, "Input"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
