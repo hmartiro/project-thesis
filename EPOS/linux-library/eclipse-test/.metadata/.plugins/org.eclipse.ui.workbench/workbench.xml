@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="14" version="2.0">
+<workbench progressCount="23" version="2.0">
 <workbenchAdvisor/>
-<window height="1049" width="886" x="8" y="31">
+<window height="1015" maximized="true" width="1439" x="188" y="34">
 <fastViewData fastViewLocation="1024">
+<orientation position="512" view="org.eclipse.ui.navigator.ProjectExplorer"/>
 <orientation position="512" view="org.eclipse.debug.ui.ModuleView"/>
 <orientation position="512" view="org.eclipse.debug.ui.MemoryView"/>
-<orientation position="512" view="org.eclipse.ant.ui.views.AntView"/>
-<orientation position="512" view="org.eclipse.cdt.debug.ui.executablesView"/>
 <orientation position="512" view="org.eclipse.cdt.debug.ui.memory.memorybrowser.MemoryBrowser"/>
+<orientation position="512" view="org.eclipse.cdt.debug.ui.executablesView"/>
+<orientation position="512" view="org.eclipse.ant.ui.views.AntView"/>
+<orientation position="512" view="org.eclipse.cdt.ui.includeBrowser"/>
 <orientation position="512" view="org.eclipse.debug.ui.VariableView"/>
 <orientation position="512" view="org.eclipse.ui.views.ContentOutline"/>
 </fastViewData>
@@ -21,74 +23,61 @@
 <coolItem id="org.eclipse.cdt.ui.CElementCreationActionSet" itemType="typeToolBarContribution" x="156" y="30"/>
 <coolItem id="org.eclipse.cdt.ui.buildConfigActionSet" itemType="typeToolBarContribution" x="82" y="30"/>
 <coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="120" y="30"/>
-<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="104" y="30"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="40" y="30"/>
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="76" y="30"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="96" y="30"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="184" y="30"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.cdt.make.editor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
-<page aggregateWorkingSetId="Aggregate for window 1358480865564" focus="true" label="Workspace - Debug">
+<page aggregateWorkingSetId="Aggregate for window 1358480865564" focus="true" label="Workspace - C/C++">
 <editors>
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
+<part id="1"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="xJus-epos.cpp" partName="xJus-epos.cpp" path="/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos/src/xJus-epos.cpp" title="xJus-epos.cpp" tooltip="xJus-epos/src/xJus-epos.cpp" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="xJus-epos.cpp" partName="xJus-epos.cpp" path="/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos/src/xJus-epos.cpp" title="xJus-epos.cpp" tooltip="xJus-epos/src/xJus-epos.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/xJus-epos/src/xJus-epos.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="391" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="451" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="Definitions.h" partName="Definitions.h" path="/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos/src/Definitions.h" title="Definitions.h" tooltip="xJus-epos/src/Definitions.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/xJus-epos/src/Definitions.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="36801" selectionTopPixel="6760"/>
 </editor>
 </editors>
 <views>
-<view id="org.eclipse.search.ui.views.SearchView" partName="Search">
-<viewState isPinned="false">
-<view IMemento.internal.id="org.eclipse.cdt.ui.pdomSearchViewPage" definitionColumnWidth="150" locationColumnWidth="300" matchColumnWidth="300" org.eclipse.search.lastActivation="1" org.eclipse.search.resultpage.layout="2" showEnclosingDefinitions="true"/>
-<view IMemento.internal.id="" org.eclipse.search.lastActivation="0"/>
-</viewState>
-</view>
-<view id="org.eclipse.debug.ui.DebugView" partName="Debug">
-<viewState/>
-</view>
-<view id="org.eclipse.ui.views.TaskList" partName="Tasks">
-<viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.completionField" categoryGroup="none" markerContentGenerator="org.eclipse.ui.ide.tasksGenerator" partName="Tasks">
-<columnWidths org.eclipse.ui.ide.completionField="40" org.eclipse.ui.ide.descriptionField="350" org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="105" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.priorityField="35" org.eclipse.ui.ide.resourceField="105"/>
-<visible IMemento.internal.id="org.eclipse.ui.ide.completionField"/>
-<visible IMemento.internal.id="org.eclipse.ui.ide.priorityField"/>
-<visible IMemento.internal.id="org.eclipse.ui.ide.descriptionField"/>
-<visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
-<visible IMemento.internal.id="org.eclipse.ui.ide.pathField"/>
-<visible IMemento.internal.id="org.eclipse.ui.ide.locationField"/>
-<visible IMemento.internal.id="org.eclipse.ui.ide.markerType"/>
-</viewState>
-</view>
-<view id="org.eclipse.debug.ui.BreakpointView" partName="Breakpoints">
-<viewState/>
-</view>
-<view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
-<viewState/>
-</view>
 <view id="org.eclipse.ui.navigator.ProjectExplorer" partName="Project Explorer">
 <viewState CommonNavigator.LINKING_ENABLED="0" org.eclipse.cdt.ui.cview.groupincludes="false" org.eclipse.cdt.ui.cview.groupmacros="false" org.eclipse.cdt.ui.editor.CUChildren="true" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0"/>
 </view>
-<view id="org.eclipse.ui.views.PropertySheet" partName="Properties"/>
+<view id="org.eclipse.ui.views.PropertySheet" partName="Properties">
+<viewState/>
+</view>
+<view id="org.eclipse.search.ui.views.SearchView" partName="Search">
+<viewState isPinned="false">
+<view IMemento.internal.id="" org.eclipse.search.lastActivation="0"/>
+<view IMemento.internal.id="org.eclipse.cdt.ui.pdomSearchViewPage" definitionColumnWidth="150" locationColumnWidth="300" matchColumnWidth="300" org.eclipse.search.lastActivation="3" org.eclipse.search.resultpage.layout="2" showEnclosingDefinitions="true"/>
+<view IMemento.internal.id="org.eclipse.search.text.FileSearchResultPage" org.eclipse.search.lastActivation="4" org.eclipse.search.resultpage.layout="2" org.eclipse.search.resultpage.limit="1000" org.eclipse.search.resultpage.sorting="2"/>
+</viewState>
+</view>
 <view id="org.eclipse.cdt.make.ui.views.MakeView" partName="Make Target">
 <viewState/>
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings"/>
-<category IMemento.internal.id="Errors"/>
+<category IMemento.internal.id="Warnings (1 item)"/>
 </expanded>
-<columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="105" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="756"/>
+<columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="752" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="756"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.pathField"/>
@@ -99,8 +88,23 @@
 <view id="org.eclipse.ui.console.ConsoleView" partName="Console">
 <viewState/>
 </view>
+<view id="org.eclipse.ui.views.TaskList" partName="Tasks">
+<viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.completionField" categoryGroup="none" markerContentGenerator="org.eclipse.ui.ide.tasksGenerator" partName="Tasks">
+<columnWidths org.eclipse.ui.ide.completionField="40" org.eclipse.ui.ide.descriptionField="350" org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="1083" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.priorityField="35" org.eclipse.ui.ide.resourceField="105"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.completionField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.priorityField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.descriptionField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.pathField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.locationField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.markerType"/>
+</viewState>
+</view>
+<view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
+<viewState/>
+</view>
 </views>
-<perspectives activePart="org.eclipse.cdt.ui.editor.CEditor" activePerspective="org.eclipse.debug.ui.DebugPerspective">
+<perspectives activePart="org.eclipse.ui.console.ConsoleView" activePerspective="org.eclipse.cdt.ui.CPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.ui.internal.ide.application.ResourcePerspective" id="org.eclipse.ui.resourcePerspective" label="Resource"/>
 <alwaysOnActionSet id="org.eclipse.search.searchActionSet"/>
@@ -136,42 +140,29 @@
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <view id="org.eclipse.ui.views.TaskList"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="topLeft">
-<folder activePageID="org.eclipse.ui.navigator.ProjectExplorer" appearance="2" expanded="2">
-<page content="org.eclipse.ui.navigator.ProjectExplorer" label="Project Explorer"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="topLeft">&#x0A;<folder activePageID="org.eclipse.ui.navigator.ProjectExplorer" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.navigator.ProjectExplorer" label="Project Explorer"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.team.ccvs.ui.RepositoriesView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.7495049" ratioLeft="757" ratioRight="253" relationship="2" relative="topLeft">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.7495049" ratioLeft="757" ratioRight="253" relationship="2" relative="topLeft">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.25940594" ratioLeft="262" ratioRight="748" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottomRight" ratio="0.6599064" ratioLeft="423" ratioRight="218" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.TaskList" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
+<info folder="true" part="bottomRight" ratio="0.6599064" ratioLeft="423" ratioRight="218" relationship="4" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.TaskList" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.team.ui.GenericHistoryView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="bottomLeft" ratio="0.49921995" ratioLeft="320" ratioRight="321" relationship="4" relative="topLeft">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info folder="true" part="bottomLeft" ratio="0.49921995" ratioLeft="320" ratioRight="321" relationship="4" relative="topLeft">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
@@ -226,29 +217,19 @@
 <perspective_action id="org.eclipse.team.ui.TeamSynchronizingPerspective"/>
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
+<view id="org.eclipse.ui.views.ContentOutline"/>
+<view id="org.eclipse.cdt.make.ui.views.MakeView"/>
 <view id="org.eclipse.ui.views.ProblemView"/>
 <view id="org.eclipse.ui.views.TaskList"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.ui.views.PropertySheet"/>
 <view id="org.eclipse.search.ui.views.SearchView"/>
-<fastViewBars>
-<fastViewBar fastViewLocation="131072" id="topRight" orientation="512" selectedTabId="org.eclipse.cdt.make.ui.views.MakeView" style="0">
-<fastViews>
-<view id="org.eclipse.ui.views.ContentOutline" ratio="0.2992874"/>
-<view id="org.eclipse.cdt.make.ui.views.MakeView" ratio="0.2992874"/>
-</fastViews>
-</fastViewBar>
-<fastViewBar fastViewLocation="16384" id="topLeft" orientation="512" selectedTabId="org.eclipse.ui.navigator.ProjectExplorer" style="0">
-<fastViews>
-<view id="org.eclipse.ui.navigator.ProjectExplorer" ratio="0.3"/>
-</fastViews>
-</fastViewBar>
-</fastViewBars>
+<view id="org.eclipse.ui.navigator.ProjectExplorer"/>
+<fastViewBars/>
 <layout>
 <mainWindow>
 <info folder="true" part="topLeft">
-<folder appearance="2" expanded="0">
-<page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
+<folder appearance="2" expanded="2">
 <page content="org.eclipse.cdt.ui.CView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
@@ -262,14 +243,22 @@
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.29291716" ratioLeft="244" ratioRight="589" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottom" ratio="0.6591981" ratioLeft="559" ratioRight="289" relationship="4" relative="org.eclipse.ui.editorss">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@287a8d4b" ratio="0.15644002" ratioLeft="283" ratioRight="1526" relationship="2" relative="topLeft">
+<folder activePageID="org.eclipse.ui.navigator.ProjectExplorer" appearance="2" expanded="2">
+<page content="org.eclipse.ui.navigator.ProjectExplorer" label="Project Explorer"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="bottom" ratio="0.6952625" ratioLeft="543" ratioRight="238" relationship="4" relative="org.eclipse.ui.internal.ViewStack@287a8d4b">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.PropertySheet" label="Properties"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="Search"/>
+<page content="org.eclipse.ui.console.ConsoleView:Console View #1" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
@@ -279,13 +268,17 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="topRight" ratio="0.442492" ratioLeft="277" ratioRight="349" relationship="2" relative="org.eclipse.ui.editorss">
-<folder appearance="2" expanded="0">
-<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
-<page content="org.eclipse.cdt.make.ui.views.MakeView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+<info folder="true" part="topRight" ratio="0.442492" ratioLeft="277" ratioRight="349" relationship="2" relative="org.eclipse.ui.internal.ViewStack@287a8d4b">
+<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<page content="org.eclipse.cdt.make.ui.views.MakeView" label="Make Target"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+</presentation>
 </folder>
 </info>
+<info part="org.eclipse.ui.editorss" ratio="0.24974306" ratioLeft="243" ratioRight="730" relationship="2" relative="org.eclipse.ui.internal.ViewStack@287a8d4b"/>
 </mainWindow>
 </layout>
 </perspective>
@@ -334,39 +327,20 @@
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.ui.views.TaskList"/>
 <view id="org.eclipse.ui.views.ProblemView"/>
-<fastViewBars>
-<fastViewBar fastViewLocation="131072" id="org.eclipse.debug.internal.ui.ToolsFolderView" orientation="256" selectedTabId="org.eclipse.debug.ui.VariableView" style="0">
-<fastViews>
-<view id="org.eclipse.debug.ui.BreakpointView" ratio="0.3"/>
-</fastViews>
-</fastViewBar>
-<fastViewBar fastViewLocation="16384" id="org.eclipse.debug.internal.ui.NavigatorFolderView" orientation="256" selectedTabId="org.eclipse.debug.ui.DebugView" style="0">
-<fastViews>
-<view id="org.eclipse.debug.ui.DebugView" ratio="0.3"/>
-</fastViews>
-</fastViewBar>
-</fastViewBars>
-<layout>
-<mainWindow>
-<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="0">
-<page content="org.eclipse.debug.ui.DebugView" label="LabelNotFound"/>
+<fastViewBars/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.DebugView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="606" ratioRight="202" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="606" ratioRight="202" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.75" ratioLeft="669" ratioRight="223" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.75" ratioLeft="669" ratioRight="223" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
@@ -377,26 +351,21 @@
 <page content="org.eclipse.search.SearchResultView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.MemoryView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.ui.includeBrowser" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 </presentation>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.44992527" ratioLeft="301" ratioRight="368" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
-<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.75" ratioLeft="606" ratioRight="202" relationship="2" relative="org.eclipse.ui.editorss">
-<folder appearance="2" expanded="0">
-<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.75" ratioLeft="606" ratioRight="202" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.gdb.ui.tracecontrol.view" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.debug.ui.disassembly.view" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.5" ratioLeft="404" ratioRight="404" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="0">
-<page content="org.eclipse.debug.ui.VariableView" label="LabelNotFound"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.5" ratioLeft="404" ratioRight="404" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.VariableView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.ExpressionView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
@@ -412,160 +381,162 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/EPOS Test/EPOS Test.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.make.editor" path="/EPOS Test/Makefile"/>
-<editor factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.eclipse.cdt.make.editor" uri="file:/home/hayk/projects/project-thesis/EPOS/linux-library/working/Makefile"/>
-<editor factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" uri="file:/home/hayk/projects/project-thesis/EPOS/linux-library/working/epos_properties.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/xJus-EPOS/xJus-EPOS.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/xJus-epos/src/Definitions.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/xJus-epos/src/xJus-epos.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.make.editor" path="/xJus-epos/Debug/makefile"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/working/epos_properties.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/working/main_dialog.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/working/main_dialog.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/xJus-epos/src/Definitions.h"/>
 </editors>
-<item historyLabel="EPOS Test.cpp" index="0">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="main_dialog.cpp" index="3">
+<position info="not_deleted" x="5087" y="14"/>
 </item>
-<item historyLabel="EPOS Test.cpp" index="0">
-<position info="not_deleted" x="315" y="7"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="756" y="0"/>
 </item>
-<item historyLabel="EPOS Test.cpp" index="0">
-<position info="not_deleted" x="334" y="8"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="496" y="0"/>
 </item>
-<item historyLabel="EPOS Test.cpp" index="0">
-<position info="not_deleted" x="349" y="4"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="535" y="0"/>
 </item>
-<item historyLabel="EPOS Test.cpp" index="0">
-<position info="not_deleted" x="199" y="0"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="566" y="0"/>
 </item>
-<item historyLabel="EPOS Test.cpp" index="0">
-<position info="not_deleted" x="315" y="7"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="753" y="0"/>
 </item>
-<item historyLabel="EPOS Test.cpp" index="0">
-<position info="not_deleted" x="334" y="8"/>
+<item historyLabel="epos_properties.h" index="2">
+<position info="not_deleted" x="226" y="0"/>
 </item>
-<item historyLabel="Makefile" index="1">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="main_dialog.cpp" index="3">
+<position info="not_deleted" x="5087" y="14"/>
 </item>
-<item historyLabel="Makefile" index="2">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="612" y="0"/>
 </item>
-<item historyLabel="Makefile" index="1">
-<position info="not_deleted" x="0" y="8"/>
+<item historyLabel="main_dialog.cpp" index="3">
+<position info="not_deleted" x="5087" y="14"/>
 </item>
-<item historyLabel="Makefile" index="2">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="697" y="0"/>
 </item>
-<item historyLabel="Makefile" index="1">
-<position info="not_deleted" x="0" y="8"/>
+<item historyLabel="main_dialog.cpp" index="3">
+<position info="not_deleted" x="5087" y="14"/>
 </item>
-<item historyLabel="Makefile" index="2">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="661" y="0"/>
 </item>
-<item historyLabel="Makefile" index="1">
-<position info="not_deleted" x="43" y="0"/>
+<item historyLabel="main_dialog.cpp" index="3">
+<position info="not_deleted" x="5087" y="14"/>
 </item>
-<item historyLabel="Makefile" index="2">
-<position info="not_deleted" x="406" y="0"/>
+<item historyLabel="Definitions.h" index="0">
+<position info="not_deleted" x="2380" y="0"/>
 </item>
-<item historyLabel="Makefile" index="1">
-<position info="not_deleted" x="43" y="0"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="78" y="0"/>
 </item>
-<item historyLabel="Makefile" index="2">
-<position info="not_deleted" x="88" y="0"/>
+<item historyLabel="main_dialog.cpp" index="3">
+<position info="not_deleted" x="5087" y="14"/>
 </item>
-<item historyLabel="epos_properties.cpp" index="3">
-<position info="not_deleted" x="198" y="0"/>
+<item historyLabel="Definitions.h" index="0">
+<position info="not_deleted" x="2380" y="0"/>
 </item>
-<item historyLabel="epos_properties.cpp" index="3">
-<position info="not_deleted" x="152" y="0"/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="78" y="0"/>
 </item>
-<item historyLabel="epos_properties.cpp" index="3">
-<position info="not_deleted" x="826" y="0"/>
-</item>
-<item historyLabel="Makefile" index="2">
-<position info="not_deleted" x="88" y="0"/>
-</item>
-<item historyLabel="Makefile" index="1">
-<position info="not_deleted" x="188" y="0"/>
-</item>
-<item historyLabel="EPOS Test.cpp" index="0">
-<position info="not_deleted" x="411" y="0"/>
-</item>
-<item historyLabel="xJus-EPOS.cpp" index="4">
-<position info="not_deleted" x="447" y="0"/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position info="not_deleted" x="642" y="0"/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
+<item historyLabel="xJus-epos.cpp" index="1">
 <position/>
 </item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position info="not_deleted" x="642" y="0"/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
+<item historyLabel="xJus-epos.cpp" index="1">
 <position/>
 </item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position info="not_deleted" x="642" y="0"/>
-</item>
-<item historyLabel="makefile" index="6">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position info="not_deleted" x="642" y="0"/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
+<item historyLabel="xJus-epos.cpp" index="1">
 <position/>
 </item>
-<item historyLabel="xJus-epos.cpp" index="5">
+<item historyLabel="xJus-epos.cpp" index="1">
 <position/>
 </item>
-<item historyLabel="xJus-epos.cpp" index="5">
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="659" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="769" y="0"/>
+</item>
+<item historyLabel="main_dialog.cpp" index="4">
+<position info="not_deleted" x="5071" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="637" y="0"/>
+</item>
+<item historyLabel="Definitions.h" index="0">
+<position info="not_deleted" x="17863" y="0"/>
+</item>
+<item historyLabel="main_dialog.cpp" index="4">
+<position info="not_deleted" x="442" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="637" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="638" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="661" y="0"/>
+</item>
+<item historyLabel="main_dialog.cpp" index="4">
+<position info="not_deleted" x="5024" y="0"/>
+</item>
+<item historyLabel="Definitions.h" index="0">
+<position info="not_deleted" x="17863" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="638" y="0"/>
+</item>
+<item historyLabel="Definitions.h" index="0">
+<position info="not_deleted" x="17863" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="638" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="638" y="0"/>
+</item>
+<item historyLabel="main_dialog.cpp" index="4">
+<position info="not_deleted" x="5245" y="0"/>
+</item>
+<item historyLabel="Definitions.h" index="0">
+<position info="not_deleted" x="17863" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="638" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="535" y="0"/>
+</item>
+<item historyLabel="Definitions.h" index="0">
+<position info="not_deleted" x="29979" y="3"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="535" y="0"/>
+</item>
+<item historyLabel="xJus-epos.cpp" index="1">
 <position/>
 </item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="486" y="0"/>
 </item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="523" y="0"/>
 </item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="558" y="0"/>
 </item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
+<item historyLabel="xJus-epos.cpp" index="1">
+<position info="not_deleted" x="584" y="0"/>
 </item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position info="not_deleted" x="557" y="0"/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position info="not_deleted" x="567" y="0"/>
-</item>
-<item historyLabel="xJus-epos.cpp" index="5">
-<position info="not_deleted" x="578" y="0"/>
-</item>
-<item active="true" historyLabel="xJus-epos.cpp" index="5">
-<position info="not_deleted" x="388" y="0"/>
+<item active="true" historyLabel="Definitions.h" index="5">
+<position info="not_deleted" x="29979" y="3"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -573,15 +544,6 @@
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
-<trimArea IMemento.internal.id="16384">
-<trimItem IMemento.internal.id="topLeft"/>
-<trimItem IMemento.internal.id="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
-</trimArea>
-<trimArea IMemento.internal.id="131072">
-<trimItem IMemento.internal.id="topRight"/>
-<trimItem IMemento.internal.id="org.eclipse.debug.internal.ui.ToolsFolderView"/>
-<trimItem IMemento.internal.id="org.eclipse.debug.internal.ui.OutlineFolderView"/>
-</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 </trimArea>
@@ -589,16 +551,45 @@
 <trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
 <trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
-<trimItem IMemento.internal.id="org.eclipse.debug.internal.ui.ConsoleFolderView"/>
 </trimArea>
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.make.editor" name="makefile" tooltip="xJus-epos/Debug/makefile">
-<persistable path="/xJus-epos/Debug/makefile"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main_dialog.cpp" tooltip="working/main_dialog.cpp">
+<persistable path="/working/main_dialog.cpp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Definitions.h" tooltip="working/Definitions.h">
+<persistable path="/working/Definitions.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="99-ftdi.rules" tooltip="working/99-ftdi.rules">
+<persistable path="/working/99-ftdi.rules"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="epos_properties.h" tooltip="working/epos_properties.h">
+<persistable path="/working/epos_properties.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main_dialog.h" tooltip="working/main_dialog.h">
+<persistable path="/working/main_dialog.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="epos_properties.cpp" tooltip="working/epos_properties.cpp">
+<persistable path="/working/epos_properties.cpp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="settings_dialog.cpp" tooltip="working/settings_dialog.cpp">
+<persistable path="/working/settings_dialog.cpp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.cpp" tooltip="working/main.cpp">
+<persistable path="/working/main.cpp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Definitions.h" tooltip="xJus-epos/src/Definitions.h">
+<persistable path="/xJus-epos/src/Definitions.h"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="xJus-epos.cpp" tooltip="xJus-epos/src/xJus-epos.cpp">
 <persistable path="/xJus-epos/src/xJus-epos.cpp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.binaryEditor" name="libEposCmd.so" tooltip="xJus-epos/libEposCmd.so">
+<persistable path="/xJus-epos/libEposCmd.so"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.make.editor" name="makefile" tooltip="xJus-epos/Debug/makefile">
+<persistable path="/xJus-epos/Debug/makefile"/>
 </file>
 <file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="epos_properties.cpp" tooltip="/home/hayk/projects/project-thesis/EPOS/linux-library/working/epos_properties.cpp">
 <persistable uri="file:/home/hayk/projects/project-thesis/EPOS/linux-library/working/epos_properties.cpp"/>

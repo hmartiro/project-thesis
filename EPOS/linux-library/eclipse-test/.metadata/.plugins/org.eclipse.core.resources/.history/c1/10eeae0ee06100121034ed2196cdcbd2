@@ -1,0 +1,37 @@
+//============================================================================
+// Name        : xJus-epos.cpp
+// Author      : 
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include "Definitions.h"
+#include <iostream>
+using namespace std;
+
+#define PI 3.14159
+
+void whatever (char* word) {
+
+	cout << word << endl;
+}
+
+int main() {
+
+	char DeviceName[] = "EPOS2";
+	char ProtocolStackName[] = "EPOS2_USB"; // "CANopen"
+	char InterfaceName[] = "USB";
+	char PortName[] = "USB0";
+
+	unsigned long ErrorCode;
+	void* device;
+
+	whatever(DeviceName);
+	device = VCS_OpenDevice(DeviceName, ProtocolStackName, InterfaceName, PortName, &ErrorCode);
+	cout << ErrorCode << endl;
+
+	return 0;
+}
+
+

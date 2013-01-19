@@ -1,0 +1,41 @@
+//============================================================================
+// Name        : xJus-epos.cpp
+// Author      : Hayk Martirosyan
+// Description : Usage of the EPOS2 API over C++
+//============================================================================
+
+#include "xJus-epos.h"
+#include "Definitions.h"
+#include <iostream>
+using namespace std;
+
+// Protocol information
+char DeviceName[] = "EPOS";
+char ProtocolStackName[] = "EPOS2_USB";
+char InterfaceName[] = "USB";
+char PortName[] = "USB5";
+
+// Variables that hold error information
+unsigned long ErrorCode;
+const unsigned short ErrorInfoLength = 100;
+char ErrorInfo[ErrorInfoLength];
+
+void* device;
+
+
+int main() {
+
+	cout << "Attempting connection to " << DeviceName;
+	cout << " at " << PortName << "..." << endl;
+	device = VCS_OpenDevice(DeviceName, ProtocolStackName, InterfaceName, PortName, &ErrorCode);
+	printError();
+
+	cout << "device" << ": " << device << endl;
+
+	return 0;
+}
+
+void printError() {
+	VCS_GetErrorInfo(ErrorCode, ErrorInfo, ErrorInfoLength);
+	cout << "Error info: " << ErrorInfo << endl << endl;
+}
