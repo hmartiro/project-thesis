@@ -14,7 +14,6 @@ control ATOM filter wheel
 #define FILTER_FILTER 666667  //< steps between 2 filters
 
 
-
 void help(char *arg) {
   printf("\n\n   ### filter wheel control ###\n\n");
   printf("usage: %s <devicename>\n", arg);

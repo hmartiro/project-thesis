@@ -12,7 +12,7 @@ shows examples on how to use libepos
 
 #define ZERO_OFFSET 452700    // steps between reference point and 1st filter
 #define FILTER_FILTER 666667  // steps between 2 filters
-
+#define DEBUG
 
 
 /*

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="23" version="2.0">
+<workbench progressCount="24" version="2.0">
 <workbenchAdvisor/>
 <window height="1015" maximized="true" width="1439" x="188" y="34">
 <fastViewData fastViewLocation="1024">
@@ -48,7 +48,7 @@
 </editorArea>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="xJus-epos.cpp" partName="xJus-epos.cpp" path="/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos/src/xJus-epos.cpp" title="xJus-epos.cpp" tooltip="xJus-epos/src/xJus-epos.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/xJus-epos/src/xJus-epos.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="511" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1084" selectionTopPixel="231"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="Definitions.h" partName="Definitions.h" path="/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/xJus-epos/src/Definitions.h" title="Definitions.h" tooltip="xJus-epos/src/Definitions.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/xJus-epos/src/Definitions.h"/>
