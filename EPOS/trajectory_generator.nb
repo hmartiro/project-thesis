@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     16164,        479]
-NotebookOptionsPosition[     14761,        426]
-NotebookOutlinePosition[     15140,        442]
-CellTagsIndexPosition[     15097,        439]
+NotebookDataLength[     16064,        469]
+NotebookOptionsPosition[     14661,        416]
+NotebookOutlinePosition[     15040,        432]
+CellTagsIndexPosition[     14997,        429]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -304,53 +304,42 @@ Cell["Define trajectory parameters", "Subsubsection",
   3.567363632943963*^9, 3.567363635290097*^9}, {3.56736462525872*^9, 
   3.567364641779665*^9}, {3.5673657171801744`*^9, 3.567365718818268*^9}}],
 
-Cell[BoxData[{
+Cell[BoxData[
  RowBox[{
-  RowBox[{
-   RowBox[{"\[Theta]g", "=", 
-    RowBox[{"\[Pi]", "/", "8"}]}], ";"}], " ", 
+  RowBox[{"\[Theta]g", "=", 
+   RowBox[{"\[Pi]", "/", "6"}]}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{"ground", " ", "contact", " ", 
-    RowBox[{"angle", " ", "[", "rad", "]"}]}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"T", "=", "2.0"}], ";"}], " ", 
+    RowBox[{"angle", " ", "[", "rad", "]"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"T", "=", "2.0"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{"revolution", " ", 
-    RowBox[{"period", " ", "[", "s", "]"}]}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"t0", "=", "0"}], ";"}], " ", 
+    RowBox[{"period", " ", "[", "s", "]"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"t0", "=", "0"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{"start", " ", 
-    RowBox[{"time", " ", "[", "s", "]"}]}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"tTotal", "=", 
-    RowBox[{"4", "T"}]}], ";"}], " ", 
+    RowBox[{"time", " ", "[", "s", "]"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"tTotal", "=", 
+   RowBox[{"10", "T"}]}], ";", " ", 
   RowBox[{"(*", " ", 
-   RowBox[{"total", " ", "time", " ", "of", " ", "trajectory"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"dt", "=", "50"}], ";"}], " ", 
+   RowBox[{"total", " ", "time", " ", "of", " ", "trajectory"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"dt", "=", "50"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{"PVT", " ", 
-    RowBox[{"timestep", " ", "[", "ms", "]"}]}], " ", "*)"}], 
-  " "}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"direction", "=", 
-    RowBox[{"+", "1"}]}], ";"}], " ", 
+    RowBox[{"timestep", " ", "[", "ms", "]"}]}], " ", "*)"}], " ", 
+  "\[IndentingNewLine]", 
+  RowBox[{"direction", "=", 
+   RowBox[{"+", "1"}]}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
      RowBox[{"+", "1"}], "/", 
      RowBox[{"-", "1"}]}], " ", "for", " ", 
-    RowBox[{"left", "/", "right"}], " ", "leg"}], " ", "*)"}]}]}], "Input",
+    RowBox[{"left", "/", "right"}], " ", "leg"}], " ", "*)"}]}]], "Input",
  CellChangeTimes->{{3.5638979620499163`*^9, 3.563898006220443*^9}, {
    3.5638980445826373`*^9, 3.5638980897442203`*^9}, {3.5638987590765038`*^9, 
    3.563898789697255*^9}, {3.56389893437753*^9, 3.563898943477051*^9}, {
@@ -376,7 +365,8 @@ Cell[BoxData[{
    3.5673653328811936`*^9, 3.567365470270052*^9}, {3.567365519053842*^9, 
    3.567365600384494*^9}, 3.5673659247430463`*^9, 3.5673659681735306`*^9, {
    3.5673660611298475`*^9, 3.5673660711484203`*^9}, {3.5673747580602784`*^9, 
-   3.5673747630525637`*^9}, 3.5673759316394033`*^9}]
+   3.5673747630525637`*^9}, 3.5673759316394033`*^9, {3.568141432736329*^9, 
+   3.5681414501333237`*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -469,15 +459,15 @@ Cell[CellGroupData[{
 Cell[9684, 296, 92, 1, 98, "Section"],
 Cell[CellGroupData[{
 Cell[9801, 301, 266, 3, 35, "Subsubsection"],
-Cell[10070, 306, 3287, 72, 167, "Input"]
+Cell[10070, 306, 3187, 62, 167, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[13394, 383, 281, 5, 35, "Subsubsection"],
-Cell[13678, 390, 375, 9, 67, "Input"]
+Cell[13294, 373, 281, 5, 35, "Subsubsection"],
+Cell[13578, 380, 375, 9, 67, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[14090, 404, 134, 3, 35, "Subsubsection"],
-Cell[14227, 409, 494, 12, 92, "Input"]
+Cell[13990, 394, 134, 3, 35, "Subsubsection"],
+Cell[14127, 399, 494, 12, 92, "Input"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
