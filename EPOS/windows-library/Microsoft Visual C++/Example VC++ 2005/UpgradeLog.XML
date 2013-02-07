@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Demo_WinDLL">
+</Property><Property Name="Solution File" Value="C:\Users\Hayk\project-thesis\EPOS\windows-library\Microsoft Visual C++\Example VC++ 2005\Demo_WinDLL.sln">
+</Property><Property Name="Date" Value="Friday, January 25, 2013">
+</Property><Property Name="Time" Value="16:22 PM">
+</Property></Properties><Event ErrorLevel="0" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Converting project file 'C:\Users\Hayk\project-thesis\EPOS\windows-library\Microsoft Visual C++\Example VC++ 2005\Demo_WinDLL.vcproj'.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="This application has been updated to include settings related to the User Account Control (UAC) feature of Windows Vista. By default, when run on Windows Vista with UAC enabled, this application is marked to run with the same privileges as the process that launched it. This marking also disables the application from running with virtualization. You can change UAC related settings from the Property Pages of the project.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine could not convert attribute DependencyInformationFile = $(IntDir)mt.dep under Tool VCManifestTool.">
+</Event><Event ErrorLevel="0" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Web deployment to the local IIS server is no longer supported. The Web Deployment build tool has been removed from your project settings.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine.dll encountered an error.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine.dll encountered an error.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine could not convert attribute ConfigurationType = 1 under Configuration Release|x64.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine could not convert attribute UseOfMFC = 1 under Configuration Release|x64.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine could not convert attribute CharacterSet = 2 under Configuration Release|x64.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine could not convert attribute DependencyInformationFile = $(IntDir)mt.dep under Tool VCManifestTool.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine.dll encountered an error.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine.dll encountered an error.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine could not convert attribute ConfigurationType = 1 under Configuration Debug|x64.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine could not convert attribute UseOfMFC = 1 under Configuration Debug|x64.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="VCConvertEngine could not convert attribute CharacterSet = 2 under Configuration Debug|x64.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Unable to upgrade the file 'Demo_WinDLL.cpp' default tool.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Unable to upgrade the file 'Demo_WinDLL.cpp' default tool.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Unable to upgrade the file 'Demo_WinDLL.rc' default tool.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Unable to upgrade the file 'Demo_WinDLL.rc' default tool.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Unable to upgrade the file 'Demo_WinDLLDlg.cpp' default tool.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Unable to upgrade the file 'Demo_WinDLLDlg.cpp' default tool.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Unable to upgrade the file 'StdAfx.cpp' default tool.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Unable to upgrade the file 'StdAfx.cpp' default tool.">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="MSB8012: $(TargetPath) ('C:\Users\Hayk\project-thesis\EPOS\windows-library\Microsoft Visual C++\Example VC++ 2005\Release\Win32\Demo_WinDLL.exe') does not match the Linker's OutputFile property value 'Demo_WinDLL.exe' ('C:\Users\Hayk\project-thesis\EPOS\windows-library\Microsoft Visual C++\Example VC++ 2005\Demo_WinDLL.exe') in project configuration 'Release|Win32'. This may cause your project to build incorrectly. To correct this, please make sure that $(TargetPath) property value matches the value specified in %(Link.OutputFile).">
+</Event><Event ErrorLevel="1" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="MSB8012: $(TargetPath) ('C:\Users\Hayk\project-thesis\EPOS\windows-library\Microsoft Visual C++\Example VC++ 2005\Debug\Win32\Demo_WinDLL.exe') does not match the Linker's OutputFile property value 'Demo_WinDLL.exe' ('C:\Users\Hayk\project-thesis\EPOS\windows-library\Microsoft Visual C++\Example VC++ 2005\Demo_WinDLL.exe') in project configuration 'Debug|Win32'. This may cause your project to build incorrectly. To correct this, please make sure that $(TargetPath) property value matches the value specified in %(Link.OutputFile).">
+</Event><Event ErrorLevel="0" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Done converting to new project file 'C:\Users\Hayk\project-thesis\EPOS\windows-library\Microsoft Visual C++\Example VC++ 2005\Demo_WinDLL.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="Demo_WinDLL" Source="Demo_WinDLL.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Demo_WinDLL.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Demo_WinDLL.sln" Description="Converted">
+</Event></UpgradeLog>
