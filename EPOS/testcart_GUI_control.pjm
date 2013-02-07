@@ -23,7 +23,7 @@
 									<DeviceItem>
 										<Name>EPOS2</Name>
 										<CLSID>BD4B433D-AA98-4A69-955E-BEEDA1A481EB</CLSID>
-										<SystemTag>645BBE27-1EB8-405d-A844-3EB460B5A27A</SystemTag>
+										<SystemTag>9A99813D-ABF8-4d29-B7BE-563D496B0D4A</SystemTag>
 									</DeviceItem>
 								</NetworkFdtChannelItem>
 							</DeviceItem>
@@ -33,75 +33,51 @@
 			</NetworkTopology>
 			<WindowInformation>
 				<ControlWindow>
-					<Name>Profile Position Mode - EPOS2 [Node 1]</Name>
-					<SystemTag>645BBE27-1EB8-405d-A844-3EB460B5A27A</SystemTag>
-					<FunctionId>104</FunctionId>
-					<InvokeId>4E379D58-4D5B-4ae6-86C9-59CC64D3432C</InvokeId>
-					<Position>
-						<XPosition>0</XPosition>
-						<YPosition>759</YPosition>
-						<Width>160</Width>
-						<Height>34</Height>
-					</Position>
-				</ControlWindow>
-				<ControlWindow>
-					<Name>Profile Position Mode - EPOS2 [Node 2]</Name>
-					<SystemTag>3FFF563F-B837-4d53-AEF3-1869BEFF6C23</SystemTag>
-					<FunctionId>104</FunctionId>
-					<InvokeId>3522B285-8FD5-4ef9-A2F8-D435040E6D67</InvokeId>
-					<Position>
-						<XPosition>480</XPosition>
-						<YPosition>759</YPosition>
-						<Width>160</Width>
-						<Height>34</Height>
-					</Position>
-				</ControlWindow>
-				<ControlWindow>
 					<Name>Interpolated Position Mode - EPOS2 [Node 1]</Name>
-					<SystemTag>645BBE27-1EB8-405d-A844-3EB460B5A27A</SystemTag>
-					<FunctionId>106</FunctionId>
-					<InvokeId>963247F4-84E0-4ac8-ADCB-ADC51D9657F7</InvokeId>
-					<Position>
-						<XPosition>838</XPosition>
-						<YPosition>0</YPosition>
-						<Width>838</Width>
-						<Height>759</Height>
-					</Position>
-				</ControlWindow>
-				<ControlWindow>
-					<Name>Interpolated Position Mode - EPOS2 [Node 2]</Name>
 					<SystemTag>3FFF563F-B837-4d53-AEF3-1869BEFF6C23</SystemTag>
 					<FunctionId>106</FunctionId>
 					<InvokeId>B52057B6-915D-4d46-A2E4-9457291FEDC8</InvokeId>
 					<Position>
-						<XPosition>0</XPosition>
-						<YPosition>0</YPosition>
-						<Width>838</Width>
-						<Height>759</Height>
+						<XPosition>90</XPosition>
+						<YPosition>96</YPosition>
+						<Width>1437</Width>
+						<Height>537</Height>
 					</Position>
 				</ControlWindow>
 				<ControlWindow>
 					<Name>Homing Mode - EPOS2 [Node 1]</Name>
-					<SystemTag>645BBE27-1EB8-405d-A844-3EB460B5A27A</SystemTag>
-					<FunctionId>103</FunctionId>
-					<InvokeId>F8621828-FAD7-433b-80F7-B4F46F313232</InvokeId>
-					<Position>
-						<XPosition>160</XPosition>
-						<YPosition>759</YPosition>
-						<Width>160</Width>
-						<Height>34</Height>
-					</Position>
-				</ControlWindow>
-				<ControlWindow>
-					<Name>Homing Mode - EPOS2 [Node 2]</Name>
 					<SystemTag>3FFF563F-B837-4d53-AEF3-1869BEFF6C23</SystemTag>
 					<FunctionId>103</FunctionId>
 					<InvokeId>9E03D07F-E907-4102-9BEC-DB396AC926BF</InvokeId>
 					<Position>
-						<XPosition>320</XPosition>
-						<YPosition>759</YPosition>
-						<Width>160</Width>
-						<Height>34</Height>
+						<XPosition>150</XPosition>
+						<YPosition>160</YPosition>
+						<Width>1437</Width>
+						<Height>537</Height>
+					</Position>
+				</ControlWindow>
+				<ControlWindow>
+					<Name>Profile Position Mode - EPOS2 [Node 2]</Name>
+					<SystemTag>9A99813D-ABF8-4d29-B7BE-563D496B0D4A</SystemTag>
+					<FunctionId>104</FunctionId>
+					<InvokeId>AEA24042-6809-4ef8-AE2D-2100730C39B0</InvokeId>
+					<Position>
+						<XPosition>180</XPosition>
+						<YPosition>192</YPosition>
+						<Width>1437</Width>
+						<Height>537</Height>
+					</Position>
+				</ControlWindow>
+				<ControlWindow>
+					<Name>Profile Position Mode - EPOS2 [Node 1]</Name>
+					<SystemTag>3FFF563F-B837-4d53-AEF3-1869BEFF6C23</SystemTag>
+					<FunctionId>104</FunctionId>
+					<InvokeId>56B2506B-EB61-4eb7-A249-2A4F5FD59FD2</InvokeId>
+					<Position>
+						<XPosition>-9</XPosition>
+						<YPosition>-38</YPosition>
+						<Width>1695</Width>
+						<Height>840</Height>
 					</Position>
 				</ControlWindow>
 			</WindowInformation>
@@ -158,7 +134,7 @@
 			<DeviceTypeSettings>
 				<Parameters>
 					<Name>EPOS2</Name>
-					<NodeId>2</NodeId>
+					<NodeId>1</NodeId>
 				</Parameters>
 				<ObjectFilters>
 					<SelectedObjectFilter></SelectedObjectFilter>
@@ -177,7 +153,7 @@
 							<TransferRate>125000</TransferRate>
 							<TransferRate>50000</TransferRate>
 							<TransferRate>20000</TransferRate>
-							<NumberOfDevicesInNetwork>127</NumberOfDevicesInNetwork>
+							<NumberOfDevicesInNetwork>2</NumberOfDevicesInNetwork>
 						</ScanningSetting>
 						<StandardScanningMethod>
 							<Enabled>1</Enabled>
@@ -248,7 +224,7 @@
 	</Dtm>
 	<Dtm>
 		<Name>EPOS2</Name>
-		<SystemTag>645BBE27-1EB8-405d-A844-3EB460B5A27A</SystemTag>
+		<SystemTag>9A99813D-ABF8-4d29-B7BE-563D496B0D4A</SystemTag>
 		<Configuration File="DtmEpos2.dll" Version="1.50.1.0">
 			<DeviceType>
 				<VersionInformation>
@@ -260,10 +236,10 @@
 			<DeviceTypeSettings>
 				<Parameters>
 					<Name>EPOS2</Name>
-					<NodeId>1</NodeId>
+					<NodeId>2</NodeId>
 				</Parameters>
 				<ObjectFilters>
-					<SelectedObjectFilter></SelectedObjectFilter>
+					<SelectedObjectFilter>System Parameter</SelectedObjectFilter>
 				</ObjectFilters>
 				<Channel Name="CAN">
 					<NetworkScanning>
