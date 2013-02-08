@@ -11,7 +11,7 @@
 ** Target:          Linux (Ubuntu 10.10)
 ** Written by:      maxon motor ag, CH-6072 Sachseln
 **
-** Changes:         1.00    (15.12.10): Initial Version
+** Changes:        4.8.1.0    (15.12.10): Initial Version
 *************************************************************************************************************************************/
 
 #ifndef _H_LINUX_EPOSCMD_
@@ -49,241 +49,241 @@
 *************************************************************************************************************************************/
 
 //Communication
-    Initialisation_DllExport void*  VCS_OpenDevice(char* DeviceName, char* ProtocolStackName, char* InterfaceName, char* PortName, unsigned long* pErrorCode);
-    Initialisation_DllExport int  VCS_SetProtocolStackSettings(void* KeyHandle, unsigned long Baudrate, unsigned long Timeout, unsigned long* pErrorCode);
-    Initialisation_DllExport int  VCS_GetProtocolStackSettings(void* KeyHandle, unsigned long* pBaudrate, unsigned long* pTimeout, unsigned long* pErrorCode);
-    Initialisation_DllExport int  VCS_CloseDevice(void* KeyHandle, unsigned long* pErrorCode);
-    Initialisation_DllExport int  VCS_CloseAllDevices(unsigned long* pErrorCode);
+    Initialisation_DllExport void*  VCS_OpenDevice(char* DeviceName, char* ProtocolStackName, char* InterfaceName, char* PortName, unsigned int* pErrorCode);
+    Initialisation_DllExport int  VCS_SetProtocolStackSettings(void* KeyHandle, unsigned int Baudrate, unsigned int Timeout, unsigned int* pErrorCode);
+    Initialisation_DllExport int  VCS_GetProtocolStackSettings(void* KeyHandle, unsigned int* pBaudrate, unsigned int* pTimeout, unsigned int* pErrorCode);
+    Initialisation_DllExport int  VCS_CloseDevice(void* KeyHandle, unsigned int* pErrorCode);
+    Initialisation_DllExport int  VCS_CloseAllDevices(unsigned int* pErrorCode);
 
 //Info
-    HelpFunctions_DllExport int  VCS_GetVersion(void* KeyHandle, unsigned short NodeId, unsigned short* pHardwareVersion, unsigned short* pSoftwareVersion, unsigned short* pApplicationNumber, unsigned short* pApplicationVersion, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetErrorInfo(unsigned long ErrorCodeValue, char* pErrorInfo, unsigned short MaxStrSize);
+    HelpFunctions_DllExport int  VCS_GetVersion(void* KeyHandle, unsigned short NodeId, unsigned short* pHardwareVersion, unsigned short* pSoftwareVersion, unsigned short* pApplicationNumber, unsigned short* pApplicationVersion, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetErrorInfo(unsigned int ErrorCodeValue, char* pErrorInfo, unsigned short MaxStrSize);
 
 //Advanced Functions
-    HelpFunctions_DllExport int  VCS_GetDeviceNameSelection(int StartOfSelection, char* pDeviceNameSel, unsigned short MaxStrSize, int* pEndOfSelection, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetProtocolStackNameSelection(char* DeviceName, int StartOfSelection, char* pProtocolStackNameSel, unsigned short MaxStrSize, int* pEndOfSelection, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetInterfaceNameSelection(char* DeviceName, char* ProtocolStackName, int StartOfSelection, char* pInterfaceNameSel, unsigned short MaxStrSize, int* pEndOfSelection, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetPortNameSelection(char* DeviceName, char* ProtocolStackName, char* InterfaceName, int StartOfSelection, char* pPortSel, unsigned short MaxStrSize, int* pEndOfSelection, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetBaudrateSelection(char* DeviceName, char* ProtocolStackName, char* InterfaceName, char* PortName, int StartOfSelection, unsigned long* pBaudrateSel, int* pEndOfSelection, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetKeyHandle(char* DeviceName, char* ProtocolStackName, char* InterfaceName, char* PortName, void** pKeyHandle, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetDeviceName(void* KeyHandle, char* pDeviceName, unsigned short MaxStrSize, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetProtocolStackName(void* KeyHandle, char* pProtocolStackName, unsigned short MaxStrSize, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetInterfaceName(void* KeyHandle, char* pInterfaceName, unsigned short MaxStrSize, unsigned long* pErrorCode);
-    HelpFunctions_DllExport int  VCS_GetPortName(void* KeyHandle, char* pPortName, unsigned short MaxStrSize, unsigned long* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetDeviceNameSelection(int StartOfSelection, char* pDeviceNameSel, unsigned short MaxStrSize, int* pEndOfSelection, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetProtocolStackNameSelection(char* DeviceName, int StartOfSelection, char* pProtocolStackNameSel, unsigned short MaxStrSize, int* pEndOfSelection, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetInterfaceNameSelection(char* DeviceName, char* ProtocolStackName, int StartOfSelection, char* pInterfaceNameSel, unsigned short MaxStrSize, int* pEndOfSelection, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetPortNameSelection(char* DeviceName, char* ProtocolStackName, char* InterfaceName, int StartOfSelection, char* pPortSel, unsigned short MaxStrSize, int* pEndOfSelection, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetBaudrateSelection(char* DeviceName, char* ProtocolStackName, char* InterfaceName, char* PortName, int StartOfSelection, unsigned int* pBaudrateSel, int* pEndOfSelection, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetKeyHandle(char* DeviceName, char* ProtocolStackName, char* InterfaceName, char* PortName, void** pKeyHandle, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetDeviceName(void* KeyHandle, char* pDeviceName, unsigned short MaxStrSize, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetProtocolStackName(void* KeyHandle, char* pProtocolStackName, unsigned short MaxStrSize, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetInterfaceName(void* KeyHandle, char* pInterfaceName, unsigned short MaxStrSize, unsigned int* pErrorCode);
+    HelpFunctions_DllExport int  VCS_GetPortName(void* KeyHandle, char* pPortName, unsigned short MaxStrSize, unsigned int* pErrorCode);
 
 /*************************************************************************************************************************************
 * CONFIGURATION FUNCTIONS
 *************************************************************************************************************************************/
 
 //General
-    Configuration_DllExport int  VCS_SetObject(void* KeyHandle, unsigned short NodeId, unsigned short ObjectIndex, unsigned char ObjectSubIndex, void* pData, unsigned long NbOfBytesToWrite, unsigned long* pNbOfBytesWritten, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetObject(void* KeyHandle, unsigned short NodeId, unsigned short ObjectIndex, unsigned char ObjectSubIndex, void* pData, unsigned long NbOfBytesToRead, unsigned long* pNbOfBytesRead, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_Restore(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_Store(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
+    Configuration_DllExport int  VCS_SetObject(void* KeyHandle, unsigned short NodeId, unsigned short ObjectIndex, unsigned char ObjectSubIndex, void* pData, unsigned int NbOfBytesToWrite, unsigned int* pNbOfBytesWritten, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetObject(void* KeyHandle, unsigned short NodeId, unsigned short ObjectIndex, unsigned char ObjectSubIndex, void* pData, unsigned int NbOfBytesToRead, unsigned int* pNbOfBytesRead, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_Restore(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_Store(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
 
 //Advanced Functions
     //Motor
-    Configuration_DllExport int  VCS_SetMotorType(void* KeyHandle, unsigned short NodeId, unsigned short MotorType, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_SetDcMotorParameter(void* KeyHandle, unsigned short NodeId, unsigned short NominalCurrent, unsigned short MaxOutputCurrent, unsigned short ThermalTimeConstant, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_SetEcMotorParameter(void* KeyHandle, unsigned short NodeId, unsigned short NominalCurrent, unsigned short MaxOutputCurrent, unsigned short ThermalTimeConstant, unsigned char NbOfPolePairs, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetMotorType(void* KeyHandle, unsigned short NodeId, unsigned short* pMotorType, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetDcMotorParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pNominalCurrent, unsigned short* pMaxOutputCurrent, unsigned short* pThermalTimeConstant, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetEcMotorParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pNominalCurrent, unsigned short* pMaxOutputCurrent, unsigned short* pThermalTimeConstant, unsigned char* pNbOfPolePairs, unsigned long* pErrorCode);
+    Configuration_DllExport int  VCS_SetMotorType(void* KeyHandle, unsigned short NodeId, unsigned short MotorType, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_SetDcMotorParameter(void* KeyHandle, unsigned short NodeId, unsigned short NominalCurrent, unsigned short MaxOutputCurrent, unsigned short ThermalTimeConstant, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_SetEcMotorParameter(void* KeyHandle, unsigned short NodeId, unsigned short NominalCurrent, unsigned short MaxOutputCurrent, unsigned short ThermalTimeConstant, unsigned char NbOfPolePairs, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetMotorType(void* KeyHandle, unsigned short NodeId, unsigned short* pMotorType, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetDcMotorParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pNominalCurrent, unsigned short* pMaxOutputCurrent, unsigned short* pThermalTimeConstant, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetEcMotorParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pNominalCurrent, unsigned short* pMaxOutputCurrent, unsigned short* pThermalTimeConstant, unsigned char* pNbOfPolePairs, unsigned int* pErrorCode);
 
     //Sensor
-    Configuration_DllExport int  VCS_SetSensorType(void* KeyHandle, unsigned short NodeId, unsigned short SensorType, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_SetIncEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned long EncoderResolution, int InvertedPolarity, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_SetHallSensorParameter(void* KeyHandle, unsigned short NodeId, int InvertedPolarity, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_SetSsiAbsEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned short DataRate, unsigned short NbOfMultiTurnDataBits, unsigned short NbOfSingleTurnDataBits, int InvertedPolarity, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetSensorType(void* KeyHandle, unsigned short NodeId, unsigned short* pSensorType, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetIncEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned long* pEncoderResolution, int* pInvertedPolarity, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetHallSensorParameter(void* KeyHandle, unsigned short NodeId, int* pInvertedPolarity, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetSsiAbsEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pDataRate, unsigned short* pNbOfMultiTurnDataBits, unsigned short* pNbOfSingleTurnDataBits, int* pInvertedPolarity, unsigned long* pErrorCode);
+    Configuration_DllExport int  VCS_SetSensorType(void* KeyHandle, unsigned short NodeId, unsigned short SensorType, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_SetIncEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned int EncoderResolution, int InvertedPolarity, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_SetHallSensorParameter(void* KeyHandle, unsigned short NodeId, int InvertedPolarity, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_SetSsiAbsEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned short DataRate, unsigned short NbOfMultiTurnDataBits, unsigned short NbOfSingleTurnDataBits, int InvertedPolarity, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetSensorType(void* KeyHandle, unsigned short NodeId, unsigned short* pSensorType, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetIncEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned int* pEncoderResolution, int* pInvertedPolarity, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetHallSensorParameter(void* KeyHandle, unsigned short NodeId, int* pInvertedPolarity, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetSsiAbsEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pDataRate, unsigned short* pNbOfMultiTurnDataBits, unsigned short* pNbOfSingleTurnDataBits, int* pInvertedPolarity, unsigned int* pErrorCode);
 
     //Safety
-    Configuration_DllExport int  VCS_SetMaxFollowingError(void* KeyHandle, unsigned short NodeId, unsigned long MaxFollowingError, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetMaxFollowingError(void* KeyHandle, unsigned short NodeId, unsigned long* pMaxFollowingError, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_SetMaxProfileVelocity(void* KeyHandle, unsigned short NodeId, unsigned long MaxProfileVelocity, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetMaxProfileVelocity(void* KeyHandle, unsigned short NodeId, unsigned long* pMaxProfileVelocity, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_SetMaxAcceleration(void* KeyHandle, unsigned short NodeId, unsigned long MaxAcceleration, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetMaxAcceleration(void* KeyHandle, unsigned short NodeId, unsigned long* pMaxAcceleration, unsigned long* pErrorCode);
+    Configuration_DllExport int  VCS_SetMaxFollowingError(void* KeyHandle, unsigned short NodeId, unsigned int MaxFollowingError, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetMaxFollowingError(void* KeyHandle, unsigned short NodeId, unsigned int* pMaxFollowingError, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_SetMaxProfileVelocity(void* KeyHandle, unsigned short NodeId, unsigned int MaxProfileVelocity, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetMaxProfileVelocity(void* KeyHandle, unsigned short NodeId, unsigned int* pMaxProfileVelocity, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_SetMaxAcceleration(void* KeyHandle, unsigned short NodeId, unsigned int MaxAcceleration, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetMaxAcceleration(void* KeyHandle, unsigned short NodeId, unsigned int* pMaxAcceleration, unsigned int* pErrorCode);
 
     //Position Regulator
-    Configuration_DllExport int  VCS_SetPositionRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short P, unsigned short I, unsigned short D, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_SetPositionRegulatorFeedForward(void* KeyHandle, unsigned short NodeId, unsigned short VelocityFeedForward, unsigned short AccelerationFeedForward, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetPositionRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short* pP, unsigned short* pI, unsigned short* pD, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetPositionRegulatorFeedForward(void* KeyHandle, unsigned short NodeId, unsigned short* pVelocityFeedForward, unsigned short* pAccelerationFeedForward, unsigned long* pErrorCode);
+    Configuration_DllExport int  VCS_SetPositionRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short P, unsigned short I, unsigned short D, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_SetPositionRegulatorFeedForward(void* KeyHandle, unsigned short NodeId, unsigned short VelocityFeedForward, unsigned short AccelerationFeedForward, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetPositionRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short* pP, unsigned short* pI, unsigned short* pD, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetPositionRegulatorFeedForward(void* KeyHandle, unsigned short NodeId, unsigned short* pVelocityFeedForward, unsigned short* pAccelerationFeedForward, unsigned int* pErrorCode);
 
     //Velocity Regulator
-    Configuration_DllExport int  VCS_SetVelocityRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short P, unsigned short I, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetVelocityRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short* pP, unsigned short* pI, unsigned long* pErrorCode);
+    Configuration_DllExport int  VCS_SetVelocityRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short P, unsigned short I, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetVelocityRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short* pP, unsigned short* pI, unsigned int* pErrorCode);
 
     //Current Regulator
-    Configuration_DllExport int  VCS_SetCurrentRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short P, unsigned short I, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetCurrentRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short* pP, unsigned short* pI, unsigned long* pErrorCode);
+    Configuration_DllExport int  VCS_SetCurrentRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short P, unsigned short I, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetCurrentRegulatorGain(void* KeyHandle, unsigned short NodeId, unsigned short* pP, unsigned short* pI, unsigned int* pErrorCode);
 
     //Inputs/Outputs
-    Configuration_DllExport int  VCS_DigitalInputConfiguration(void* KeyHandle, unsigned short NodeId, unsigned short DigitalInputNb, unsigned short Configuration, int Mask, int Polarity, int ExecutionMask, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_DigitalOutputConfiguration(void* KeyHandle, unsigned short NodeId, unsigned short DigitalOutputNb, unsigned short Configuration, int State, int Mask, int Polarity, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_AnalogInputConfiguration(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNb, unsigned short Configuration, int ExecutionMask, unsigned long* pErrorCode);
+    Configuration_DllExport int  VCS_DigitalInputConfiguration(void* KeyHandle, unsigned short NodeId, unsigned short DigitalInputNb, unsigned short Configuration, int Mask, int Polarity, int ExecutionMask, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_DigitalOutputConfiguration(void* KeyHandle, unsigned short NodeId, unsigned short DigitalOutputNb, unsigned short Configuration, int State, int Mask, int Polarity, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_AnalogInputConfiguration(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNb, unsigned short Configuration, int ExecutionMask, unsigned int* pErrorCode);
 
     //Units
-    Configuration_DllExport int  VCS_SetVelocityUnits(void* KeyHandle, unsigned short NodeId, unsigned char VelDimension, char VelNotation, unsigned long* pErrorCode);
-    Configuration_DllExport int  VCS_GetVelocityUnits(void* KeyHandle, unsigned short NodeId, unsigned char* pVelDimension, char* pVelNotation, unsigned long* pErrorCode);
+    Configuration_DllExport int  VCS_SetVelocityUnits(void* KeyHandle, unsigned short NodeId, unsigned char VelDimension, char VelNotation, unsigned int* pErrorCode);
+    Configuration_DllExport int  VCS_GetVelocityUnits(void* KeyHandle, unsigned short NodeId, unsigned char* pVelDimension, char* pVelNotation, unsigned int* pErrorCode);
 
 /*************************************************************************************************************************************
 * OPERATION FUNCTIONS
 *************************************************************************************************************************************/
 
 //OperationMode
-    Status_DllExport int  VCS_SetOperationMode(void* KeyHandle, unsigned short NodeId, char OperationMode, unsigned long* pErrorCode);
-    Status_DllExport int  VCS_GetOperationMode(void* KeyHandle, unsigned short NodeId, char* pOperationMode, unsigned long* pErrorCode);
+    Status_DllExport int  VCS_SetOperationMode(void* KeyHandle, unsigned short NodeId, char OperationMode, unsigned int* pErrorCode);
+    Status_DllExport int  VCS_GetOperationMode(void* KeyHandle, unsigned short NodeId, char* pOperationMode, unsigned int* pErrorCode);
 
 //StateMachine
-    StateMachine_DllExport int  VCS_ResetDevice(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_SetState(void* KeyHandle, unsigned short NodeId, unsigned short State, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_SetEnableState(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_SetDisableState(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_SetQuickStopState(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_ClearFault(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_GetState(void* KeyHandle, unsigned short NodeId, unsigned short* pState, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_GetEnableState(void* KeyHandle, unsigned short NodeId, int* pIsEnabled, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_GetDisableState(void* KeyHandle, unsigned short NodeId, int* pIsDisabled, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_GetQuickStopState(void* KeyHandle, unsigned short NodeId, int* pIsQuickStopped, unsigned long* pErrorCode);
-    StateMachine_DllExport int  VCS_GetFaultState(void* KeyHandle, unsigned short NodeId, int* pIsInFault, unsigned long* pErrorCode);
+    StateMachine_DllExport int  VCS_ResetDevice(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_SetState(void* KeyHandle, unsigned short NodeId, unsigned short State, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_SetEnableState(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_SetDisableState(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_SetQuickStopState(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_ClearFault(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_GetState(void* KeyHandle, unsigned short NodeId, unsigned short* pState, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_GetEnableState(void* KeyHandle, unsigned short NodeId, int* pIsEnabled, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_GetDisableState(void* KeyHandle, unsigned short NodeId, int* pIsDisabled, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_GetQuickStopState(void* KeyHandle, unsigned short NodeId, int* pIsQuickStopped, unsigned int* pErrorCode);
+    StateMachine_DllExport int  VCS_GetFaultState(void* KeyHandle, unsigned short NodeId, int* pIsInFault, unsigned int* pErrorCode);
 
 //ErrorHandling
-    ErrorHandling_DllExport int  VCS_GetNbOfDeviceError(void* KeyHandle, unsigned short NodeId, unsigned char *pNbDeviceError, unsigned long *pErrorCode);
-    ErrorHandling_DllExport int  VCS_GetDeviceErrorCode(void* KeyHandle, unsigned short NodeId, unsigned char DeviceErrorNumber, unsigned long *pDeviceErrorCode, unsigned long *pErrorCode);
+    ErrorHandling_DllExport int  VCS_GetNbOfDeviceError(void* KeyHandle, unsigned short NodeId, unsigned char *pNbDeviceError, unsigned int *pErrorCode);
+    ErrorHandling_DllExport int  VCS_GetDeviceErrorCode(void* KeyHandle, unsigned short NodeId, unsigned char DeviceErrorNumber, unsigned int *pDeviceErrorCode, unsigned int *pErrorCode);
 
 //Motion Info
-    MotionInfo_DllExport int  VCS_GetMovementState(void* KeyHandle, unsigned short NodeId, int* pTargetReached, unsigned long* pErrorCode);
-    MotionInfo_DllExport int  VCS_GetPositionIs(void* KeyHandle, unsigned short NodeId, long* pPositionIs, unsigned long* pErrorCode);
-    MotionInfo_DllExport int  VCS_GetVelocityIs(void* KeyHandle, unsigned short NodeId, long* pVelocityIs, unsigned long* pErrorCode);
-    MotionInfo_DllExport int  VCS_GetCurrentIs(void* KeyHandle, unsigned short NodeId, short* pCurrentIs, unsigned long* pErrorCode);
-    MotionInfo_DllExport int  VCS_WaitForTargetReached(void* KeyHandle, unsigned short NodeId, unsigned long Timeout, unsigned long* pErrorCode);
+    MotionInfo_DllExport int  VCS_GetMovementState(void* KeyHandle, unsigned short NodeId, int* pTargetReached, unsigned int* pErrorCode);
+    MotionInfo_DllExport int  VCS_GetPositionIs(void* KeyHandle, unsigned short NodeId, long* pPositionIs, unsigned int* pErrorCode);
+    MotionInfo_DllExport int  VCS_GetVelocityIs(void* KeyHandle, unsigned short NodeId, long* pVelocityIs, unsigned int* pErrorCode);
+    MotionInfo_DllExport int  VCS_GetCurrentIs(void* KeyHandle, unsigned short NodeId, short* pCurrentIs, unsigned int* pErrorCode);
+    MotionInfo_DllExport int  VCS_WaitForTargetReached(void* KeyHandle, unsigned short NodeId, unsigned int Timeout, unsigned int* pErrorCode);
 
 //Profile Position Mode
-    ProfilePositionMode_DllExport int  VCS_ActivateProfilePositionMode(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    ProfilePositionMode_DllExport int  VCS_SetPositionProfile(void* KeyHandle, unsigned short NodeId, unsigned long ProfileVelocity, unsigned long ProfileAcceleration, unsigned long ProfileDeceleration, unsigned long* pErrorCode);
-    ProfilePositionMode_DllExport int  VCS_GetPositionProfile(void* KeyHandle, unsigned short NodeId, unsigned long* pProfileVelocity, unsigned long* pProfileAcceleration, unsigned long* pProfileDeceleration, unsigned long* pErrorCode);
-    ProfilePositionMode_DllExport int  VCS_MoveToPosition(void* KeyHandle, unsigned short NodeId, long TargetPosition, int Absolute, int Immediately, unsigned long* pErrorCode);
-    ProfilePositionMode_DllExport int  VCS_GetTargetPosition(void* KeyHandle, unsigned short NodeId, long* pTargetPosition, unsigned long* pErrorCode);
-    ProfilePositionMode_DllExport int  VCS_HaltPositionMovement(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
+    ProfilePositionMode_DllExport int  VCS_ActivateProfilePositionMode(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    ProfilePositionMode_DllExport int  VCS_SetPositionProfile(void* KeyHandle, unsigned short NodeId, unsigned int ProfileVelocity, unsigned int ProfileAcceleration, unsigned int ProfileDeceleration, unsigned int* pErrorCode);
+    ProfilePositionMode_DllExport int  VCS_GetPositionProfile(void* KeyHandle, unsigned short NodeId, unsigned int* pProfileVelocity, unsigned int* pProfileAcceleration, unsigned int* pProfileDeceleration, unsigned int* pErrorCode);
+    ProfilePositionMode_DllExport int  VCS_MoveToPosition(void* KeyHandle, unsigned short NodeId, long TargetPosition, int Absolute, int Immediately, unsigned int* pErrorCode);
+    ProfilePositionMode_DllExport int  VCS_GetTargetPosition(void* KeyHandle, unsigned short NodeId, long* pTargetPosition, unsigned int* pErrorCode);
+    ProfilePositionMode_DllExport int  VCS_HaltPositionMovement(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
 
     //Advanced Functions
-    ProfilePositionMode_DllExport int  VCS_EnablePositionWindow(void* KeyHandle, unsigned short NodeId, unsigned long PositionWindow, unsigned short PositionWindowTime, unsigned long* pErrorCode);
-    ProfilePositionMode_DllExport int  VCS_DisablePositionWindow(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
+    ProfilePositionMode_DllExport int  VCS_EnablePositionWindow(void* KeyHandle, unsigned short NodeId, unsigned int PositionWindow, unsigned short PositionWindowTime, unsigned int* pErrorCode);
+    ProfilePositionMode_DllExport int  VCS_DisablePositionWindow(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
 
 //Profile Velocity Mode
-    ProfileVelocityMode_DllExport int  VCS_ActivateProfileVelocityMode(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    ProfileVelocityMode_DllExport int  VCS_SetVelocityProfile(void* KeyHandle, unsigned short NodeId, unsigned long ProfileAcceleration, unsigned long ProfileDeceleration, unsigned long* pErrorCode);
-    ProfileVelocityMode_DllExport int  VCS_GetVelocityProfile(void* KeyHandle, unsigned short NodeId, unsigned long* pProfileAcceleration, unsigned long* pProfileDeceleration, unsigned long* pErrorCode);
-    ProfileVelocityMode_DllExport int  VCS_MoveWithVelocity(void* KeyHandle, unsigned short NodeId, long TargetVelocity, unsigned long* pErrorCode);
-    ProfileVelocityMode_DllExport int  VCS_GetTargetVelocity(void* KeyHandle, unsigned short NodeId, long* pTargetVelocity, unsigned long* pErrorCode);
-    ProfileVelocityMode_DllExport int  VCS_HaltVelocityMovement(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
+    ProfileVelocityMode_DllExport int  VCS_ActivateProfileVelocityMode(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    ProfileVelocityMode_DllExport int  VCS_SetVelocityProfile(void* KeyHandle, unsigned short NodeId, unsigned int ProfileAcceleration, unsigned int ProfileDeceleration, unsigned int* pErrorCode);
+    ProfileVelocityMode_DllExport int  VCS_GetVelocityProfile(void* KeyHandle, unsigned short NodeId, unsigned int* pProfileAcceleration, unsigned int* pProfileDeceleration, unsigned int* pErrorCode);
+    ProfileVelocityMode_DllExport int  VCS_MoveWithVelocity(void* KeyHandle, unsigned short NodeId, long TargetVelocity, unsigned int* pErrorCode);
+    ProfileVelocityMode_DllExport int  VCS_GetTargetVelocity(void* KeyHandle, unsigned short NodeId, long* pTargetVelocity, unsigned int* pErrorCode);
+    ProfileVelocityMode_DllExport int  VCS_HaltVelocityMovement(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
 
     //Advanced Functions
-    ProfileVelocityMode_DllExport int  VCS_EnableVelocityWindow(void* KeyHandle, unsigned short NodeId, unsigned long VelocityWindow, unsigned short VelocityWindowTime, unsigned long* pErrorCode);
-    ProfileVelocityMode_DllExport int  VCS_DisableVelocityWindow(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
+    ProfileVelocityMode_DllExport int  VCS_EnableVelocityWindow(void* KeyHandle, unsigned short NodeId, unsigned int VelocityWindow, unsigned short VelocityWindowTime, unsigned int* pErrorCode);
+    ProfileVelocityMode_DllExport int  VCS_DisableVelocityWindow(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
 
 //Homing Mode
-    HomingMode_DllExport int  VCS_ActivateHomingMode(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    HomingMode_DllExport int  VCS_SetHomingParameter(void* KeyHandle, unsigned short NodeId, unsigned long HomingAcceleration, unsigned long SpeedSwitch, unsigned long SpeedIndex, long HomeOffset, unsigned short CurrentTreshold, long HomePosition, unsigned long* pErrorCode);
-    HomingMode_DllExport int  VCS_GetHomingParameter(void* KeyHandle, unsigned short NodeId, unsigned long* pHomingAcceleration, unsigned long* pSpeedSwitch, unsigned long* pSpeedIndex, long* pHomeOffset, unsigned short* pCurrentTreshold, long* pHomePosition, unsigned long* pErrorCode);
-    HomingMode_DllExport int  VCS_FindHome(void* KeyHandle, unsigned short NodeId, char HomingMethod, unsigned long* pErrorCode);
-    HomingMode_DllExport int  VCS_StopHoming(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    HomingMode_DllExport int  VCS_DefinePosition(void* KeyHandle, unsigned short NodeId, long HomePosition, unsigned long* pErrorCode);
+    HomingMode_DllExport int  VCS_ActivateHomingMode(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    HomingMode_DllExport int  VCS_SetHomingParameter(void* KeyHandle, unsigned short NodeId, unsigned int HomingAcceleration, unsigned int SpeedSwitch, unsigned int SpeedIndex, long HomeOffset, unsigned short CurrentTreshold, long HomePosition, unsigned int* pErrorCode);
+    HomingMode_DllExport int  VCS_GetHomingParameter(void* KeyHandle, unsigned short NodeId, unsigned int* pHomingAcceleration, unsigned int* pSpeedSwitch, unsigned int* pSpeedIndex, long* pHomeOffset, unsigned short* pCurrentTreshold, long* pHomePosition, unsigned int* pErrorCode);
+    HomingMode_DllExport int  VCS_FindHome(void* KeyHandle, unsigned short NodeId, char HomingMethod, unsigned int* pErrorCode);
+    HomingMode_DllExport int  VCS_StopHoming(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    HomingMode_DllExport int  VCS_DefinePosition(void* KeyHandle, unsigned short NodeId, long HomePosition, unsigned int* pErrorCode);
 
 //Interpolated Position Mode
-    InterpolatedPositionMode_DllExport int  VCS_ActivateInterpolatedPositionMode(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    InterpolatedPositionMode_DllExport int  VCS_SetIpmBufferParameter(void* KeyHandle, unsigned short NodeId, unsigned short UnderflowWarningLimit, unsigned short OverflowWarningLimit, unsigned long* pErrorCode);
-    InterpolatedPositionMode_DllExport int  VCS_GetIpmBufferParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pUnderflowWarningLimit, unsigned short* pOverflowWarningLimit, unsigned long* pMaxBufferSize, unsigned long* pErrorCode);
-    InterpolatedPositionMode_DllExport int  VCS_ClearIpmBuffer(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    InterpolatedPositionMode_DllExport int  VCS_GetFreeIpmBufferSize(void* KeyHandle, unsigned short NodeId, unsigned long* pBufferSize, unsigned long* pErrorCode);
-    InterpolatedPositionMode_DllExport int  VCS_AddPvtValueToIpmBuffer(void* KeyHandle, unsigned short NodeId, long Position, long Velocity, unsigned char Time, unsigned long* pErrorCode);
-    InterpolatedPositionMode_DllExport int  VCS_StartIpmTrajectory(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    InterpolatedPositionMode_DllExport int  VCS_StopIpmTrajectory(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    InterpolatedPositionMode_DllExport int  VCS_GetIpmStatus(void* KeyHandle, unsigned short NodeId, int* pTrajectoryRunning, int* pIsUnderflowWarning, int* pIsOverflowWarning, int* pIsVelocityWarning, int* pIsAccelerationWarning, int* pIsUnderflowError, int* pIsOverflowError, int* pIsVelocityError, int* pIsAccelerationError, unsigned long* pErrorCode);
+    InterpolatedPositionMode_DllExport int  VCS_ActivateInterpolatedPositionMode(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    InterpolatedPositionMode_DllExport int  VCS_SetIpmBufferParameter(void* KeyHandle, unsigned short NodeId, unsigned short UnderflowWarningLimit, unsigned short OverflowWarningLimit, unsigned int* pErrorCode);
+    InterpolatedPositionMode_DllExport int  VCS_GetIpmBufferParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pUnderflowWarningLimit, unsigned short* pOverflowWarningLimit, unsigned int* pMaxBufferSize, unsigned int* pErrorCode);
+    InterpolatedPositionMode_DllExport int  VCS_ClearIpmBuffer(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    InterpolatedPositionMode_DllExport int  VCS_GetFreeIpmBufferSize(void* KeyHandle, unsigned short NodeId, unsigned int* pBufferSize, unsigned int* pErrorCode);
+    InterpolatedPositionMode_DllExport int  VCS_AddPvtValueToIpmBuffer(void* KeyHandle, unsigned short NodeId, long Position, long Velocity, unsigned char Time, unsigned int* pErrorCode);
+    InterpolatedPositionMode_DllExport int  VCS_StartIpmTrajectory(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    InterpolatedPositionMode_DllExport int  VCS_StopIpmTrajectory(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    InterpolatedPositionMode_DllExport int  VCS_GetIpmStatus(void* KeyHandle, unsigned short NodeId, int* pTrajectoryRunning, int* pIsUnderflowWarning, int* pIsOverflowWarning, int* pIsVelocityWarning, int* pIsAccelerationWarning, int* pIsUnderflowError, int* pIsOverflowError, int* pIsVelocityError, int* pIsAccelerationError, unsigned int* pErrorCode);
 
 //Position Mode
-    PositionMode_DllExport int  VCS_ActivatePositionMode(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    PositionMode_DllExport int  VCS_SetPositionMust(void* KeyHandle, unsigned short NodeId, long PositionMust, unsigned long* pErrorCode);
-    PositionMode_DllExport int  VCS_GetPositionMust(void* KeyHandle, unsigned short NodeId, long* pPositionMust, unsigned long* pErrorCode);
+    PositionMode_DllExport int  VCS_ActivatePositionMode(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    PositionMode_DllExport int  VCS_SetPositionMust(void* KeyHandle, unsigned short NodeId, long PositionMust, unsigned int* pErrorCode);
+    PositionMode_DllExport int  VCS_GetPositionMust(void* KeyHandle, unsigned short NodeId, long* pPositionMust, unsigned int* pErrorCode);
 
     //Advanced Functions
-    PositionMode_DllExport int  VCS_ActivateAnalogPositionSetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, float Scaling, long Offset, unsigned long* pErrorCode);
-    PositionMode_DllExport int  VCS_DeactivateAnalogPositionSetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, unsigned long* pErrorCode);
-    PositionMode_DllExport int  VCS_EnableAnalogPositionSetpoint(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    PositionMode_DllExport int  VCS_DisableAnalogPositionSetpoint(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
+    PositionMode_DllExport int  VCS_ActivateAnalogPositionSetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, float Scaling, long Offset, unsigned int* pErrorCode);
+    PositionMode_DllExport int  VCS_DeactivateAnalogPositionSetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, unsigned int* pErrorCode);
+    PositionMode_DllExport int  VCS_EnableAnalogPositionSetpoint(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    PositionMode_DllExport int  VCS_DisableAnalogPositionSetpoint(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
 
 //Velocity Mode
-    VelocityMode_DllExport int  VCS_ActivateVelocityMode(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    VelocityMode_DllExport int  VCS_SetVelocityMust(void* KeyHandle, unsigned short NodeId, long VelocityMust, unsigned long* pErrorCode);
-    VelocityMode_DllExport int  VCS_GetVelocityMust(void* KeyHandle, unsigned short NodeId, long* pVelocityMust, unsigned long* pErrorCode);
+    VelocityMode_DllExport int  VCS_ActivateVelocityMode(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    VelocityMode_DllExport int  VCS_SetVelocityMust(void* KeyHandle, unsigned short NodeId, long VelocityMust, unsigned int* pErrorCode);
+    VelocityMode_DllExport int  VCS_GetVelocityMust(void* KeyHandle, unsigned short NodeId, long* pVelocityMust, unsigned int* pErrorCode);
 
     //Advanced Functions
-    VelocityMode_DllExport int  VCS_ActivateAnalogVelocitySetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, float Scaling, long Offset, unsigned long* pErrorCode);
-    VelocityMode_DllExport int  VCS_DeactivateAnalogVelocitySetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, unsigned long* pErrorCode);
-    VelocityMode_DllExport int  VCS_EnableAnalogVelocitySetpoint(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    VelocityMode_DllExport int  VCS_DisableAnalogVelocitySetpoint(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
+    VelocityMode_DllExport int  VCS_ActivateAnalogVelocitySetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, float Scaling, long Offset, unsigned int* pErrorCode);
+    VelocityMode_DllExport int  VCS_DeactivateAnalogVelocitySetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, unsigned int* pErrorCode);
+    VelocityMode_DllExport int  VCS_EnableAnalogVelocitySetpoint(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    VelocityMode_DllExport int  VCS_DisableAnalogVelocitySetpoint(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
 
 //Current Mode
-    CurrentMode_DllExport int  VCS_ActivateCurrentMode(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    CurrentMode_DllExport int  VCS_SetCurrentMust(void* KeyHandle, unsigned short NodeId, short CurrentMust, unsigned long* pErrorCode);
-    CurrentMode_DllExport int  VCS_GetCurrentMust(void* KeyHandle, unsigned short NodeId, short* pCurrentMust, unsigned long* pErrorCode);
+    CurrentMode_DllExport int  VCS_ActivateCurrentMode(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    CurrentMode_DllExport int  VCS_SetCurrentMust(void* KeyHandle, unsigned short NodeId, short CurrentMust, unsigned int* pErrorCode);
+    CurrentMode_DllExport int  VCS_GetCurrentMust(void* KeyHandle, unsigned short NodeId, short* pCurrentMust, unsigned int* pErrorCode);
 
     //Advanced Functions
-    CurrentMode_DllExport int  VCS_ActivateAnalogCurrentSetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, float Scaling, short Offset, unsigned long* pErrorCode);
-    CurrentMode_DllExport int  VCS_DeactivateAnalogCurrentSetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, unsigned long* pErrorCode);
-    CurrentMode_DllExport int  VCS_EnableAnalogCurrentSetpoint(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    CurrentMode_DllExport int  VCS_DisableAnalogCurrentSetpoint(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
+    CurrentMode_DllExport int  VCS_ActivateAnalogCurrentSetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, float Scaling, short Offset, unsigned int* pErrorCode);
+    CurrentMode_DllExport int  VCS_DeactivateAnalogCurrentSetpoint(void* KeyHandle, unsigned short NodeId, unsigned short AnalogInputNumber, unsigned int* pErrorCode);
+    CurrentMode_DllExport int  VCS_EnableAnalogCurrentSetpoint(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    CurrentMode_DllExport int  VCS_DisableAnalogCurrentSetpoint(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
 
 //MasterEncoder Mode
-    MasterEncoderMode_DllExport int  VCS_ActivateMasterEncoderMode(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    MasterEncoderMode_DllExport int  VCS_SetMasterEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned short ScalingNumerator, unsigned short ScalingDenominator, unsigned char Polarity, unsigned long MaxVelocity, unsigned long MaxAcceleration, unsigned long* pErrorCode);
-    MasterEncoderMode_DllExport int  VCS_GetMasterEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pScalingNumerator, unsigned short* pScalingDenominator, unsigned char* pPolarity, unsigned long* pMaxVelocity, unsigned long* pMaxAcceleration, unsigned long* pErrorCode);
+    MasterEncoderMode_DllExport int  VCS_ActivateMasterEncoderMode(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    MasterEncoderMode_DllExport int  VCS_SetMasterEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned short ScalingNumerator, unsigned short ScalingDenominator, unsigned char Polarity, unsigned int MaxVelocity, unsigned int MaxAcceleration, unsigned int* pErrorCode);
+    MasterEncoderMode_DllExport int  VCS_GetMasterEncoderParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pScalingNumerator, unsigned short* pScalingDenominator, unsigned char* pPolarity, unsigned int* pMaxVelocity, unsigned int* pMaxAcceleration, unsigned int* pErrorCode);
 
 //StepDirection Mode
-    StepDirectionMode_DllExport int  VCS_ActivateStepDirectionMode(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    StepDirectionMode_DllExport int  VCS_SetStepDirectionParameter(void* KeyHandle, unsigned short NodeId, unsigned short ScalingNumerator, unsigned short ScalingDenominator, unsigned char Polarity, unsigned long MaxVelocity, unsigned long MaxAcceleration, unsigned long* pErrorCode);
-    StepDirectionMode_DllExport int  VCS_GetStepDirectionParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pScalingNumerator, unsigned short* pScalingDenominator, unsigned char* pPolarity, unsigned long* pMaxVelocity, unsigned long* pMaxAcceleration, unsigned long* pErrorCode);
+    StepDirectionMode_DllExport int  VCS_ActivateStepDirectionMode(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    StepDirectionMode_DllExport int  VCS_SetStepDirectionParameter(void* KeyHandle, unsigned short NodeId, unsigned short ScalingNumerator, unsigned short ScalingDenominator, unsigned char Polarity, unsigned int MaxVelocity, unsigned int MaxAcceleration, unsigned int* pErrorCode);
+    StepDirectionMode_DllExport int  VCS_GetStepDirectionParameter(void* KeyHandle, unsigned short NodeId, unsigned short* pScalingNumerator, unsigned short* pScalingDenominator, unsigned char* pPolarity, unsigned int* pMaxVelocity, unsigned int* pMaxAcceleration, unsigned int* pErrorCode);
 
 //Inputs Outputs
     //General
-    InputsOutputs_DllExport int  VCS_GetAllDigitalInputs(void* KeyHandle, unsigned short NodeId, unsigned short* pInputs, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_GetAllDigitalOutputs(void* KeyHandle, unsigned short NodeId, unsigned short* pOutputs, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_SetAllDigitalOutputs(void* KeyHandle, unsigned short NodeId, unsigned short Outputs, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_GetAnalogInput(void* KeyHandle, unsigned short NodeId, unsigned short InputNumber, unsigned short* pAnalogValue, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_SetAnalogOutput(void* KeyHandle, unsigned short NodeId, unsigned short OutputNumber, unsigned short AnalogValue, unsigned long* pErrorCode);
+    InputsOutputs_DllExport int  VCS_GetAllDigitalInputs(void* KeyHandle, unsigned short NodeId, unsigned short* pInputs, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_GetAllDigitalOutputs(void* KeyHandle, unsigned short NodeId, unsigned short* pOutputs, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_SetAllDigitalOutputs(void* KeyHandle, unsigned short NodeId, unsigned short Outputs, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_GetAnalogInput(void* KeyHandle, unsigned short NodeId, unsigned short InputNumber, unsigned short* pAnalogValue, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_SetAnalogOutput(void* KeyHandle, unsigned short NodeId, unsigned short OutputNumber, unsigned short AnalogValue, unsigned int* pErrorCode);
 
     //Position Compare
-    InputsOutputs_DllExport int  VCS_SetPositionCompareParameter(void* KeyHandle, unsigned short NodeId, unsigned char OperationalMode, unsigned char IntervalMode, unsigned char DirectionDependency, unsigned short IntervalWidth, unsigned short IntervalRepetitions, unsigned short PulseWidth, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_GetPositionCompareParameter(void* KeyHandle, unsigned short NodeId, unsigned char* pOperationalMode, unsigned char* pIntervalMode, unsigned char* pDirectionDependency, unsigned short* pIntervalWidth, unsigned short* pIntervalRepetitions, unsigned short* pPulseWidth, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_ActivatePositionCompare(void* KeyHandle, unsigned short NodeId, unsigned short DigitalOutputNumber, int Polarity, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_DeactivatePositionCompare(void* KeyHandle, unsigned short NodeId, unsigned short DigitalOutputNumber, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_EnablePositionCompare(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_DisablePositionCompare(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_SetPositionCompareReferencePosition(void* KeyHandle, unsigned short NodeId, long ReferencePosition, unsigned long* pErrorCode);
+    InputsOutputs_DllExport int  VCS_SetPositionCompareParameter(void* KeyHandle, unsigned short NodeId, unsigned char OperationalMode, unsigned char IntervalMode, unsigned char DirectionDependency, unsigned short IntervalWidth, unsigned short IntervalRepetitions, unsigned short PulseWidth, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_GetPositionCompareParameter(void* KeyHandle, unsigned short NodeId, unsigned char* pOperationalMode, unsigned char* pIntervalMode, unsigned char* pDirectionDependency, unsigned short* pIntervalWidth, unsigned short* pIntervalRepetitions, unsigned short* pPulseWidth, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_ActivatePositionCompare(void* KeyHandle, unsigned short NodeId, unsigned short DigitalOutputNumber, int Polarity, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_DeactivatePositionCompare(void* KeyHandle, unsigned short NodeId, unsigned short DigitalOutputNumber, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_EnablePositionCompare(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_DisablePositionCompare(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_SetPositionCompareReferencePosition(void* KeyHandle, unsigned short NodeId, long ReferencePosition, unsigned int* pErrorCode);
 
     //Position Marker
-    InputsOutputs_DllExport int  VCS_SetPositionMarkerParameter(void* KeyHandle, unsigned short NodeId, unsigned char PositionMarkerEdgeType, unsigned char PositionMarkerMode, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_GetPositionMarkerParameter(void* KeyHandle, unsigned short NodeId, unsigned char* pPositionMarkerEdgeType, unsigned char* pPositionMarkerMode, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_ActivatePositionMarker(void* KeyHandle, unsigned short NodeId, unsigned short DigitalInputNumber, int Polarity, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_DeactivatePositionMarker(void* KeyHandle, unsigned short NodeId, unsigned short DigitalInputNumber, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_ReadPositionMarkerCounter(void* KeyHandle, unsigned short NodeId, unsigned short* pCount, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_ReadPositionMarkerCapturedPosition(void* KeyHandle, unsigned short NodeId, unsigned short CounterIndex, long* pCapturedPosition, unsigned long* pErrorCode);
-    InputsOutputs_DllExport int  VCS_ResetPositionMarkerCounter(void* KeyHandle, unsigned short NodeId, unsigned long* pErrorCode);
+    InputsOutputs_DllExport int  VCS_SetPositionMarkerParameter(void* KeyHandle, unsigned short NodeId, unsigned char PositionMarkerEdgeType, unsigned char PositionMarkerMode, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_GetPositionMarkerParameter(void* KeyHandle, unsigned short NodeId, unsigned char* pPositionMarkerEdgeType, unsigned char* pPositionMarkerMode, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_ActivatePositionMarker(void* KeyHandle, unsigned short NodeId, unsigned short DigitalInputNumber, int Polarity, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_DeactivatePositionMarker(void* KeyHandle, unsigned short NodeId, unsigned short DigitalInputNumber, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_ReadPositionMarkerCounter(void* KeyHandle, unsigned short NodeId, unsigned short* pCount, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_ReadPositionMarkerCapturedPosition(void* KeyHandle, unsigned short NodeId, unsigned short CounterIndex, long* pCapturedPosition, unsigned int* pErrorCode);
+    InputsOutputs_DllExport int  VCS_ResetPositionMarkerCounter(void* KeyHandle, unsigned short NodeId, unsigned int* pErrorCode);
 
 /*************************************************************************************************************************************
 * LOW LAYER FUNCTIONS
 *************************************************************************************************************************************/
 
 //CanLayer Functions
-    CanLayer_DllExport int  VCS_SendCANFrame(void* KeyHandle, unsigned short CobID, unsigned short Length, void* pData, unsigned long* pErrorCode);
-    CanLayer_DllExport int  VCS_ReadCANFrame(void* KeyHandle, unsigned short CobID, unsigned short Length, void* pData, unsigned long Timeout, unsigned long* pErrorCode);
-    CanLayer_DllExport int  VCS_RequestCANFrame(void* KeyHandle, unsigned short CobID, unsigned short Length, void* pData, unsigned long* pErrorCode);
-    CanLayer_DllExport int  VCS_SendNMTService(void* KeyHandle, unsigned short NodeId, unsigned short CommandSpecifier, unsigned long* pErrorCode);
+    CanLayer_DllExport int  VCS_SendCANFrame(void* KeyHandle, unsigned short CobID, unsigned short Length, void* pData, unsigned int* pErrorCode);
+    CanLayer_DllExport int  VCS_ReadCANFrame(void* KeyHandle, unsigned short CobID, unsigned short Length, void* pData, unsigned int Timeout, unsigned int* pErrorCode);
+    CanLayer_DllExport int  VCS_RequestCANFrame(void* KeyHandle, unsigned short CobID, unsigned short Length, void* pData, unsigned int* pErrorCode);
+    CanLayer_DllExport int  VCS_SendNMTService(void* KeyHandle, unsigned short NodeId, unsigned short CommandSpecifier, unsigned int* pErrorCode);
 
 /*************************************************************************************************************************************
 * TYPE DEFINITIONS
