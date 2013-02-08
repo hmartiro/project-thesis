@@ -1,1 +1,0 @@
-INDEX VERSION 1.126+/home/hayk/projects/project-thesis/EPOS/linux-library/eclipse-test/.metadata/.plugins/org.eclipse.jdt.core

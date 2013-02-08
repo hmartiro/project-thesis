@@ -1,7 +1,0 @@
-
-**** Build of configuration Default for project working ****
-
-make all 
-make: *** No rule to make target `/opt/qtsdk-2010.04/qt/mkspecs/linux-g++/qmake.conf', needed by `Makefile'.  Stop.
-
-**** Build Finished ****
