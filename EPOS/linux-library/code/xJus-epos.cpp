@@ -1,5 +1,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <cmath>
 #include <iostream>
 #include <time.h>
 using namespace std;
@@ -19,15 +20,14 @@ const unsigned long BAUDRATE = 1000000;
 const unsigned long TIMEOUT  = 500;
 
 // Variables that hold error states
-unsigned int errorCode;
-const unsigned short ERROR_INFO_LENGTH = 100;
+unsigned long errorCode;
+const unsigned long ERROR_INFO_LENGTH = 100;
 char errorInfo[ERROR_INFO_LENGTH];
 
 // Handle of the connected device
 void* device;
 
 // Node IDs
-
 unsigned short FL = 1;
 unsigned short FR = 2;
 
@@ -35,8 +35,11 @@ const int NODE_COUNT = 2;
 const int REV = 59720;
 
 int dt = 50;
-extern double T;
-double baseThetaG = M_PI/4;
+double T = 1.5;
+double baseThetaG = 50.0 * (M_PI/180.0);
+double standAngle = 110.0 * (M_PI/180.0);
+
+long offsetPos = radToPos(baseThetaG/2);
 
 // Positions
 //long position[NODE_COUNT];
@@ -49,39 +52,33 @@ int main() {
 
 	profilePositionMode(FL);
 	profilePositionMode(FR);
-	setPositionProfile(FL, 500, 5000, 5000);
-	setPositionProfile(FR, 500, 5000, 5000);
 
 	cout << "Press enter to stand...\n";
 	cin.ignore();
+	sit();
+	wait();
 	stand();
 	wait();
 
 	zeroPositionAll();
 
-	setPositionProfile(FL, 500, 5000, 5000);
-	setPositionProfile(FR, 500, 5000, 5000);
+	setPositionProfile(FL, 1000, 5000, 5000);
+	setPositionProfile(FR, 1000, 5000, 5000);
 
 	cout << "Press enter to walk...\n";
 	cin.ignore();
-	walk(T*2);
+	walk(T*4);
 	wait();
 
-//	profilePositionMode(FL);
-//	profilePositionMode(FR);
-//	moveRelative(FL, 50000);
-//	moveRelative(FR, 50000);
-//	wait();
-//	moveRelative(FL, -50000);
-//	moveRelative(FR, -50000);
-//	wait();
+	//cout << "Press enter to return to stand...\n";
+	//cin.ignore();
+	returnToStand();
+	wait();
 
-//	cout << "Press enter to reset legs...\n";
-//	cin.ignore();
-//	profilePositionMode(FL);
-//	profilePositionMode(FR);
-//	moveRelative(FL, +REV*2);
-//	moveRelative(FR, -REV*2);
+	cout << "Press enter to sit...\n";
+	cin.ignore();
+	sit();
+	wait();
 
 	cout << "Press enter to disable...\n";
 	cin.ignore();
@@ -161,9 +158,20 @@ long getPosition(unsigned short node) {
 	return pos;
 }
 
+double getAngle(unsigned short node) {
+	long pos = abs(getPosition(node));
+	return ((pos%REV)/(double)REV) * 360;
+}
+
 void printPositions() {
 	cout << "left: " << getPosition(FL);
 	cout << " right: " << getPosition(FR);
+	cout << endl;
+}
+
+void printAngles() {
+	cout << "left: " << getAngle(FL);
+	cout << " right: " << getAngle(FR);
 	cout << endl;
 }
 
@@ -221,7 +229,7 @@ void stopIPM(unsigned short node) {
 }
 
 long getBufferSize(unsigned short node) {
-	unsigned int bufferSize;
+	unsigned long bufferSize;
 	VCS_GetFreeIpmBufferSize(device, node, &bufferSize, &errorCode);
 	printError();
 	return bufferSize;
@@ -270,65 +278,51 @@ void walk(double tTotal, double turnAngle) {
 	profilePositionMode(FL);
 	profilePositionMode(FR);
 	cout << "Moving to start position..." << endl;
-	moveAbsolute(FL, getTheta(0,   thetaGL));
-	moveAbsolute(FR, getTheta(0,   thetaGR));
+	moveAbsolute(FL, +getTheta(T/2, thetaGL)-offsetPos);
+	moveAbsolute(FR, -getTheta(0,   thetaGR)+offsetPos);
 	wait();
-
+	//cout << "Enter to start IPM..." << endl;
+	//cin.ignore();
 	interpolationMode(FL);
 	interpolationMode(FR);
 	cout << endl;
 
-	cout << "Size of buffers:\n";
-	printIpmStatus(FL);
-
-	printIpmStatus(FR);
-	cout << "Filling buffer with one point..." << endl;
-	VCS_AddPvtValueToIpmBuffer(device, FL, 100, 50, 50, &errorCode);
-	printError();
-	VCS_AddPvtValueToIpmBuffer(device, FR, 100, 50, 50, &errorCode);
-	printError();
-	cout << "Size of buffers:\n";
-	printIpmStatus(FL);
-	printIpmStatus(FR);
-
-	cout << "\nPress enter to move on..." << endl;
-	cin.ignore();
-
 	cout << "Filling buffer..." << endl;
 	double t = (double)dt/2000.0;
 	for (int i = 0; i < 10; i++) {
-		addPVT(FL, +getTheta(t    , thetaGL), +getThetaDot(t    , thetaGL), dt);
-		addPVT(FR, -getTheta(t,     thetaGR), -getThetaDot(t,     thetaGR), dt);
-		cout << "FL: "  << +getTheta(t,     thetaGL) << " " << +getThetaDot(t,     thetaGL);
-		cout << " FR: " << -getTheta(t,     thetaGR) << " " << -getThetaDot(t,     thetaGR) << endl;
+		addTrajectoryPoint(t, turnAngle);
 		t += (double)dt/1000.0;
 
 	}
 
-	printIpmStatus(FL);
-	printIpmStatus(FR);
-
-	cout << "Press enter to start IPM...\n";
-	cin.ignore();
 	startIPM(FL);
 	startIPM(FR);
 
 	while (t < tTotal) {
 		if ((getBufferSize(FL) > 0) && (getBufferSize(FR) > 0)) {
-			addPVT(FL, +getTheta(t,     thetaGL), +getThetaDot(t,     thetaGL), dt);
-			addPVT(FR, -getTheta(t,     thetaGR), -getThetaDot(t,     thetaGR), dt);
+			addTrajectoryPoint(t, turnAngle);
 			t += (double)dt/1000.0;
 		}
 	}
 
 	sleep(dt * 2);
-	addPVT(FL, +getTheta(t+T/2, thetaGL), 0, 0);
-	addPVT(FR, +getTheta(t,     thetaGR), 0, 0);
+	addPVT(FL, +getTheta(t+T/2, thetaGL)-offsetPos, 0, 0);
+	addPVT(FR, -getTheta(t,     thetaGR)+offsetPos, 0, 0);
 	printIpmStatus(FL);
 	printIpmStatus(FR);
-	//wait();
-	//stopIPM(FL);
-	//stopIPM(FR);
+
+	wait();
+	stopIPM(FL);
+	stopIPM(FR);
+}
+
+void addTrajectoryPoint(double t, double turnAngle) {
+
+	double thetaGL = baseThetaG - turnAngle;
+	double thetaGR = baseThetaG + turnAngle;
+
+	addPVT(FL, +getTheta(t+T/2, thetaGL)-offsetPos, +getThetaDot(t+T/2, thetaGL), dt);
+	addPVT(FR, -getTheta(t,     thetaGR)+offsetPos, -getThetaDot(t,     thetaGR), dt);
 }
 
 void setPositionProfile(unsigned short node, long vel, long accel, long deaccel) {
@@ -380,7 +374,43 @@ void wait() {
 	cout << endl;
 }
 
+long radToPos(double rad) {
+	return round2(REV*(rad/(2*M_PI)));
+}
+
+long degToPos(double deg) {
+	return round2(REV*(deg/(360)));
+}
+
 void stand() {
-	moveRelative(FL, +REV/4 + 500);
-	moveRelative(FR, -REV/4 + 500);
+	setPositionProfile(FL, 500, 5000, 5000);
+	setPositionProfile(FR, 500, 5000, 5000);
+	moveRelative(FL, +radToPos(standAngle));
+	moveRelative(FR, -radToPos(standAngle));
+}
+
+void sit() {
+	setPositionProfile(FL, 500, 5000, 5000);
+	setPositionProfile(FR, 500, 5000, 5000);
+	moveRelative(FL, -radToPos(standAngle));
+	moveRelative(FR, +radToPos(standAngle));
+}
+
+void returnToStand() {
+
+	int posL = getPosition(FL);
+	int posR = getPosition(FR);
+
+	profilePositionMode(FL);
+	profilePositionMode(FR);
+
+	//printPositions();
+	//cout << "FL " << REV-posL%REV << " FR " << -REV-posR%REV << endl;
+
+	moveRelative(FR, -REV-(posR%REV));
+	wait();
+	//printPositions();
+	moveRelative(FL, REV-(posL%REV));
+	wait();
+	//printPositions();
 }

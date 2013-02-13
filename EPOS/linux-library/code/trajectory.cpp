@@ -6,8 +6,9 @@ using namespace std;
 
 #include "trajectory.h"
 
-double T = 2.0;
+extern double T;
 double t0 = 0;
+
 
 int M = 10;
 
@@ -21,7 +22,7 @@ long getTheta(double t, double thetaG) {
 		double B = 4*(thetaG-M_PI)/((2*m-1)*(2*m-1)*M_PI*M_PI);
 		theta += B*(1-cos(2*M_PI*(2*m-1)*t/T));
 	}
-	return round(theta * angleToQC);
+	return round2(theta * angleToQC);
 }
 
 long getThetaDot(double t, double thetaG) {
