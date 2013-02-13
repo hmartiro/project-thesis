@@ -7,8 +7,8 @@
 **                  Developer Platform Microsoft Visual C++
 **
 ** Date:            20.10.03
-** Dev. Platform:   Microsoft Visual Studio 2005
-** Target:          Win9x, WinNT, Win2000, Windows XP, Windows Vista, Windows 7
+** Dev. Platform:   Microsoft Visual Studio 2010
+** Target:          Windows Operating Systems
 ** Written by:      maxon motor ag, CH-6072 Sachseln
 **
 ** Changes:         1.00    (20.10.03): Initial Version
@@ -51,7 +51,11 @@
 **                                      Communication for IXXAT VCI V3.3 fixed
 **                  4.7.3.0 (28.10.10): Bugfix CloseDevice, CloseAllDevices
 **                  4.8.1.0 (28.01.11): Enlargement of 64-Bit operating systems; Bugfix Segmented Write
-**                  4.8.2.0 (02.02.11): Detect properly LIN devices; Bugfix 
+**                  4.8.2.0 (02.02.11): Detect properly LIN devices; Bugfix
+**                  4.8.x.x (xx.xx.xx): Internal versions
+**                  4.9.1.0 (04.01.13): Add support for Vector VN1600 series
+**                                      New Functions: VCS_GetHomingState, VCS_WaitForHomingAttained, VCS_GetVelocityIsAveraged, VCS_GetCurrentIsAveraged
+**                                      Bugfix command VCS_SendNmtService
 **
 *********************************************************************/
 
@@ -221,7 +225,9 @@
     MotionInfo_DllExport BOOL __stdcall VCS_GetMovementState(HANDLE KeyHandle, WORD NodeId, BOOL* pTargetReached, DWORD* pErrorCode);
     MotionInfo_DllExport BOOL __stdcall VCS_GetPositionIs(HANDLE KeyHandle, WORD NodeId, long* pPositionIs, DWORD* pErrorCode);
     MotionInfo_DllExport BOOL __stdcall VCS_GetVelocityIs(HANDLE KeyHandle, WORD NodeId, long* pVelocityIs, DWORD* pErrorCode);
+    MotionInfo_DllExport BOOL __stdcall VCS_GetVelocityIsAveraged(HANDLE KeyHandle, WORD NodeId, long* pVelocityIsAveraged, DWORD* pErrorCode);
     MotionInfo_DllExport BOOL __stdcall VCS_GetCurrentIs(HANDLE KeyHandle, WORD NodeId, short* pCurrentIs, DWORD* pErrorCode);
+    MotionInfo_DllExport BOOL __stdcall VCS_GetCurrentIsAveraged(HANDLE KeyHandle, WORD NodeId, short* pCurrentIsAveraged, DWORD* pErrorCode);
     MotionInfo_DllExport BOOL __stdcall VCS_WaitForTargetReached(HANDLE KeyHandle, WORD NodeId, DWORD Timeout, DWORD* pErrorCode);
 
 //Profile Position Mode
@@ -255,6 +261,8 @@
     HomingMode_DllExport BOOL __stdcall VCS_FindHome(HANDLE KeyHandle, WORD NodeId, __int8 HomingMethod, DWORD* pErrorCode);
     HomingMode_DllExport BOOL __stdcall VCS_StopHoming(HANDLE KeyHandle, WORD NodeId, DWORD* pErrorCode);
     HomingMode_DllExport BOOL __stdcall VCS_DefinePosition(HANDLE KeyHandle, WORD NodeId, long HomePosition, DWORD* pErrorCode);
+    HomingMode_DllExport BOOL __stdcall VCS_WaitForHomingAttained(HANDLE KeyHandle, WORD NodeId, DWORD Timeout, DWORD* pErrorCode);
+    HomingMode_DllExport BOOL __stdcall VCS_GetHomingState(HANDLE KeyHandle, WORD NodeId, BOOL* pHomingAttained, BOOL* pHomingError, DWORD* pErrorCode);
 
 //Interpolated Position Mode
     InterpolatedPositionMode_DllExport BOOL __stdcall VCS_ActivateInterpolatedPositionMode(HANDLE KeyHandle, WORD NodeId, DWORD* pErrorCode);

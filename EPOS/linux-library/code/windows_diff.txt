@@ -1,0 +1,38 @@
+xJus-epos.cpp
+------------------------------------------
+------------------------------------------
+
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <iostream>
+#include <windows.h>
+using namespace std;
+
+#include "Definitions.h"
+#include "xJus_windows.h"
+#include "trajectory.h"
+
+------------------------------------------
+
+// Platform independent sleep wrapper
+void sleep(int milliseconds) {
+	Sleep(milliseconds);
+}
+
+---------------------------------------
+
+if (GetKeyState(VK_ESCAPE) < -10) break;
+
+
+trajectory.cpp
+------------------------------------------
+------------------------------------------
+
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+#include <iostream>
+#include <windows.h>
+using namespace std;
+
+#include "trajectory.h"
