@@ -35,7 +35,8 @@ const int NODE_COUNT = 2;
 const int REV = 59720;
 
 int dt = 50;
-double T = 1.5;
+double T = 0.5;
+
 double baseThetaG = 50.0 * (M_PI/180.0);
 double standAngle = 110.0 * (M_PI/180.0);
 
@@ -55,8 +56,8 @@ int main() {
 
 	cout << "Press enter to stand...\n";
 	cin.ignore();
-	sit();
-	wait();
+	//sit();
+	//wait();
 	stand();
 	wait();
 
@@ -67,7 +68,7 @@ int main() {
 
 	cout << "Press enter to walk...\n";
 	cin.ignore();
-	walk(T*4);
+	walk(T*10);
 	wait();
 
 	//cout << "Press enter to return to stand...\n";
@@ -79,6 +80,8 @@ int main() {
 	cin.ignore();
 	sit();
 	wait();
+
+
 
 	cout << "Press enter to disable...\n";
 	cin.ignore();
