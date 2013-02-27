@@ -9,6 +9,8 @@ using namespace std;
 #include "xJus-epos.h"
 #include "trajectory.h"
 
+// Edited here.
+
 // Protocol information
 char deviceName[] = "EPOS2";
 char protocolStackName[] = "EPOS2_USB";
