@@ -1,0 +1,14 @@
+In file included from /home/ubuntu/epos-arm/Sources/Common/CommunicationXLib/Linux/source/CommunicationModel/CommonLayer/Classes/Commands/ProtocolStack/Command_PS_MaxonSerialV1.h:16:0,
+                 from ../source/CommunicationModel/ProtocolStack/Classes/ProtocolStacks/ProtocolStack_MaxonSerialV1.cpp:18:
+/home/ubuntu/epos-arm/Sources/Common/CommunicationXLib/Linux/source/CommunicationModel/CommonLayer/Classes/Commands/ProtocolStack/Command_PS_MaxonSerialV1_Definitions.h:5:1: warning: "/*" within comment [-Wcomment]
+In file included from /home/ubuntu/epos-arm/Sources/Common/SystemXLib/Common/include/Thread/MmcCriticalSection.h:10:0,
+                 from /home/ubuntu/epos-arm/Sources/Common/SystemXLib/Common/include/MmcTypeDefinition.h:4,
+                 from /home/ubuntu/epos-arm/Sources/Common/CommunicationXLib/Common/include/CommunicationModel/Common/CommunicationModelDefinitions.h:24,
+                 from ../source/CommunicationModel/ProtocolStack/Classes/ProtocolStacks/ProtocolStack_MaxonSerialV1.h:12,
+                 from ../source/CommunicationModel/ProtocolStack/Classes/ProtocolStacks/ProtocolStack_MaxonSerialV1.cpp:5:
+/home/ubuntu/epos-arm/Sources/Common/SystemXLib/Common/include/StdString.h:1588:13: note: the mangling of ‘va_list’ has changed in GCC 4.4
+../source/CommunicationModel/ProtocolStack/Classes/ProtocolStacks/ProtocolStack_MaxonSerialV1.cpp: In member function ‘virtual int CProtocolStack_MaxonSerialV1::InitGatewayToInterface(CStdString)’:
+../source/CommunicationModel/ProtocolStack/Classes/ProtocolStacks/ProtocolStack_MaxonSerialV1.cpp:101:37: error: expected type-specifier before ‘CGatewayMaxonSerialV1ToRS232’
+../source/CommunicationModel/ProtocolStack/Classes/ProtocolStacks/ProtocolStack_MaxonSerialV1.cpp:101:37: error: cannot convert ‘int*’ to ‘CGatewayPStoI*’ in assignment
+../source/CommunicationModel/ProtocolStack/Classes/ProtocolStacks/ProtocolStack_MaxonSerialV1.cpp:101:37: error: expected ‘;’ before ‘CGatewayMaxonSerialV1ToRS232’
+make: *** [source/CommunicationModel/ProtocolStack/Classes/ProtocolStacks/ProtocolStack_MaxonSerialV1.o] Error 1
