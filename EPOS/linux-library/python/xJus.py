@@ -155,7 +155,10 @@ def walk(tTotal, turnAngle=0):
 		xjus.stopIPM(node)
 
 def addTrajectoryPoint(t, turnAngle=0):
-	
+	"""
+	Adds a PVT point to the IPM buffer for the given time.
+	"""
+
 	thetaGL = baseThetaG - turnAngle
 	thetaGR = baseThetaG + turnAngle
 
@@ -195,15 +198,8 @@ def getThetaDot(t, thetaG):
 
 	return degrees(thetaDot)
 
-# long getThetaDot(double t, double thetaG) {
-# 	double thetaDot = (2*pi/T);
-# 	for (int m = 1; m <= M; m++) {
-# 		double B = 8*(thetaG-pi)/((2*m-1)*pi*T);
-# 		thetaDot += B*sin(2*pi*(2*m-1)*t/T);
-# 	}
-# 	return round2(thetaDot * angVelToRPM);
-# }
 def wait():
+	""" Waits until all nodes are inactive. """
 	for node in nodes:
 		while not xjus.isFinished(node):
 			sleep(0.010)
