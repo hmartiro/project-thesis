@@ -8,6 +8,8 @@ import sys, os
 from time import sleep, time
 from ctypes import *
 from math import *
+import numpy as np
+import matplotlib.pyplot as plt
 
 import pygame
 from pygame import key, draw
@@ -21,12 +23,11 @@ allNodes = [FL, FR, ML, MR, BL, BR] = [1, 2, 3, 4, 5, 6]
 sign = {FL: 1, FR: -1, ML: 1, MR: -1, BL: 1, BR: -1}
 
 # Active nodes
-nodes = [FR, MR, BR, FL, BL]
+nodes = [FR, MR, BR, FL, ML, BL]
 
 # Left and right tripods
-left = [FL, MR, BL]
-right = [FR, BR]
-
+left  = [FL, MR, BL]
+right = [FR, ML, BR]
 
 # Refresh rate
 FPS = 50
@@ -40,12 +41,14 @@ BLUE  = (  0,   0, 255)
 
 standing = False
 
-REV = 59720;
+REV = 59720
 
-dt = 70;
-T = 2;
+dt = 50
 
-MOUNTED = True
+# Make sure this is a float
+T = 3.
+
+MOUNTED = False
 
 if MOUNTED:
 	standAngle = 30.
@@ -125,6 +128,35 @@ def sit():
 
 	wait()
 
+def plotWalk(tTotal, turnAngle=0):
+	""" Creates a plot of the trajectories created for the equivalent
+		call of walk()
+	"""
+
+	thetaGL = baseThetaG - turnAngle
+	thetaGR = baseThetaG + turnAngle
+
+	t = np.arange((dt/1000.) / 2, tTotal, dt/1000.)
+	t[0] = 0.0
+
+	# Vectorized functions
+	getThetaVector = np.vectorize(getTheta)
+	getThetaDotVector = np.vectorize(getThetaDot)
+	degToPosVector = np.vectorize(degToPos)
+
+	thetaR = getThetaVector(t,     thetaGR)
+	thetaL = getThetaVector(t+T/2., thetaGL)
+
+	posR = degToPosVector(thetaR) + offsetPos
+	posL = degToPosVector(thetaL) - offsetPos
+
+	plt.plot(t, posR, 'r', t, posL, 'b')
+	plt.xlabel('Time (seconds)')
+	plt.ylabel('Position (ticks)')
+	plt.title('Walking Trajectory')
+	plt.legend(('Right Tripod', 'Left Tripod'))
+	plt.show()
+
 def walk(tTotal, turnAngle=0):
 	""" Forward locomotion of the robot """
 
@@ -136,12 +168,12 @@ def walk(tTotal, turnAngle=0):
 
 	print "Moving to start position..."
 	for node in left:
-		p_start = +sign[node] * (degToPos(getTheta(T/2, thetaGL)) - offsetPos)
+		p_start = +sign[node] * (degToPos(getTheta(T/2., thetaGL)) - offsetPos)
 		#print("node: %d, p_start: %d" % (node, p_start))
 		xjus.moveAbsolute(node, p_start)
 
 	for node in right:
-		p_start = -sign[node] * (degToPos(getTheta(  0, thetaGR)) + offsetPos)
+		p_start = -sign[node] * (degToPos(getTheta(  0,  thetaGR)) + offsetPos)
 		#print("node: %d, p_start: %d" % (node, p_start))
 		xjus.moveAbsolute(node, p_start)
 
@@ -168,6 +200,8 @@ def walk(tTotal, turnAngle=0):
 
 		#bufferHas10 = [xjus.getFreeBufferSize(node) > 9 for node in nodes]
 		print("t = %f, buffer: %s" % (t, bufferSize))
+		for node in nodes:
+			print("node: %d, position: %d" % (node, xjus.getPosition(node)))
 
 		chunkSize = 10
 		if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
@@ -196,10 +230,10 @@ def addTrajectoryPoint(t, turnAngle=0, end=False):
 	thetaGL = baseThetaG - turnAngle
 	thetaGR = baseThetaG + turnAngle
 
-	pos_L = degToPos(getTheta(T/2+t, thetaGL)) - offsetPos
+	pos_L = degToPos(getTheta(T/2.+t, thetaGL)) - offsetPos
 	pos_R = degToPos(getTheta(    t, thetaGR)) - offsetPos
-	vel_L = int(round(getThetaDot(t+T/2, thetaGL) * ANG_VEL_TO_RPM))
-	vel_R = int(round(getThetaDot(t,     thetaGR) * ANG_VEL_TO_RPM))
+	vel_L = int(round(getThetaDot(t+T/2., thetaGL) * ANG_VEL_TO_RPM))
+	vel_R = int(round(getThetaDot(t,      thetaGR) * ANG_VEL_TO_RPM))
 	#print("pL: %d, pR, %d, vL: %d, vR: %d" % (pos_L, pos_R, vel_L, vel_R))
 
 	if end:
@@ -283,7 +317,7 @@ def mainLoop(clock, surface):
 				elif event.key == K_UP:
 					if standing:
 						print "Start walking forward!"
-						walk(T*5)
+						walk(T*3)
 					else:
 						print "Must stand first!"
 
