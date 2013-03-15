@@ -21,7 +21,7 @@ xjus = CDLL('/home/hayk/workspace/libxjus/Library/libxjus.so')
 #################################################
 # Editable Parameters
 #################################################
-T = 1.5          # Trajectory period
+T = 3.0          # Trajectory period
 dt = 75          # IPM time step (ms)
 baseThetaG = 50. # Ground contact angle
 FPS = 50         # PyGame refresh rate
@@ -33,6 +33,12 @@ if MOUNTED:
 	standAngle = 25.  # Mounted standing angle
 else:
 	standAngle = 145. # Standing angle
+
+# How many periods the walk is for
+walkPeriods = 2
+
+# Fraction of base ground angle modified for turning
+turning = 0.5
 
 #################################################
 # Node definitions                
@@ -57,7 +63,7 @@ tripodSign = {FL: 1, FR: -1, ML: -1, MR: 1, BL: 1, BR: -1}
 # Trajectory offset for legs
 t0Left  = T/2
 t0Right =  0.
-t0 = {FL: t0Left, FR: t0Right, ML: t0Left, MR: t0Right, BL: t0Left, BR: t0Right}
+t0 = {FL: t0Left, FR: t0Right, ML: t0Right, MR: t0Left, BL: t0Left, BR: t0Right}
 
 # Colors for drawing
 WHITE = (255, 255, 255)
@@ -70,7 +76,7 @@ standing = False
 
 REV = 59720
 
-offsetPos = int(round(baseThetaG/2 * (REV/360)))
+
 
 M = 10
 GEAR_RATIO = 729.0/25.0
@@ -85,14 +91,18 @@ def initialize():
 	pygame.init()
 
 	xjus.openDevice()
+
 	for node in nodes:
 		xjus.clearFault(node)
+
+		if (xjus.getErrorCode() == 872415239):
+			pygame.quit()
+			raise Exception("No connection to device!")
+
 		xjus.clearIpmBuffer(node)
 		xjus.setMaxFollowingError(node, 10000)
 		xjus.enable(node)
 
-
-	
 def deinitialize():
 	""" Deconstructs xjus and pygame """
 
@@ -152,13 +162,13 @@ def sit():
 
 	wait()
 
-def plotWalk(tTotal, turnAngle=0):
+def plotWalk(tTotal):
 	""" Creates a plot of the trajectories created for the equivalent
-		call of walk()
+		call of walk(). Does not plot turning.
 	"""
 
-	thetaGL = baseThetaG - turnAngle
-	thetaGR = baseThetaG + turnAngle
+	thetaG = baseThetaG
+	offsetPos = int(round(thetaG/2 * (REV/360)))
 
 	t = np.arange((dt/1000.) / 2, tTotal, dt/1000.)
 	t[0] = 0.0
@@ -168,8 +178,8 @@ def plotWalk(tTotal, turnAngle=0):
 	getThetaDotVector = np.vectorize(getThetaDot)
 	degToPosVector = np.vectorize(degToPos)
 
-	thetaR = getThetaVector(t,     thetaGR)
-	thetaL = getThetaVector(t+T/2., thetaGL)
+	thetaR = getThetaVector(t,     thetaG)
+	thetaL = getThetaVector(t+T/2., thetaG)
 
 	posR = degToPosVector(thetaR) + offsetPos
 	posL = degToPosVector(thetaL) - offsetPos
@@ -184,31 +194,20 @@ def plotWalk(tTotal, turnAngle=0):
 def walk(tTotal, turnAngle=0):
 	""" Forward locomotion of the robot """
 
-	thetaGL = baseThetaG - turnAngle
-	thetaGR = baseThetaG + turnAngle
-
 	for node in nodes:
 		xjus.profilePositionMode(node)
 
 	print "Moving to start position..."
 	for node in nodes:
-		p_start = +degToPos(getTheta(t0[node], thetaGL)) - offsetPos
-		print("node: %d, p_start: %d" % (node, p_start))
-		move(node, p_start, absolute=True)
-
-	for node in left:
-		p_start = +degToPos(getTheta(T/2., thetaGL)) - offsetPos
-		print("node: %d, p_start: %d" % (node, p_start))
-		move(node, p_start, absolute=True)
-
-	for node in right:
-		p_start = -degToPos(getTheta(  0,  thetaGR)) - offsetPos
-		print("node: %d, p_start: %d" % (node, p_start))
+		thetaG = baseThetaG + sign[node] * turnAngle
+		offsetPos = int(round(thetaG/2 * (REV/360)))
+		p_start = tripodSign[node] * degToPos(getTheta(t0[node], thetaG)) - offsetPos
+		print("node: %d, p_start: %d, thetaG: %f" % (node, p_start, thetaG))
 		move(node, p_start, absolute=True)
 
 	wait();
 	#print("pL: %d, pR: %d" % (xjus.getPosition(FL), xjus.getPosition(FR)))
-	return
+	#return
 	for node in nodes:
 		xjus.interpolationMode(node)
 
@@ -253,37 +252,25 @@ def walk(tTotal, turnAngle=0):
 
 def addTrajectoryPoint(t, turnAngle=0, end=False):
 	"""
-	Calculates and adds a PVT point to the IPM buffer for the given time.
+	Calculates a PVT point for each node at time t and adds 
+	it to the IPM buffer.
 	"""
 
-	thetaGL = baseThetaG - turnAngle
-	thetaGR = baseThetaG + turnAngle
+	for node in nodes:
 
-	pos_L = degToPos(getTheta(T/2.+t, thetaGL)) - offsetPos
-	pos_R = degToPos(getTheta(    t, thetaGR)) - offsetPos
-	vel_L = int(round(getThetaDot(t+T/2., thetaGL) * ANG_VEL_TO_RPM))
-	vel_R = int(round(getThetaDot(t,      thetaGR) * ANG_VEL_TO_RPM))
-	#print("pL: %d, pR, %d, vL: %d, vR: %d" % (pos_L, pos_R, vel_L, vel_R))
+		thetaG = baseThetaG + sign[node] * turnAngle
+		offsetPos = int(round(thetaG/2 * (REV/360)))
+		p = degToPos(getTheta(t + t0[node], thetaG)) - offsetPos
+		v = int(round(getThetaDot(t + t0[node], thetaG) * ANG_VEL_TO_RPM))
 
-	if end:
-		for node in nodes:
-			if node in left:
-				p = pos_L
-			else:
-				p = pos_R
+		if end:
 			addPVT(node, p, 0, 0)
-	else:
-		for node in nodes:
-			if node in left:
-				p = pos_L
-				v = vel_L
-			else:
-				p = pos_R
-				v = vel_R
+		else:
 			addPVT(node, p, v, dt)
-			#print("node: %d, P: %d, V: %d, T: %d" % (node, p, v, dt))
+		#print("node: %d, P: %d, V: %d, T: %d" % (node, p, v, dt))
 
 def addPVT(node, position, velocity, time):
+	""" Sends the given PVT point to the controller. """
 
 	p = sign[node] * int(round(position))
 	v = sign[node] * int(round(velocity))
@@ -350,7 +337,15 @@ def mainLoop(clock, surface):
 				elif event.key == K_UP:
 					if standing:
 						print "Start walking forward!"
-						walk(T*4)
+						if keyDown(K_RIGHT):
+							print "Turning right!"
+							walk(T * walkPeriods, +turning * baseThetaG)
+						elif keyDown(K_LEFT):
+							print "Turning left!"
+							walk(T * walkPeriods, -turning * baseThetaG)
+						else:
+							print "Walking forward!"
+							walk(T * walkPeriods)
 					else:
 						print "Must stand first!"
 
