@@ -18,9 +18,28 @@ from pygame.locals import *
 # Import our C++ library
 xjus = CDLL('/home/hayk/workspace/libxjus/Library/libxjus.so')
 
+#################################################
+# Editable Parameters
+#################################################
+T = 1.5          # Trajectory period
+dt = 75          # IPM time step (ms)
+baseThetaG = 50. # Ground contact angle
+FPS = 50         # PyGame refresh rate
+
+# Is the robot mounted in the air?
+MOUNTED = True
+
+if MOUNTED:
+	standAngle = 25.  # Mounted standing angle
+else:
+	standAngle = 145. # Standing angle
+
+#################################################
+# Node definitions                
+#################################################
+
 # List of nodes
 allNodes = [FL, FR, ML, MR, BL, BR] = [1, 2, 3, 4, 5, 6]
-sign = {FL: 1, FR: -1, ML: 1, MR: -1, BL: 1, BR: -1}
 
 # Active nodes
 nodes = [FR, MR, BR, FL, ML, BL]
@@ -29,8 +48,16 @@ nodes = [FR, MR, BR, FL, ML, BL]
 left  = [FL, MR, BL]
 right = [FR, ML, BR]
 
-# Refresh rate
-FPS = 50
+# Signs based on motor orientation
+sign = {FL: 1, FR: -1, ML: 1, MR: -1, BL: 1, BR: -1}
+
+# Signs for each tripod
+tripodSign = {FL: 1, FR: -1, ML: -1, MR: 1, BL: 1, BR: -1}
+
+# Trajectory offset for legs
+t0Left  = T/2
+t0Right =  0.
+t0 = {FL: t0Left, FR: t0Right, ML: t0Left, MR: t0Right, BL: t0Left, BR: t0Right}
 
 # Colors for drawing
 WHITE = (255, 255, 255)
@@ -43,26 +70,14 @@ standing = False
 
 REV = 59720
 
-dt = 50
-
-# Make sure this is a float
-T = 3.
-
-MOUNTED = False
-
-if MOUNTED:
-	standAngle = 30.
-else:
-	standAngle = 140.
-
-baseThetaG = 50.
 offsetPos = int(round(baseThetaG/2 * (REV/360)))
 
-t0 = 0
 M = 10
 GEAR_RATIO = 729.0/25.0
 ANG_TO_QC = (512.0*4)/(2*pi) * GEAR_RATIO
 ANG_VEL_TO_RPM = (60.0)/(360) * GEAR_RATIO
+
+
 
 def initialize():
 	""" Initializes xjus and pygame """
@@ -73,6 +88,7 @@ def initialize():
 	for node in nodes:
 		xjus.clearFault(node)
 		xjus.clearIpmBuffer(node)
+		xjus.setMaxFollowingError(node, 10000)
 		xjus.enable(node)
 
 
@@ -96,6 +112,14 @@ def degToPos(angle):
 
 	return int(round(REV*(angle/360.)));
 
+def move(node, distance, absolute=False):
+	""" Moves the given node in the forward direction. """
+
+	if absolute:
+		xjus.moveAbsolute(node, sign[node] * int(distance))
+	else:
+		xjus.moveRelative(node, sign[node] * int(distance))
+
 def stand():
 	""" Raises the chassis into a standing position """
 
@@ -106,7 +130,7 @@ def stand():
 		xjus.setPositionProfile(node, 500, 5000, 5000)
 
 	for node in nodes:
-		xjus.moveRelative(node, sign[node] * degToPos(standAngle))
+		move(node, degToPos(standAngle))
 
 	wait()
 	
@@ -124,7 +148,7 @@ def sit():
 		xjus.setPositionProfile(node, 500, 5000, 5000)
 
 	for node in nodes:
-		xjus.moveRelative(node, -sign[node] * degToPos(standAngle))
+		move(node, -degToPos(standAngle))
 
 	wait()
 
@@ -167,19 +191,24 @@ def walk(tTotal, turnAngle=0):
 		xjus.profilePositionMode(node)
 
 	print "Moving to start position..."
+	for node in nodes:
+		p_start = +degToPos(getTheta(t0[node], thetaGL)) - offsetPos
+		print("node: %d, p_start: %d" % (node, p_start))
+		move(node, p_start, absolute=True)
+
 	for node in left:
-		p_start = +sign[node] * (degToPos(getTheta(T/2., thetaGL)) - offsetPos)
-		#print("node: %d, p_start: %d" % (node, p_start))
-		xjus.moveAbsolute(node, p_start)
+		p_start = +degToPos(getTheta(T/2., thetaGL)) - offsetPos
+		print("node: %d, p_start: %d" % (node, p_start))
+		move(node, p_start, absolute=True)
 
 	for node in right:
-		p_start = -sign[node] * (degToPos(getTheta(  0,  thetaGR)) + offsetPos)
-		#print("node: %d, p_start: %d" % (node, p_start))
-		xjus.moveAbsolute(node, p_start)
+		p_start = -degToPos(getTheta(  0,  thetaGR)) - offsetPos
+		print("node: %d, p_start: %d" % (node, p_start))
+		move(node, p_start, absolute=True)
 
 	wait();
 	#print("pL: %d, pR: %d" % (xjus.getPosition(FL), xjus.getPosition(FR)))
-
+	return
 	for node in nodes:
 		xjus.interpolationMode(node)
 
@@ -200,8 +229,8 @@ def walk(tTotal, turnAngle=0):
 
 		#bufferHas10 = [xjus.getFreeBufferSize(node) > 9 for node in nodes]
 		print("t = %f, buffer: %s" % (t, bufferSize))
-		for node in nodes:
-			print("node: %d, position: %d" % (node, xjus.getPosition(node)))
+		#for node in nodes:
+		#	print("node: %d, position: %d" % (node, xjus.getPosition(node)))
 
 		chunkSize = 10
 		if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
@@ -224,7 +253,7 @@ def walk(tTotal, turnAngle=0):
 
 def addTrajectoryPoint(t, turnAngle=0, end=False):
 	"""
-	Adds a PVT point to the IPM buffer for the given time.
+	Calculates and adds a PVT point to the IPM buffer for the given time.
 	"""
 
 	thetaGL = baseThetaG - turnAngle
@@ -237,25 +266,29 @@ def addTrajectoryPoint(t, turnAngle=0, end=False):
 	#print("pL: %d, pR, %d, vL: %d, vR: %d" % (pos_L, pos_R, vel_L, vel_R))
 
 	if end:
-		for node in left:
-			p = sign[node] * pos_L
-			xjus.addPVT(node, p, 0, 0)
-
-		for node in right:
-			p = sign[node] * pos_R
-			xjus.addPVT(node, p, 0, 0)
+		for node in nodes:
+			if node in left:
+				p = pos_L
+			else:
+				p = pos_R
+			addPVT(node, p, 0, 0)
 	else:
-		for node in left:
-			p = sign[node] * pos_L
-			v = sign[node] * vel_L
-			xjus.addPVT(node, p, v, dt)
+		for node in nodes:
+			if node in left:
+				p = pos_L
+				v = vel_L
+			else:
+				p = pos_R
+				v = vel_R
+			addPVT(node, p, v, dt)
 			#print("node: %d, P: %d, V: %d, T: %d" % (node, p, v, dt))
 
-		for node in right:
-			p = sign[node] * pos_R
-			v = sign[node] * vel_R
-			xjus.addPVT(node, p, v, dt)
-			#print("node: %d, P: %d, V: %d, T: %d" % (node, p, v, dt))
+def addPVT(node, position, velocity, time):
+
+	p = sign[node] * int(round(position))
+	v = sign[node] * int(round(velocity))
+	t = int(round(time))
+	xjus.addPVT(node, p, v, t)
 
 def getTheta(t, thetaG):
 	""" 
@@ -317,7 +350,7 @@ def mainLoop(clock, surface):
 				elif event.key == K_UP:
 					if standing:
 						print "Start walking forward!"
-						walk(T*3)
+						walk(T*4)
 					else:
 						print "Must stand first!"
 
