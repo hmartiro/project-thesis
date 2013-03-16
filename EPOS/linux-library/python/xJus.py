@@ -21,13 +21,13 @@ xjus = CDLL('/home/hayk/workspace/libxjus/Library/libxjus.so')
 #################################################
 # Editable Parameters
 #################################################
-T = 3.0          # Trajectory period
+T = 2.0          # Trajectory period
 dt = 75          # IPM time step (ms)
 baseThetaG = 45. # Ground contact angle
 FPS = 70         # PyGame refresh rate
 
 # Is the robot mounted in the air?
-MOUNTED = True
+MOUNTED = False
 
 if MOUNTED:
 	standAngle = 25.  # Mounted standing angle
@@ -38,7 +38,7 @@ else:
 walkPeriods = 2
 
 # Fraction of base ground angle modified for turning
-turning = 0.6
+turning = 0.5
 
 #################################################
 # Node definitions                
@@ -307,7 +307,7 @@ def stopContinuousWalk(t, turnAngle=0):
 	returnToStand()
 
 def walk(tTotal, turnAngle=0):
-	""" Forward locomotion of the robot """
+	""" Forward locomotion of the robot for a fixed amount of time"""
 
 	for node in nodes:
 		xjus.profilePositionMode(node)
