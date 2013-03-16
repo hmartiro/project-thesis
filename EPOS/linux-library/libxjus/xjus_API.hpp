@@ -4,9 +4,12 @@
 #define PYTHON_EXPORT extern "C"
 
 // Initialization
-PYTHON_EXPORT void openDevice();
+PYTHON_EXPORT int  openDevice();
 PYTHON_EXPORT void closeDevice();
 PYTHON_EXPORT void clearFault(unsigned short node);
+PYTHON_EXPORT unsigned long getErrorCode();
+
+PYTHON_EXPORT void getPositionRegulatorGain(unsigned short node);
 
 // Enable / disable
 PYTHON_EXPORT void enable(unsigned short node);
@@ -20,12 +23,19 @@ PYTHON_EXPORT void moveAbsolute(unsigned short node, long pos);
 
 // Interpolated position mode
 PYTHON_EXPORT void interpolationMode(unsigned short node);
-PYTHON_EXPORT long getBufferSize(unsigned short node);
+PYTHON_EXPORT long getFreeBufferSize(unsigned short node);
 PYTHON_EXPORT void addPVT(unsigned short node, long p, long v, unsigned int t);
 PYTHON_EXPORT void startIPM(unsigned short node);
 PYTHON_EXPORT void stopIPM(unsigned short node);
 PYTHON_EXPORT void printIpmStatus(unsigned short node);
+PYTHON_EXPORT void clearIpmBuffer(unsigned short node);
 
+PYTHON_EXPORT void setMaxFollowingError(unsigned short node, unsigned long followingError);
+PYTHON_EXPORT void setMaxVelocity(unsigned int node, unsigned long velocity);
+PYTHON_EXPORT void setMaxAcceleration(unsigned int node, unsigned long acceleration);
+PYTHON_EXPORT unsigned long getMaxFollowingError(unsigned short node);
+PYTHON_EXPORT unsigned long getMaxVelocity(unsigned int node);
+PYTHON_EXPORT unsigned long getMaxAcceleration(unsigned int node);
 
 // Homing mode
 PYTHON_EXPORT void homingMode(unsigned short node);
