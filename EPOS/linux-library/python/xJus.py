@@ -21,13 +21,13 @@ xjus = CDLL('/home/hayk/workspace/libxjus/Library/libxjus.so')
 #################################################
 # Editable Parameters
 #################################################
-T = 2.0          # Trajectory period
+T = 1.5          # Trajectory period
 dt = 75          # IPM time step (ms)
 baseThetaG = 45. # Ground contact angle
 FPS = 70         # PyGame refresh rate
 
 # Is the robot mounted in the air?
-MOUNTED = False
+MOUNTED = True
 
 if MOUNTED:
 	standAngle = 25.  # Mounted standing angle
@@ -90,8 +90,10 @@ def initialize():
 
 	pygame.init()
 
+	print "Opening connection to device..."
 	xjus.openDevice()
 
+	print "Clearing faults and enabling nodes..."
 	for node in nodes:
 		xjus.clearFault(node)
 
@@ -100,18 +102,23 @@ def initialize():
 			raise Exception("No connection to device!")
 
 		xjus.clearIpmBuffer(node)
-		xjus.setMaxFollowingError(node, 15000)
+		xjus.setMaxFollowingError(node, 20000)
 		xjus.setMaxVelocity(node, 8700)
-		xjus.setMaxAcceleration(node, 200000)
+		xjus.setMaxAcceleration(node, 1000000)
 		xjus.enable(node)
+
+	print "Ready for action!"
 
 def deinitialize():
 	""" Deconstructs xjus and pygame """
 
+	print "Disabling nodes..."
 	for node in nodes:
 		xjus.disable(node)
+
 	xjus.closeDevice()
-	
+	print "Connection to device closed."
+
 	pygame.quit()
 
 def keyDown(k):
@@ -276,7 +283,7 @@ def walkFrame(time, turnAngle=0):
 	#for node in nodes:
 	#	print("node: %d, position: %d" % (node, xjus.getPosition(node)))
 
-	chunkSize = 5
+	chunkSize = 10
 	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
 		for i in range(chunkSize):
 			addTrajectoryPoint(t, turnAngle)
@@ -293,9 +300,8 @@ def stopContinuousWalk(t, turnAngle=0):
 	for node in nodes:
 		addTrajectoryPoint(t, turnAngle, end=True)
 
-	print("Adding points ended, t = %f" % t)
-	for node in nodes:
-		xjus.printIpmStatus(node)
+	#for node in nodes:
+	#	xjus.printIpmStatus(node)
 
 	#wait()
 
@@ -476,11 +482,11 @@ def mainLoop(clock, surface):
 						print "Must stand first!"
 
 				elif event.key == K_RIGHT:
-					print "RIGHT ARROW!"
+					pass
 				elif event.key == K_LEFT:
-					print "LEFT_ARROW!"
+					pass
 				elif event.key == K_DOWN:
-					print "DOWN ARROW!"
+					pass
 
 				# Exit on escape
 				elif event.key == K_ESCAPE:
