@@ -6,6 +6,7 @@
 
 import bge
 import math
+from xjus_trajectory import getTheta, getThetaDot
 
 ##################################################
 ## Design parameters to play with
@@ -17,9 +18,8 @@ T = 1.0
 FPS = 120
 WALK_PERIOD = T * FPS
 
-# turning magnitude (0-90)
-TURN_MAG = 40
-CONTACT_ANGLE = 45
+CONTACT_ANGLE = 45.
+TURN_MAG = 0.5 * CONTACT_ANGLE
 
 # torsional spring constants
 SAGGITAL_STIFFNESS = 50
@@ -32,6 +32,14 @@ Kp = 0.15
 Kd = 0.00
 
 SMOOTHING = 1
+
+# Is the robot mounted in the air?
+MOUNTED = False
+
+if MOUNTED:
+	standAngle = 25.  # Mounted standing angle
+else:
+	standAngle = 190. # Standing angle
 
 ##################################################
 ## Plant parameters
@@ -327,8 +335,6 @@ def detectLegPosition(leg):
         #print("angle: %d, rev: %d, newAngle: %d, newRev: %d" % (angle, rev, newAngle, leg['rev']))
         #print(leg['angles'])
         pass
-    
-
 
 ###########################################################
 ## Locomotion routines
@@ -349,7 +355,7 @@ def standingPosition():
         
         angle = leg['angle'] + leg['rev'] * 360
         
-        targetAng = 180
+        targetAng = standAngle
         if angle > 205: targetAng = 540
         
         if leg is leg_FR:
@@ -357,31 +363,41 @@ def standingPosition():
             pass
         
         applyLegFeedback(leg, targetAng)
-        
+
 def goForward(turnMag):
     ''' 
     '''
-    
+
     # Right tripod motion
     for leg in [leg_FR, leg_BR]:
         
-        targetAng = forwardTrajectory(t, WALK_PERIOD, CONTACT_ANGLE - turnMag)
+        #targetAng = forwardTrajectory(t, WALK_PERIOD, CONTACT_ANGLE - turnMag)
+        thetaG = CONTACT_ANGLE - turnMag
+        targetAng = getTheta(t, WALK_PERIOD, thetaG)
+        targetAng += 180 - thetaG/2
         applyLegFeedback(leg, targetAng)
 
     for leg in [leg_ML]:
-        targetAng = forwardTrajectory(t, WALK_PERIOD, CONTACT_ANGLE + turnMag)
+        #targetAng = forwardTrajectory(t, WALK_PERIOD, CONTACT_ANGLE + turnMag)
+        thetaG = CONTACT_ANGLE + turnMag
+        targetAng = getTheta(t, WALK_PERIOD, thetaG)
+        targetAng += 180 - thetaG/2
         applyLegFeedback(leg, targetAng)
         
         
     # Left tripod motion
     for leg in [leg_FL, leg_BL]:
         
-        targetAng = forwardTrajectory(t - WALK_PERIOD/2, WALK_PERIOD, CONTACT_ANGLE + turnMag)
+        thetaG = CONTACT_ANGLE + turnMag
+       	targetAng = getTheta(t - WALK_PERIOD/2, WALK_PERIOD, thetaG)
+       	targetAng += 180 - thetaG/2
         applyLegFeedback(leg, targetAng)
         
     for leg in [leg_MR]:
         
-        targetAng = forwardTrajectory(t - WALK_PERIOD/2, WALK_PERIOD, CONTACT_ANGLE - turnMag)
+        thetaG = CONTACT_ANGLE - turnMag
+        targetAng = getTheta(t - WALK_PERIOD/2, WALK_PERIOD, thetaG)
+        targetAng += 180 - thetaG/2
         applyLegFeedback(leg, targetAng)
           
 def goBackward(turnMag):
