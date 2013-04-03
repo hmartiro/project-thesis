@@ -11,14 +11,16 @@ from math import *
 import numpy as np
 import matplotlib.pyplot as plt
 import itertools
-from xjus_constants import *
 
 import pygame
 from pygame import key, draw
 from pygame.locals import *
 
+from xjus_trajectory import getTheta, getThetaDot
+
 # Import our C++ library
-xjus = CDLL('/home/xjus/project-thesis/EPOS/linux-library/definition-files/libxjus.so')
+#xjus = CDLL('/home/xjus/project-thesis/EPOS/linux-library/definition-files/libxjus.so')
+xjus = CDLL('/home/hayk/workspace/libxjus/Library/libxjus.so')
 
 #################################################
 # Editable Parameters
@@ -262,7 +264,7 @@ def startContinuousWalk(turnAngle=0):
 	for node in nodes:
 		thetaG = baseThetaG + sign[node] * turnAngle
 		offsetPos = int(round(thetaG/2 * (REV/360)))
-		p_start = tripodSign[node] * degToPos(getTheta(t0[node], thetaG)) - offsetPos
+		p_start = tripodSign[node] * degToPos(getTheta(t0[node], T, thetaG)) - offsetPos
 		move(node, p_start, absolute=True)
 		#print("node: %d, p_start: %d, thetaG: %f" % (node, p_start, thetaG))
 
@@ -353,8 +355,8 @@ def addTrajectoryPoint(t, turnAngle=0, end=False):
 
 		thetaG = baseThetaG + sign[node] * turnAngle
 		offsetPos = int(round(thetaG/2 * (REV/360)))
-		p = degToPos(getTheta(t + t0[node], thetaG)) - offsetPos
-		v = int(round(getThetaDot(t + t0[node], thetaG) * ANG_VEL_TO_RPM))
+		p = degToPos(getTheta(t + t0[node], T, thetaG)) - offsetPos
+		v = int(round(getThetaDot(t + t0[node], T, thetaG) * ANG_VEL_TO_RPM))
 
 		if end:
 			addPVT(node, p, 0, 0)
@@ -369,33 +371,6 @@ def addPVT(node, position, velocity, time):
 	v = sign[node] * int(round(velocity))
 	t = int(round(time))
 	xjus.addPVT(node, p, v, t)
-
-def getTheta(t, thetaG):
-	""" 
-	Returns the target angle given a time and a ground
-	contact angle. In degrees.
-	"""
-
-	theta = (2*pi/T) * t
-	for m in range(1,M+1):
-		B = 4*(radians(thetaG)-pi)/((2*m-1)*(2*m-1)*pi*pi)
-		theta += B*(1-cos(2*pi*(2*m-1)*t/T))
-		#print("m: %d, B: %f, theta: %f" % (m, B, theta))
-
-	return degrees(theta)
-
-def getThetaDot(t, thetaG):
-	""" 
-	Returns the target angular velocity given a time and
-	a ground contact angle. In degrees per second.
-	"""
-
-	thetaDot = (2*pi/T)
-	for m in range(1,M+1):
-		B = 8*(radians(thetaG)-pi)/((2*m-1)*pi*T)
-		thetaDot += B*sin(2*pi*(2*m-1)*t/T)
-
-	return degrees(thetaDot)
 
 def wait():
 	""" Waits until all nodes are inactive. """
