@@ -6,58 +6,37 @@
 
 import bge
 import math
+
 from xjus_trajectory import getTheta, getThetaDot
+from xjus_sim_parameters import *
 
-##################################################
-## Design parameters to play with
-##################################################
+#################################################
+# Node definitions                
+#################################################
 
-# seconds per revolution
-T = 1.0
+# List of nodes
+allNodes = [FL, FR, ML, MR, BL, BR] = [1, 2, 3, 4, 5, 6]
 
-FPS = 120
-WALK_PERIOD = T * FPS
+# Active nodes
+nodes = [FL, FR, ML, MR, BL, BR]
 
-CONTACT_ANGLE = 45.
-TURN_MAG = 0.5 * CONTACT_ANGLE
+# Left and right tripods
+left  = [FL, MR, BL]
+right = [FR, ML, BR]
 
-# torsional spring constants
-SAGGITAL_STIFFNESS = 50
-TORSIONAL_STIFFNESS = 150
-SAGGITAL_DAMPING = 0.1
-TORSIONAL_DAMPING = 0.7
+# Signs based on motor orientation
+sign = {FL: 1, FR: -1, ML: 1, MR: -1, BL: 1, BR: -1}
 
-# motor PID control parameters
-Kp = 0.15
-Kd = 0.00
+# Node names
+name = {FL: "FL", FR: "FR", ML: "ML", MR: "MR", BL: "BL", BR: "BR"}
 
-SMOOTHING = 1
+# Signs for each tripod
+tripodSign = {FL: 1, FR: -1, ML: -1, MR: 1, BL: 1, BR: -1}
 
-# Is the robot mounted in the air?
-MOUNTED = False
-
-if MOUNTED:
-	standAngle = 25.  # Mounted standing angle
-else:
-	standAngle = 190. # Standing angle
-
-##################################################
-## Plant parameters
-##################################################
-
-# Motor parameters
-Vs = 22.2 # source voltage (V)
-N = 729./25. # gear ratio
-mu = 0.6 # motor+gear efficiency (motor * gear)
-Ra = 2.36 # motor resistance (from motor wiki) (V/A)
-Ramp = 0.5 # amplifier resistance (don't know!) (V/A)
-
-Ks = 0.75 # motor speed constant (V-s)
-Kt = 0.042#0.052 # motor conversion factor (Nm/A)
-
-CONTROLLER_EFFICIENCY = 0.90
-MOTOR_EFFICIENCY = 0.86
-GEARBOX_EFFICIENCY = 0.70
+# Trajectory offset for legs
+t0Left  = T/2
+t0Right =  0.
+t0 = {FL: t0Left, FR: t0Right, ML: t0Right, MR: t0Left, BL: t0Left, BR: t0Right}
 
 ################################################
 # BGE Object Definitions
@@ -72,29 +51,29 @@ chassis_M = scene.objects["Chassis_M"]
 chassis_B = scene.objects["Chassis_B"]
 chassis = [chassis_F, chassis_M, chassis_B]
 
-leg_FR = scene.objects["Leg_FR"]
-leg_MR = scene.objects["Leg_MR"]
-leg_BR = scene.objects["Leg_BR"]
 leg_FL = scene.objects["Leg_FL"]
+leg_FR = scene.objects["Leg_FR"]
 leg_ML = scene.objects["Leg_ML"]
+leg_MR = scene.objects["Leg_MR"]
 leg_BL = scene.objects["Leg_BL"]
-legs = [leg_FR, leg_MR, leg_BR, leg_FL, leg_ML, leg_BL]
+leg_BR = scene.objects["Leg_BR"]
+legs = [leg_FL, leg_FR, leg_ML, leg_MR, leg_BL, leg_BR]
 
-motor_FR = scene.objects['Motor_FR']
-motor_MR = scene.objects['Motor_MR']
-motor_BR = scene.objects['Motor_BR']
 motor_FL = scene.objects['Motor_FL']
+motor_FR = scene.objects['Motor_FR']
 motor_ML = scene.objects['Motor_ML']
+motor_MR = scene.objects['Motor_MR']
 motor_BL = scene.objects['Motor_BL']
-motors = [motor_FR, motor_MR, motor_BR, motor_FL, motor_ML, motor_BL]
+motor_BR = scene.objects['Motor_BR']
+motors = [motor_FL, motor_FR, motor_ML, motor_MR, motor_BL, motor_BR]
 
-motor_FR2 = scene.objects['Motor_FR2']
-motor_MR2 = scene.objects['Motor_MR2']
-motor_BR2 = scene.objects['Motor_BR2']
 motor_FL2 = scene.objects['Motor_FL2']
+motor_FR2 = scene.objects['Motor_FR2']
 motor_ML2 = scene.objects['Motor_ML2']
+motor_MR2 = scene.objects['Motor_MR2']
 motor_BL2 = scene.objects['Motor_BL2']
-motors2 = [motor_FR2, motor_MR2, motor_BR2, motor_FL2, motor_ML2, motor_BL2]
+motor_BR2 = scene.objects['Motor_BR2']
+motors2 = [motor_FL2, motor_FR2, motor_ML2, motor_MR2, motor_BL2, motor_BR2]
 
 floor = scene.objects['Tile_Floor']
 
@@ -123,10 +102,10 @@ for c in chassis:
     c['w'] = []
 
 ###############################################
-## Top-level simulation variables
+## Global simulation variables
 ###############################################
 
-t = 0
+t = 0.
 active = False
 
 ##################################################
@@ -139,7 +118,9 @@ def loop_frame():
     '''
     
     global active, t
-
+    
+    print("t = %f" % (t))
+    
     # leg encoders
     for leg in legs:
         detectLegPosition(leg)
@@ -152,7 +133,7 @@ def loop_frame():
     if keyPressed(bge.events.SPACEKEY):
         active = not active
         
-        t = 0
+        t = 0.
         for leg in legs:
             leg['rev'] = 0
             leg['error'] = 0
@@ -162,7 +143,7 @@ def loop_frame():
         keyPressed(bge.events.UPARROWKEY) or
         keyPressed(bge.events.DOWNARROWKEY)
        ):
-        t = WALK_PERIOD / 4
+        t = T/4.
         
         for leg in legs:
             leg['rev'] = 0
@@ -172,18 +153,18 @@ def loop_frame():
     if keyDown(bge.events.UPARROWKEY):
         
         if keyDown(bge.events.RIGHTARROWKEY):
-            goForward(+TURN_MAG)
+            goForward(+TURN_FRACTION * GROUND_ANGLE)
         elif keyDown(bge.events.LEFTARROWKEY):
-            goForward(-TURN_MAG)
+            goForward(-TURN_FRACTION * GROUND_ANGLE)
         else:
             goForward(0)
             
     elif keyDown(bge.events.DOWNARROWKEY):
         
         if keyDown(bge.events.RIGHTARROWKEY):
-            goBackward(+TURN_MAG)
+            goBackward(+TURN_FRACTION * GROUND_ANGLE)
         elif keyDown(bge.events.LEFTARROWKEY):
-            goBackward(-TURN_MAG)
+            goBackward(-TURN_FRACTION * GROUND_ANGLE)
         else:
             goBackward(0)
     
@@ -202,7 +183,7 @@ def loop_frame():
     torsionalSpringY(chassis_F, chassis_M,  1, -1)
     
     # Increment time
-    t += 1
+    t += 1.0/FPS
 
 
 ###########################################################
@@ -289,7 +270,6 @@ def getLegAngle(leg):
     ''' Returns the given leg's relative angle to the chassis segment
     '''
     i = legs.index(leg)
-    
     return getAngleX(leg, motors[i])
 
 def getLegVelocity(leg):
@@ -356,7 +336,7 @@ def standingPosition():
         angle = leg['angle'] + leg['rev'] * 360
         
         targetAng = standAngle
-        if angle > 205: targetAng = 540
+        #if angle > 215: targetAng = 540
         
         if leg is leg_FR:
             #print("leg_FR. angle: %f, targetAng: %f" % (leg['angle'], targetAng))
@@ -364,89 +344,31 @@ def standingPosition():
         
         applyLegFeedback(leg, targetAng)
 
-def goForward(turnMag):
-    ''' 
-    '''
+def goForward(turnAngle=0):
+    """
+    Calculates a PVT point for each node at time t and adds 
+    it to the IPM buffer.
+    """
 
-    # Right tripod motion
-    for leg in [leg_FR, leg_BR]:
-        
-        #targetAng = forwardTrajectory(t, WALK_PERIOD, CONTACT_ANGLE - turnMag)
-        thetaG = CONTACT_ANGLE - turnMag
-        targetAng = getTheta(t, WALK_PERIOD, thetaG)
-        targetAng += 180 - thetaG/2
-        applyLegFeedback(leg, targetAng)
+    for node in nodes:
 
-    for leg in [leg_ML]:
-        #targetAng = forwardTrajectory(t, WALK_PERIOD, CONTACT_ANGLE + turnMag)
-        thetaG = CONTACT_ANGLE + turnMag
-        targetAng = getTheta(t, WALK_PERIOD, thetaG)
-        targetAng += 180 - thetaG/2
-        applyLegFeedback(leg, targetAng)
-        
-        
-    # Left tripod motion
-    for leg in [leg_FL, leg_BL]:
-        
-        thetaG = CONTACT_ANGLE + turnMag
-       	targetAng = getTheta(t - WALK_PERIOD/2, WALK_PERIOD, thetaG)
-       	targetAng += 180 - thetaG/2
-        applyLegFeedback(leg, targetAng)
-        
-    for leg in [leg_MR]:
-        
-        thetaG = CONTACT_ANGLE - turnMag
-        targetAng = getTheta(t - WALK_PERIOD/2, WALK_PERIOD, thetaG)
-        targetAng += 180 - thetaG/2
-        applyLegFeedback(leg, targetAng)
-          
-def goBackward(turnMag):
-    ''' 
-    '''
-    
-    # Right tripod motion
-    for leg in [leg_FR, leg_ML, leg_BR]:
-        
-        targetAng = backwardTrajectory(t, WALK_PERIOD, CONTACT_ANGLE - turnMag)
-        applyLegFeedback(leg, targetAng)
+        thetaG = GROUND_ANGLE + sign[node] * turnAngle
+        targetAng = getTheta(t + t0[node], T, thetaG)
+        targetAng += 320 - thetaG/2
+        applyLegFeedback(legs[node-1], targetAng)
 
-    # Left tripod motion
-    for leg in [leg_FL, leg_MR, leg_BL]:
-        
-        targetAng = backwardTrajectory(t, WALK_PERIOD, CONTACT_ANGLE + turnMag)
-        applyLegFeedback(leg, targetAng)
+def goBackward(turnAngle=0):
+    """
+    Calculates a PVT point for each node at time t and adds 
+    it to the IPM buffer.
+    """
 
-###########################################################
-## Low level trajectory functions
-###########################################################
+    for node in nodes:
 
-def backwardTrajectory(timeOffset, REV_PERIOD, contactAngle):
-    ''' Calculates the angle that a leg should be in its trajectory
-        at a certain time in that trajectory
-    '''
-    
-    t = timeOffset
-    tMod = t % REV_PERIOD
-
-    if tMod < REV_PERIOD/2:
-        targetAng = ((t-tMod)/REV_PERIOD) * 360 + (tMod/REV_PERIOD) * (2 * contactAngle)
-    else:
-        targetAng = ((t-tMod)/REV_PERIOD) * 360 + (tMod/REV_PERIOD - 1/2) * (360-contactAngle)*2 + contactAngle
-    
-    return -targetAng + 210
-
-
-def forwardTrajectory(timeOffset, REV_PERIOD, contactAngle):
-    
-    t = timeOffset
-    tMod = t % REV_PERIOD
-    
-    if tMod < REV_PERIOD/2:
-        targetAng = ((t-tMod)/REV_PERIOD) * 360 + (tMod/REV_PERIOD) * (2 * contactAngle)
-    else:
-        targetAng = ((t-tMod)/REV_PERIOD) * 360 + (tMod/REV_PERIOD - 1/2) * (360-contactAngle)*2 + contactAngle
-    
-    return targetAng + 180 - contactAngle/2
+        thetaG = GROUND_ANGLE + sign[node] * turnAngle
+        targetAng = -getTheta(t + t0[node], T, thetaG)
+        targetAng += 320 + thetaG/2 + 15
+        applyLegFeedback(legs[node-1], targetAng)
 
 ###########################################################
 ## Leg actuation
@@ -517,7 +439,7 @@ def motorModel(leg, Vpd):
     leg['Pout'] = w * torque
     leg['Pin']  = leg['Pout'] / (MOTOR_EFFICIENCY * GEARBOX_EFFICIENCY * CONTROLLER_EFFICIENCY)
     
-    print("leg: %s, d: %f, angVel: %f, tau: %f, Pout: %f" % (leg, d, w, torque, leg['Pout']))
+    #print("leg: %s, d: %f, angVel: %f, tau: %f, Pout: %f" % (leg, d, w, torque, leg['Pout']))
     
     return torque * 100
 
@@ -539,8 +461,6 @@ def totalPower():
         if leg['Pout'] > 0:
             P += leg['Pout']
     return P
-
-print("total power: %f" % (totalPower()))
 
 ############################################################
 ## Compliant spine springs

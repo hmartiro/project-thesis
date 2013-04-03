@@ -11,13 +11,14 @@ from math import *
 import numpy as np
 import matplotlib.pyplot as plt
 import itertools
+from xjus_constants import *
 
 import pygame
 from pygame import key, draw
 from pygame.locals import *
 
 # Import our C++ library
-xjus = CDLL('/home/hayk/workspace/libxjus/Library/libxjus.so')
+xjus = CDLL('/home/xjus/project-thesis/EPOS/linux-library/definition-files/libxjus.so')
 
 #################################################
 # Editable Parameters
@@ -41,6 +42,22 @@ walkPeriods = 2
 # Fraction of base ground angle modified for turning
 turning = 0.5
 
+################################################
+# System constants
+################################################
+
+# Encoder ticks per revolution
+REV = 59720.
+
+# Gearbox ratio
+GEAR_RATIO = 729.0/25.0
+
+# Encoder ticks per radian
+ANG_TO_QC = (512.0*4)/(2*pi) * GEAR_RATIO
+
+# RPM for one radian per second rotation
+ANG_VEL_TO_RPM = (60.0)/(360) * GEAR_RATIO
+
 #################################################
 # Node definitions                
 #################################################
@@ -49,7 +66,7 @@ turning = 0.5
 allNodes = [FL, FR, ML, MR, BL, BR] = [1, 2, 3, 4, 5, 6]
 
 # Active nodes
-nodes = [FR, MR, BR, FL, ML, BL]
+nodes = [FL, FR, ML, MR, BL, BR]
 
 # Left and right tripods
 left  = [FL, MR, BL]
@@ -78,13 +95,6 @@ BLUE  = (  0,   0, 255)
 
 standing = False
 walking = False
-
-REV = 59720
-
-M = 10
-GEAR_RATIO = 729.0/25.0
-ANG_TO_QC = (512.0*4)/(2*pi) * GEAR_RATIO
-ANG_VEL_TO_RPM = (60.0)/(360) * GEAR_RATIO
 
 def initialize():
 	""" Initializes xjus and pygame """

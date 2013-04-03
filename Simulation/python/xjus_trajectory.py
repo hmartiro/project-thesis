@@ -8,12 +8,6 @@ from math import *
 # Fourier approximation terms
 M = 10
 
-# System constants
-REV = 59720
-GEAR_RATIO = 729.0/25.0
-ANG_TO_QC = (512.0*4)/(2*pi) * GEAR_RATIO
-ANG_VEL_TO_RPM = (60.0)/(360) * GEAR_RATIO
-
 def getTheta(t, T, thetaG):
 	""" 
 	Returns the target angle given a time and a ground
