@@ -18,9 +18,13 @@ from pygame.locals import *
 
 from xjus_trajectory import getTheta, getThetaDot
 
-# Import our C++ library
-#xjus = CDLL('/home/xjus/project-thesis/EPOS/linux-library/definition-files/libxjus.so')
-xjus = CDLL('/home/hayk/workspace/libxjus/Library/libxjus.so')
+# Import the correct libxjus
+FIT_PC = False
+
+if FIT_PC:
+	xjus = CDLL('/home/xjus/project-thesis/EPOS/linux-library/definition-files/libxjus.so')
+else:
+	xjus = CDLL('/home/hayk/workspace/libxjus/Library/libxjus.so')
 
 #################################################
 # Editable Parameters
@@ -42,7 +46,7 @@ else:
 walkPeriods = 2
 
 # Fraction of base ground angle modified for turning
-turning = 0.5
+turning = 0.4
 
 ################################################
 # System constants
@@ -350,6 +354,10 @@ def addTrajectoryPoint(t, turnAngle=0, end=False):
 	Calculates a PVT point for each node at time t and adds 
 	it to the IPM buffer.
 	"""
+	nA = []
+	pA = []
+	vA = []
+	tA = []
 
 	for node in nodes:
 
@@ -358,13 +366,39 @@ def addTrajectoryPoint(t, turnAngle=0, end=False):
 		p = degToPos(getTheta(t + t0[node], T, thetaG)) - offsetPos
 		v = int(round(getThetaDot(t + t0[node], T, thetaG) * ANG_VEL_TO_RPM))
 
+		nA.append(node)
+		pA.append(p)
 		if end:
-			addPVT(node, p, 0, 0)
+			vA.append(0)
+			tA.append(0)
 		else:
-			addPVT(node, p, v, dt)
+			vA.append(v)
+			tA.append(dt)
 		#print("node: %d, P: %d, V: %d, T: %d" % (node, p, v, dt))
 
-def addPVT(node, position, velocity, time):
+	addPvtAll(nA, pA, vA, tA)
+
+def addPvtAll(nodes, positions, velocities, times):
+	""" Sends the given PVT points for each node to the controller. """
+	
+	N = len(nodes)
+
+	for i in range(N):
+		node = nodes[i]
+		positions[i] *= sign[node]
+		velocities[i] *= sign[node]
+
+	n = (c_ushort * N)(*nodes)
+	p = (c_long * N)(*map(int, map(round, positions)))
+	v = (c_long * N)(*map(int, map(round, velocities)))
+	t = (c_ubyte * N)(*times)
+
+	#for i in range(N):
+	#	print("n: %d, p: %d, v: %d, t: %d" % (n[i], p[i], v[i], t[i]))
+
+	xjus.addPvtAll(n, p, v, t)
+
+def addPvt(node, position, velocity, time):
 	""" Sends the given PVT point to the controller. """
 
 	p = sign[node] * int(round(position))
