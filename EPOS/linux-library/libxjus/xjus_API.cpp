@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <string.h>
 using namespace std;
 
 #include "Definitions.h"
@@ -26,7 +27,7 @@ void* device;
 void printError() {
 	VCS_GetErrorInfo(errorCode, errorInfo, ERROR_INFO_LENGTH);
 	if (errorCode)
-		printf("ERROR: %lu\n", errorCode);
+		printf("ERROR: %lx\n", errorCode);
 }
 
 unsigned long getErrorCode() {
@@ -34,11 +35,11 @@ unsigned long getErrorCode() {
 }
 
 int openDevice() {
-	//printf("Attempting connection to %s", deviceName);
-	//printf(" at %s...\n", portName);
+	printf("Attempting connection to %s", deviceName);
+	printf(" at %s...\n", portName);
 	device = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName, &errorCode);
 	printError();
-	//printf("Connected Device: %p\n", device);
+	printf("Connected Device: %p\n", device);
 
 	//printf("Protocol stack settings are ");
 	//printf("baudrate %lu and timeout %lu.\n", BAUDRATE, TIMEOUT);
@@ -138,6 +139,19 @@ void interpolationMode(unsigned short node) {
 
 void addPVT(unsigned short node, long p, long v, unsigned int t) {
 	VCS_AddPvtValueToIpmBuffer(device, node, p, v, t, &errorCode);
+	printError();
+}
+
+void addPvtAll(int N, unsigned short node[], long p[], long v[], unsigned char t[]) {
+
+	//int N = sizeof(p)/sizeof(p[0]);
+
+	//printf("sizeofP = %d, sizeof(p[0]) = %d, N = %d \n", sizeof(p), sizeof(p[0]), N);
+
+	for(int i = 0; i < N; i++) {
+		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node[i], p[i], v[i], t[i]);
+		VCS_AddPvtValueToIpmBuffer(device, node[i], p[i], v[i], t[i], &errorCode);
+	}
 	printError();
 }
 

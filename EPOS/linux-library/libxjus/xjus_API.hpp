@@ -25,6 +25,7 @@ PYTHON_EXPORT void moveAbsolute(unsigned short node, long pos);
 PYTHON_EXPORT void interpolationMode(unsigned short node);
 PYTHON_EXPORT long getFreeBufferSize(unsigned short node);
 PYTHON_EXPORT void addPVT(unsigned short node, long p, long v, unsigned int t);
+PYTHON_EXPORT void addPvtAll(int N, unsigned short node[], long p[], long v[], unsigned char t[]);
 PYTHON_EXPORT void startIPM(unsigned short node);
 PYTHON_EXPORT void stopIPM(unsigned short node);
 PYTHON_EXPORT void printIpmStatus(unsigned short node);
