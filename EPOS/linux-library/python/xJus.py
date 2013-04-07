@@ -312,7 +312,10 @@ def walkFrame(t0, turnAngle=0):
 			tArray.append(t)
 			t += dt/1000.
 
+		print("time array: %s" % tArray)
+		
 		addTrajectoryArray(tArray, turnAngle)
+
 		# for _ in itertools.repeat(None, chunkSize):
 		# 	addTrajectoryPoint(t, turnAngle)
 		# 	t += dt/1000.
