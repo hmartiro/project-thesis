@@ -381,8 +381,9 @@ def addTrajectoryArray(tArray, turnAngle=0):
 			tA.append(dt)
 			#print("node: %d, P: %d, V: %d, T: %d" % (node, p, v, dt))
 
+	timer = time()
 	addPvtAll(nA, pA, vA, tA)
-
+	print("time of addPvtAll call: %f" % (time() - timer))
 def addTrajectoryPoint(t, turnAngle=0, end=False):
 	"""
 	Calculates a PVT point for each node at time t and adds 
