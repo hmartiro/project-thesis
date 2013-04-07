@@ -281,7 +281,7 @@ def startContinuousWalk(turnAngle=0):
 	t = (dt/1000.) / 2
 
 	# fill buffer
-	for i in range(10):
+	for i in range(40):
 		addTrajectoryPoint(t, turnAngle)
 		t += dt/1000.
 
@@ -302,7 +302,7 @@ def walkFrame(t0, turnAngle=0):
 	#for node in nodes:
 	#	print("node: %d, position: %d" % (node, xjus.getPosition(node)))
 
-	chunkSize = 10
+	chunkSize = 5
 	timer = time()
 	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
 		print("Adding %d points!" % chunkSize)
