@@ -30,7 +30,7 @@ else:
 # Editable Parameters
 #################################################
 T = 1.5          # Trajectory period
-dt = 70          # IPM time step (ms)
+dt = 90          # IPM time step (ms)
 baseThetaG = 45. # Ground contact angle
 FPS = 100        # PyGame refresh rate
 
