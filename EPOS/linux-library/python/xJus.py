@@ -303,7 +303,7 @@ def walkFrame(t0, turnAngle=0):
 	#	print("node: %d, position: %d" % (node, xjus.getPosition(node)))
 
 	chunkSize = 10
-	timer = time()
+	
 	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
 		print("Adding %d points!" % chunkSize)
 
@@ -313,14 +313,14 @@ def walkFrame(t0, turnAngle=0):
 			t += dt/1000.
 
 		print("time array: %s" % tArray)
-
+		timer = time()
 		addTrajectoryArray(tArray, turnAngle)
-
+		print("time of addTrajectoryArray call: %f" % (time()-timer))
 		# for _ in itertools.repeat(None, chunkSize):
 		# 	addTrajectoryPoint(t, turnAngle)
 		# 	t += dt/1000.
 
-	print("time to add points: %f" % (time()-timer))
+	
 
 	print("t = %f, buffer: %s" % (t, bufferSize))
 
