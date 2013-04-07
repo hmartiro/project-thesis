@@ -430,6 +430,7 @@ def addPvtAll(nodes, positions, velocities, times):
 	for i in range(N):
 		print("n: %d, p: %d, v: %d, t: %d" % (n[i], p[i], v[i], t[i]))
 
+	xjus.addPvtAll.argtypes = [(c_ushort * N), (c_long * N), (c_long * N), (c_ubyte * N)]
 	xjus.addPvtAll(n, p, v, t)
 
 def addPvt(node, position, velocity, time):
