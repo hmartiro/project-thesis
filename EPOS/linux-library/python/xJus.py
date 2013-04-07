@@ -414,21 +414,21 @@ def addTrajectoryPoint(t, turnAngle=0, end=False):
 
 def addPvtAll(nodes, positions, velocities, times):
 	""" Sends the given PVT points for each node to the controller. """
-	
+
 	N = len(nodes)
 
 	for i in range(N):
 		node = nodes[i]
 		positions[i] *= sign[node]
 		velocities[i] *= sign[node]
-
+	
 	n = (c_ushort * N)(*nodes)
 	p = (c_long * N)(*map(int, map(round, positions)))
 	v = (c_long * N)(*map(int, map(round, velocities)))
 	t = (c_ubyte * N)(*times)
 
-	for i in range(N):
-		print("n: %d, p: %d, v: %d, t: %d" % (n[i], p[i], v[i], t[i]))
+	#for i in range(N):
+	#	print("n: %d, p: %d, v: %d, t: %d" % (n[i], p[i], v[i], t[i]))
 
 	xjus.addPvtAll.argtypes = [c_int, (c_ushort * N), (c_long * N), (c_long * N), (c_ubyte * N)]
 	xjus.addPvtAll(N, n, p, v, t)
