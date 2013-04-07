@@ -306,12 +306,17 @@ def walkFrame(t0, turnAngle=0):
 	timer = time()
 	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
 		print("Adding %d points!" % chunkSize)
+
+		tArray = []
 		for i in range(chunkSize):
-			addTrajectoryArray([t], turnAngle)
+			tArray.append(t)
 			t += dt/1000.
+
+		addTrajectoryArray(tArray, turnAngle)
 		# for _ in itertools.repeat(None, chunkSize):
 		# 	addTrajectoryPoint(t, turnAngle)
 		# 	t += dt/1000.
+
 	print("time to add points: %f" % (time()-timer))
 
 	print("t = %f, buffer: %s" % (t, bufferSize))
