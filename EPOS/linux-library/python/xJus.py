@@ -313,7 +313,7 @@ def walkFrame(t0, turnAngle=0):
 			t += dt/1000.
 
 		print("time array: %s" % tArray)
-		
+
 		addTrajectoryArray(tArray, turnAngle)
 
 		# for _ in itertools.repeat(None, chunkSize):
@@ -427,8 +427,8 @@ def addPvtAll(nodes, positions, velocities, times):
 	v = (c_long * N)(*map(int, map(round, velocities)))
 	t = (c_ubyte * N)(*times)
 
-	#for i in range(N):
-	#	print("n: %d, p: %d, v: %d, t: %d" % (n[i], p[i], v[i], t[i]))
+	for i in range(N):
+		print("n: %d, p: %d, v: %d, t: %d" % (n[i], p[i], v[i], t[i]))
 
 	xjus.addPvtAll(n, p, v, t)
 
