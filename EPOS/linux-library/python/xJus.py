@@ -19,7 +19,7 @@ from pygame.locals import *
 from xjus_trajectory import getTheta, getThetaDot
 
 # Import the correct libxjus
-FIT_PC = False
+FIT_PC = True
 
 if FIT_PC:
 	xjus = CDLL('/home/xjus/project-thesis/EPOS/linux-library/definition-files/libxjus.so')
@@ -272,7 +272,7 @@ def startContinuousWalk(turnAngle=0):
 		move(node, p_start, absolute=True)
 		#print("node: %d, p_start: %d, thetaG: %f" % (node, p_start, thetaG))
 
-	wait();
+	wait()
 
 	for node in nodes:
 		xjus.interpolationMode(node)
@@ -307,7 +307,7 @@ def walkFrame(t0, turnAngle=0):
 	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
 		print("Adding %d points!" % chunkSize)
 		for i in range(chunkSize):
-			addTrajectoryPoint(t, turnAngle)
+			addTrajectoryArray([t], turnAngle)
 			t += dt/1000.
 		# for _ in itertools.repeat(None, chunkSize):
 		# 	addTrajectoryPoint(t, turnAngle)
@@ -348,6 +348,32 @@ def walk(tTotal, turnAngle=0):
 		t = walkFrame(t, turnAngle)
 
 	stopContinuousWalk(t, turnAngle)
+
+def addTrajectoryArray(tArray, turnAngle=0):
+	"""
+	Calculates the array of PVT points for the given times and 
+	turnAngle and adds them to the IPM buffer.
+	"""
+	nA = []
+	pA = []
+	vA = []
+	tA = []
+
+	for t in tArray:
+		for node in nodes:
+
+			thetaG = baseThetaG + sign[node] * turnAngle
+			offsetPos = int(round(thetaG/2 * (REV/360)))
+			p = degToPos(getTheta(t + t0[node], T, thetaG)) - offsetPos
+			v = int(round(getThetaDot(t + t0[node], T, thetaG) * ANG_VEL_TO_RPM))
+
+			nA.append(node)
+			pA.append(p)
+			vA.append(v)
+			tA.append(dt)
+			#print("node: %d, P: %d, V: %d, T: %d" % (node, p, v, dt))
+
+	addPvtAll(nA, pA, vA, tA)
 
 def addTrajectoryPoint(t, turnAngle=0, end=False):
 	"""
