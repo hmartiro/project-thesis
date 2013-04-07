@@ -281,7 +281,7 @@ def startContinuousWalk(turnAngle=0):
 	t = (dt/1000.) / 2
 
 	# fill buffer
-	for i in range(40):
+	for i in range(20):
 		addTrajectoryPoint(t, turnAngle)
 		t += dt/1000.
 
@@ -302,7 +302,7 @@ def walkFrame(t0, turnAngle=0):
 	#for node in nodes:
 	#	print("node: %d, position: %d" % (node, xjus.getPosition(node)))
 
-	chunkSize = 5
+	chunkSize = 10
 	timer = time()
 	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
 		print("Adding %d points!" % chunkSize)
@@ -421,7 +421,7 @@ def addPvtAll(nodes, positions, velocities, times):
 		node = nodes[i]
 		positions[i] *= sign[node]
 		velocities[i] *= sign[node]
-	
+
 	n = (c_ushort * N)(*nodes)
 	p = (c_long * N)(*map(int, map(round, positions)))
 	v = (c_long * N)(*map(int, map(round, velocities)))
@@ -430,7 +430,7 @@ def addPvtAll(nodes, positions, velocities, times):
 	#for i in range(N):
 	#	print("n: %d, p: %d, v: %d, t: %d" % (n[i], p[i], v[i], t[i]))
 
-	xjus.addPvtAll.argtypes = [c_int, (c_ushort * N), (c_long * N), (c_long * N), (c_ubyte * N)]
+	#xjus.addPvtAll.argtypes = [c_int, (c_ushort * N), (c_long * N), (c_long * N), (c_ubyte * N)]
 	xjus.addPvtAll(N, n, p, v, t)
 
 def addPvt(node, position, velocity, time):
