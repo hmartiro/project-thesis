@@ -111,8 +111,9 @@ def initialize():
 	print "Clearing faults and enabling nodes..."
 	for node in nodes:
 		xjus.clearFault(node)
-
-		if xjus.getErrorCode() is 872415239 or 10000003:
+		
+		errorCode = xjus.getErrorCode()
+		if (errorCode is 872415239) or (errorCode is 10000003):
 			pygame.quit()
 			raise Exception("No connection to device!")
 
