@@ -33,7 +33,7 @@ baseThetaG = 45. # Ground contact angle
 FPS = 100        # PyGame refresh rate
 
 # Is the robot mounted in the air?
-MOUNTED = False
+MOUNTED = True
 
 if MOUNTED:
 	standAngle = 25.  # Mounted standing angle
@@ -99,6 +99,7 @@ BLUE  = (  0,   0, 255)
 
 standing = False
 walking = False
+tapMode = False
 
 def initialize():
 	""" Initializes xjus and pygame """
@@ -475,7 +476,7 @@ def mainLoop(clock, surface):
 				# Tooggle stand on spacebar
 				if event.key == K_SPACE:
 
-					getCurrent()
+					#getCurrent()
 
 					if standing and not walking:
 						print "Go to sitting position."
@@ -501,11 +502,6 @@ def mainLoop(clock, surface):
 							#walk(T * walkPeriods)
 							t = startContinuousWalk()
 
-						if ((event.key is K_w) and (tapMode is False)):
-							tapMode = True
-						else:
-							tapMode = False
-
 					else:
 						print "Must stand first!"
 
@@ -526,6 +522,9 @@ def mainLoop(clock, surface):
 				# Exit on escape
 				elif event.key == K_ESCAPE:
 					return
+
+				if (event.key is K_w):
+					tapMode = not tapMode
 
 			# Key up events
 			if event.type == KEYUP:
