@@ -1,0 +1,19 @@
+\contentsline {section}{\numberline {0}Abstract}{1}
+\contentsline {section}{\numberline {1}Introduction}{2}
+\contentsline {section}{\numberline {2}Simulation and Control Methods}{3}
+\contentsline {subsection}{\numberline {2.1}Overview}{4}
+\contentsline {subsection}{\numberline {2.2}Simulation Environment}{4}
+\contentsline {subsection}{\numberline {2.3}Motor Model}{5}
+\contentsline {subsection}{\numberline {2.4}Control Systems}{6}
+\contentsline {subsection}{\numberline {2.5}Trajectory Generation}{8}
+\contentsline {subsection}{\numberline {2.6}Moving Forward}{10}
+\contentsline {section}{\numberline {3}Design}{10}
+\contentsline {subsection}{\numberline {3.1}Overview}{10}
+\contentsline {subsection}{\numberline {3.2}Actuation and Power System}{12}
+\contentsline {subsection}{\numberline {3.3}Structural Components}{14}
+\contentsline {subsection}{\numberline {3.4}Spine Joints}{15}
+\contentsline {subsection}{\numberline {3.5}Electronic System}{20}
+\contentsline {section}{\numberline {4}Test Rig}{22}
+\contentsline {section}{\numberline {5}Acknowledgements}{23}
+\contentsline {section}{\numberline {6}References}{23}
+\contentsline {section}{\numberline {7}Appendix}{23}
