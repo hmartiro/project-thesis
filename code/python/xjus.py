@@ -33,7 +33,7 @@ baseThetaG = 45. # Ground contact angle
 FPS = 100        # PyGame refresh rate
 
 # Is the robot mounted in the air?
-MOUNTED = True
+MOUNTED = False
 
 if MOUNTED:
 	standAngle = 25.  # Mounted standing angle
