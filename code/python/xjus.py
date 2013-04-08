@@ -457,6 +457,8 @@ def mainLoop(clock, surface):
 	processed and high-level routines activated.
 	"""
 
+	global tapMode
+
 	# IPM time variable
 	t = 0
 
@@ -483,7 +485,7 @@ def mainLoop(clock, surface):
 						stand()
 
 				# Toggle continuous walking
-				elif event.key == K_UP:
+				elif (event.key == K_UP) or ((event.key is K_w) and (tapMode is False)):
 					if standing and not walking:
 						print "Start walking forward!"
 						if keyDown(K_RIGHT):
@@ -498,10 +500,16 @@ def mainLoop(clock, surface):
 							print "Walking forward!"
 							#walk(T * walkPeriods)
 							t = startContinuousWalk()
+
+						if ((event.key is K_w) and (tapMode is False)):
+							tapMode = True
+						else:
+							tapMode = False
+
 					else:
 						print "Must stand first!"
 
-				elif event.key == K_w:
+				elif event.key == K_p:
 					if standing and not walking:
 						periods = float(raw_input('Walk forward for how many periods? '))
 						walk(periods * T)
