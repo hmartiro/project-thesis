@@ -33,7 +33,7 @@ baseThetaG = 45. # Ground contact angle
 FPS = 100        # PyGame refresh rate
 
 # Is the robot mounted in the air?
-MOUNTED = True 
+MOUNTED = False
 
 if MOUNTED:
 	standAngle = 25.  # Mounted standing angle
@@ -446,6 +446,10 @@ def wait():
 	for node in nodes:
 		while not xjus.isFinished(node):
 			sleep(0.010)
+def getCurrent():
+	""" Queries the current use for each node """
+	xjus.getAllCurrent.restype=[(c_ushort * 6)]
+	nodeCurrents = xjus.getAllCurrent
 
 def mainLoop(clock, surface):
 	"""
@@ -468,6 +472,9 @@ def mainLoop(clock, surface):
 
 				# Tooggle stand on spacebar
 				if event.key == K_SPACE:
+
+					getCurrent()
+
 					if standing and not walking:
 						print "Go to sitting position."
 						sit()
@@ -476,7 +483,7 @@ def mainLoop(clock, surface):
 						stand()
 
 				# Toggle continuous walking
-				elif (event.key == K_UP) or (event.key == K_w):
+				elif event.key == K_UP:
 					if standing and not walking:
 						print "Start walking forward!"
 						if keyDown(K_RIGHT):
@@ -494,7 +501,7 @@ def mainLoop(clock, surface):
 					else:
 						print "Must stand first!"
 
-				elif event.key == K_p:
+				elif event.key == K_w:
 					if standing and not walking:
 						periods = float(raw_input('Walk forward for how many periods? '))
 						walk(periods * T)
@@ -515,7 +522,7 @@ def mainLoop(clock, surface):
 			# Key up events
 			if event.type == KEYUP:
 
-				if (event.key == K_UP) or (event.key == K_w):
+				if event.key == K_UP:
 					if standing:
 						print "Stop walking and resume stand!"
 
@@ -534,7 +541,7 @@ def mainLoop(clock, surface):
 			else:
 				turnAngle = 0
 
-			if keyDown(K_UP) or keyDown(K_w):
+			if keyDown(K_UP):
 				timer = time()
 				t = walkFrame(t, turnAngle)
 				print("Time of walkFrame() call: %f" % (time()-timer))
