@@ -19,7 +19,7 @@ from pygame.locals import *
 from xjus_trajectory import getTheta, getThetaDot
 
 # Import the correct libxjus
-FIT_PC = True
+FIT_PC = False
 
 if FIT_PC:
 	xjus = CDLL('/home/xjus/project-thesis/EPOS/linux-library/definition-files/libxjus.so')
@@ -35,7 +35,7 @@ baseThetaG = 45. # Ground contact angle
 FPS = 100        # PyGame refresh rate
 
 # Is the robot mounted in the air?
-MOUNTED = True
+MOUNTED = False
 
 if MOUNTED:
 	standAngle = 25.  # Mounted standing angle
