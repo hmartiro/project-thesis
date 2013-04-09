@@ -203,22 +203,23 @@ void getPositionRegulatorGain(unsigned short node) {
 	printf("node: %d, pP: %d, pI: %d, pD: %d \n", node, pP, pI, pD);
 }
 
-signed short* getAllCurrent(){
-	signed short nodeCurrents[6];   // INT16
+void getNodeCurrent(unsigned short node, signed short nodeCurrent){
+	// signed short nodeCurrent;   // INT16
 	// Average current 0x2027
 	unsigned short currentObject = 8231;  //WORD, uINT16
 	unsigned long pNbOfBytesRead = 2;   //DWORD, uINT32
 
 	// Load current values into the array for each node
-	for (unsigned short n = 0; n < 6; n++){
-		VCS_GetObject(device, n, currentObject, 0, &nodeCurrents[n],
-				2, &pNbOfBytesRead, &errorCode );
-		printf("For node %d, got current of %d\n", n, nodeCurrents[n]);
+	//for (unsigned short n = 0; n < 6; n++){
 
-	}
+	VCS_GetObject(device, node, currentObject, 0, &nodeCurrent, 2, &pNbOfBytesRead, &errorCode );
+
+	// printf("For node %d, got current of %d\n", node, nodeCurrent);
+
+	//}
 
 	printError();
-	return nodeCurrents;
+	//return nodeCurrents;
 }
 
 void printIpmStatus(unsigned short node) {
