@@ -214,6 +214,7 @@ void getNodeCurrent(unsigned short node, signed short nodeCurrent){
 
 	VCS_GetObject(device, node, currentObject, 0, &nodeCurrent, 2, &pNbOfBytesRead, &errorCode );
 
+	nodeCurrent = 3;
 	// printf("For node %d, got current of %d\n", node, nodeCurrent);
 
 	//}
