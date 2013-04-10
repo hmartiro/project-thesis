@@ -28,7 +28,7 @@ xjus = CDLL(libxjus_dir)
 # Editable Parameters
 #################################################
 T = 1.5          # Trajectory period
-dt = 90          # IPM time step (ms)
+dt = 100          # IPM time step (ms)
 baseThetaG = 45. # Ground contact angle
 FPS = 100        # PyGame refresh rate
 
@@ -100,6 +100,8 @@ BLUE  = (  0,   0, 255)
 standing = False
 walking = False
 tapMode = False
+turnLeft = False
+turnRight = False
 
 def initialize():
 	""" Initializes xjus and pygame """
@@ -257,9 +259,11 @@ def getPosition(node):
 
 def startContinuousWalk(turnAngle=0):
 
-	global walking
+	global walking, turnLeft, turnRight
 	walking = True
-
+	turnLeft = False
+	turnRight = False
+	
 	for node in nodes:
 		xjus.profilePositionMode(node)
 		xjus.setPositionProfile(node, 500, 10000, 5000)
@@ -281,7 +285,7 @@ def startContinuousWalk(turnAngle=0):
 	t = (dt/1000.) / 2
 
 	# fill buffer
-	for i in range(20):
+	for i in range(5):
 		addTrajectoryPoint(t, turnAngle)
 		t += dt/1000.
 
@@ -302,7 +306,7 @@ def walkFrame(t0, turnAngle=0):
 	#for node in nodes:
 	#	print("node: %d, position: %d" % (node, xjus.getPosition(node)))
 
-	chunkSize = 10
+	chunkSize = 5
 	
 	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
 		print("Adding %d points!" % chunkSize)
@@ -312,7 +316,7 @@ def walkFrame(t0, turnAngle=0):
 			tArray.append(t)
 			t += dt/1000.
 
-		print("time array: %s" % tArray)
+		#print("time array: %s" % tArray)
 		timer = time()
 		addTrajectoryArray(tArray, turnAngle)
 		print("time of addTrajectoryArray call: %f" % (time()-timer))
@@ -328,8 +332,10 @@ def walkFrame(t0, turnAngle=0):
 
 def stopContinuousWalk(t, turnAngle=0):
 
-	global walking
+	global walking, turnLeft, turnRight
 	walking = False
+	turnLeft = False
+	turnRight = False
 
 	sleep(dt/1000.)
 	for node in nodes:
@@ -453,11 +459,13 @@ def getCurrent():
         """void getNodeCurrent(unsigned short node, signed short nodeCurrent)"""
 
 	measuredCurrent = -1;
+	currentList = [-1, -1, -1, -1, -1, -1]
+
 	
 	for node in nodes:
 		xjus.getNodeCurrent(node, measuredCurrent)
-		currentList[node] = measuredCurrent
-		print("current in node %d is %d/n", node, currentList[node])
+		currentList[node - 1] = measuredCurrent
+		print("current in node %d is %d" %( node, currentList[node -1]))
 
 def mainLoop(clock, surface):
 	"""
@@ -465,14 +473,14 @@ def mainLoop(clock, surface):
 	processed and high-level routines activated.
 	"""
 
-	global tapMode
+	global tapMode, turnLeft, turnRight
 
 	# IPM time variable
 	t = 0
 
 	timer = time()
 
-	getCurrent()
+	#getCurrent()
 
 	while True:
 
@@ -485,8 +493,6 @@ def mainLoop(clock, surface):
 				# Tooggle stand on spacebar
 				if event.key == K_SPACE:
 
-					
-
 					if standing and not walking:
 						print "Go to sitting position."
 						sit()
@@ -498,11 +504,11 @@ def mainLoop(clock, surface):
 				elif (event.key == K_UP) or ((event.key is K_w) and (tapMode is False)):
 					if standing and not walking:
 						print "Start walking forward!"
-						if keyDown(K_RIGHT):
+						if keyDown(K_RIGHT) or turnRight:
 							print "Turning right!"
 							#walk(T * walkPeriods, +turning * baseThetaG)
 							t = startContinuousWalk(+turning * baseThetaG)
-						elif keyDown(K_LEFT):
+						elif keyDown(K_LEFT) or turnLeft:
 							print "Turning left!"
 							#walk(T * walkPeriods, -turning * baseThetaG)
 							t = startContinuousWalk(-turning * baseThetaG)
@@ -534,6 +540,12 @@ def mainLoop(clock, surface):
 
 				if (event.key is K_w):
 					tapMode = not tapMode
+				if (event.key is K_a):
+					turnLeft = not turnLeft
+					turnRight = False
+				if (event.key is K_d):
+					turnLeft = False
+					turnRight = not turnRight
 
 			# Key up events
 			if event.type == KEYUP:
@@ -550,14 +562,14 @@ def mainLoop(clock, surface):
 		if walking:
 
 			# Get the turn angle
-			if keyDown(K_RIGHT):
+			if keyDown(K_RIGHT) or turnRight:
 				turnAngle = +turning * baseThetaG
-			elif keyDown(K_LEFT):
+			elif keyDown(K_LEFT) or turnLeft:
 				turnAngle = -turning * baseThetaG
 			else:
 				turnAngle = 0
 
-			if keyDown(K_UP):
+			if keyDown(K_UP) or tapMode:
 				timer = time()
 				t = walkFrame(t, turnAngle)
 				print("Time of walkFrame() call: %f" % (time()-timer))
