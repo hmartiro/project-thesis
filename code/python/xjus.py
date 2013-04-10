@@ -455,17 +455,12 @@ def wait():
 			sleep(0.010)
 def getCurrent():
 	""" Queries the current use for each node """
-	xjus.getNodeCurrent.argtypes = [c_ushort, c_short] 
+	"""xjus.getNodeCurrent.argtypes = [c_ushort, c_short]"""
         """void getNodeCurrent(unsigned short node, signed short nodeCurrent)"""
 
-	measuredCurrent = -1;
-	currentList = [-1, -1, -1, -1, -1, -1]
-
-	
 	for node in nodes:
-		xjus.getNodeCurrent(node, measuredCurrent)
-		currentList[node - 1] = measuredCurrent
-		print("current in node %d is %d" %( node, currentList[node -1]))
+		measuredCurrent = xjus.getNodeCurrent(node)
+		print("current in node %d is %d" %( node, measuredCurrent))
 
 def mainLoop(clock, surface):
 	"""
@@ -480,7 +475,7 @@ def mainLoop(clock, surface):
 
 	timer = time()
 
-	#getCurrent()
+        getCurrent()
 
 	while True:
 

@@ -47,7 +47,7 @@ PYTHON_EXPORT long getPosition(unsigned short node);
 PYTHON_EXPORT int isFinished(unsigned short node);
 
 // Power info
-PYTHON_EXPORT void getNodeCurrent(unsigned short node, signed short nodeCurrent);
+PYTHON_EXPORT signed short getNodeCurrent(unsigned short node);
 
 // Utility functions
 PYTHON_EXPORT void printError();

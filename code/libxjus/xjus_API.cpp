@@ -203,30 +203,43 @@ void getPositionRegulatorGain(unsigned short node) {
 	printf("node: %d, pP: %d, pI: %d, pD: %d \n", node, pP, pI, pD);
 }
 
-void getNodeCurrent(unsigned short node, signed short nodeCurrent){
-	// signed short nodeCurrent;   // INT16
+signed short getNodeCurrent(unsigned short node){
+	signed short nodeCurrent;   // INT16
 	// Average current 0x2027
 	unsigned short currentObject = 8231;  //WORD, uINT16
 	unsigned long pNbOfBytesRead = 2;   //DWORD, uINT32
 
-	printf("**coming in %d \n", nodeCurrent);
-	// Load current values into the array for each node
-	//for (unsigned short n = 0; n < 6; n++){
-
 	VCS_GetObject(device, node, currentObject, 0, &nodeCurrent, 2, &pNbOfBytesRead, &errorCode );
 
-	printf("**coming out of VCS %d \n", nodeCurrent);
+	printf("For node %d, got current of %d\n", node, nodeCurrent);
 
-	nodeCurrent = 3;
-	// printf("For node %d, got current of %d\n", node, nodeCurrent);
-
-	printf("**return function %d \n", nodeCurrent);
-
-	//}
-
-	printError();
-	//return nodeCurrents;
+	return nodeCurrent;
 }
+
+//void getNodeCurrent(unsigned short node, signed short nodeCurrent){
+//	// signed short nodeCurrent;   // INT16
+//	// Average current 0x2027
+//	unsigned short currentObject = 8231;  //WORD, uINT16
+//	unsigned long pNbOfBytesRead = 2;   //DWORD, uINT32
+//
+//	printf("**coming in %d \n", nodeCurrent);
+//	// Load current values into the array for each node
+//	//for (unsigned short n = 0; n < 6; n++){
+//
+//	VCS_GetObject(device, node, currentObject, 0, &nodeCurrent, 2, &pNbOfBytesRead, &errorCode );
+//
+//	printf("**coming out of VCS %d \n", nodeCurrent);
+//
+//	nodeCurrent = 3;
+//	// printf("For node %d, got current of %d\n", node, nodeCurrent);
+//
+//	printf("**return function %d \n", nodeCurrent);
+//
+//	//
+//
+//	printError();
+//	//return nodeCurrents;
+//}
 
 void printIpmStatus(unsigned short node) {
 
