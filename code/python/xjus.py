@@ -449,8 +449,15 @@ def wait():
 			sleep(0.010)
 def getCurrent():
 	""" Queries the current use for each node """
-	xjus.getAllCurrent.restype=[(c_ushort * 6)]
-	nodeCurrents = xjus.getAllCurrent
+	xjus.getNodeCurrent.argtypes = [c_ushort, c_short] 
+        """void getNodeCurrent(unsigned short node, signed short nodeCurrent)"""
+
+	measuredCurrent = -1;
+	
+	for node in nodes:
+		xjus.getNodeCurrent(node, measuredCurrent)
+		currentList[node] = measuredCurrent
+		print("current in node %d is %d/n", node, currentList[node])
 
 def mainLoop(clock, surface):
 	"""
@@ -465,6 +472,8 @@ def mainLoop(clock, surface):
 
 	timer = time()
 
+	getCurrent()
+
 	while True:
 
 		# Processing all events for the frame
@@ -476,7 +485,7 @@ def mainLoop(clock, surface):
 				# Tooggle stand on spacebar
 				if event.key == K_SPACE:
 
-					#getCurrent()
+					
 
 					if standing and not walking:
 						print "Go to sitting position."
