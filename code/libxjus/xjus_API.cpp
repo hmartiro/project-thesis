@@ -209,13 +209,18 @@ void getNodeCurrent(unsigned short node, signed short nodeCurrent){
 	unsigned short currentObject = 8231;  //WORD, uINT16
 	unsigned long pNbOfBytesRead = 2;   //DWORD, uINT32
 
+	printf("**coming in %d \n", nodeCurrent);
 	// Load current values into the array for each node
 	//for (unsigned short n = 0; n < 6; n++){
 
 	VCS_GetObject(device, node, currentObject, 0, &nodeCurrent, 2, &pNbOfBytesRead, &errorCode );
 
+	printf("**coming out of VCS %d \n", nodeCurrent);
+
 	nodeCurrent = 3;
 	// printf("For node %d, got current of %d\n", node, nodeCurrent);
+
+	printf("**return function %d \n", nodeCurrent);
 
 	//}
 
