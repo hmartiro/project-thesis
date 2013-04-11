@@ -455,8 +455,8 @@ def wait():
 			sleep(0.010)
 def getCurrent():
 	""" Queries the current use for each node """
-	"""xjus.getNodeCurrent.argtypes = [c_ushort, c_short]"""
-        """void getNodeCurrent(unsigned short node, signed short nodeCurrent)"""
+	xjus.getNodeCurrent.restypes = [c_short]
+	
 
 	for node in nodes:
 		measuredCurrent = xjus.getNodeCurrent(node)
@@ -477,13 +477,17 @@ def mainLoop(clock, surface):
 
 	while True:
 
-		getCurrent()
 		
 		# Processing all events for the frame
 		for event in pygame.event.get():
 
+
 			# Key down events
 			if event.type == KEYDOWN:
+
+				# Get current on request
+				if event.key == K_c
+					getCurrent()
 
 				# Tooggle stand on spacebar
 				if event.key == K_SPACE:
