@@ -486,7 +486,7 @@ def mainLoop(clock, surface):
 			if event.type == KEYDOWN:
 
 				# Get current on request
-				if event.key == K_c
+				if event.key == K_c:
 					getCurrent()
 
 				# Tooggle stand on spacebar
