@@ -475,10 +475,10 @@ def mainLoop(clock, surface):
 
 	timer = time()
 
-        getCurrent()
-
 	while True:
 
+		getCurrent()
+		
 		# Processing all events for the frame
 		for event in pygame.event.get():
 
