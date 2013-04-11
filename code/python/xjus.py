@@ -455,18 +455,17 @@ def wait():
 			sleep(0.010)
 def getCurrent():
 	""" Queries the current use for each node """
-	xjus.getNodeCurrent.restypes = [c_short]
-	
 
 	for node in nodes:
 		measuredCurrent = xjus.getNodeCurrent(node)
-		print("current in node %d is %d" %( node, measuredCurrent))
+		print("output current in node %d is %d" %( node, measuredCurrent))
 
 def mainLoop(clock, surface):
 	"""
 	Represents the main control loop, where key events are
 	processed and high-level routines activated.
 	"""
+	printCurrent = False;
 
 	global tapMode, turnLeft, turnRight
 
@@ -476,8 +475,10 @@ def mainLoop(clock, surface):
 	timer = time()
 
 	while True:
+	
+		if (printCurrent):
+			getCurrent()
 
-		
 		# Processing all events for the frame
 		for event in pygame.event.get():
 
@@ -487,7 +488,7 @@ def mainLoop(clock, surface):
 
 				# Get current on request
 				if event.key == K_c:
-					getCurrent()
+					printCurrent = not printCurrent
 
 				# Tooggle stand on spacebar
 				if event.key == K_SPACE:
