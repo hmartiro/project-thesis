@@ -27,13 +27,13 @@ xjus = CDLL(libxjus_dir)
 #################################################
 # Editable Parameters
 #################################################
-T = 1.5          # Trajectory period
+T = 1.3          # Trajectory period
 dt = 100          # IPM time step (ms)
 baseThetaG = 45. # Ground contact angle
 FPS = 100        # PyGame refresh rate
 
 # Is the robot mounted in the air?
-MOUNTED = True
+MOUNTED = True 
 
 if MOUNTED:
 	standAngle = 25.  # Mounted standing angle
@@ -127,6 +127,27 @@ def initialize():
 		xjus.enable(node)
 
 	print "Ready for action!"
+
+	# get PID | node: 1, pP: 136, pI: 322, pD: 300 
+	# get PID | node: 2, pP: 122, pI: 277, pD: 282 
+	# get PID | node: 3, pP: 124, pI: 284, pD: 285 
+	# get PID | node: 4, pP: 110, pI: 273, pD: 231 
+	# get PID | node: 5, pP: 118, pI: 274, pD: 265 
+	# get PID | node: 6, pP: 116, pI: 287, pD: 250 
+
+	for node in nodes:
+		#xjus.printPositionRegulatorGain(node)
+		pP = xjus.getPositionRegulatorGain(node, 1)
+		pI = xjus.getPositionRegulatorGain(node, 2)
+		pD = xjus.getPositionRegulatorGain(node, 3)
+
+		#pI = int(float(pI) * 0.5)
+		pP = 200
+		pI =  20
+		pD = 200
+
+		xjus.setPositionRegulatorGain(node, pP, pI, pD)
+		xjus.printPositionRegulatorGain(node)
 
 def deinitialize():
 	""" Deconstructs xjus and pygame """
@@ -294,6 +315,39 @@ def startContinuousWalk(turnAngle=0):
 
 	return t;
 
+def startContinuousWalkBack(turnAngle = 0):
+	
+	for node in nodes:
+		xjus.profilePositionMode(node)
+		xjus.setPositionProfile(node, 500, 10000, 5000)
+
+	print "Moving to start position..."
+	for node in nodes:
+		thetaG = baseThetaG + sign[node] * turnAngle
+		offsetPos = int(round(thetaG/2 * (REV/360)))
+		p_start = tripodSign[node] * degToPos(-getTheta(t0[node], T, thetaG)) - offsetPos
+		move(node, p_start, absolute=True)
+		#print("node: %d, p_start: %d, thetaG: %f" % (node, p_start, thetaG)
+
+	wait()
+
+	for node in nodes:
+		xjus.interpolationMode(node)
+
+	# Start time is half of dt
+	t = (dt/1000.) / 2
+
+	# fill buffer
+	for i in range(5):
+		addTrajectoryPointBack(t, turnAngle)
+		t += dt/1000.
+
+	for node in nodes:
+		xjus.startIPM(node)
+
+	return t;
+
+
 def walkFrame(t0, turnAngle=0):
 
 	timer = time()
@@ -330,7 +384,44 @@ def walkFrame(t0, turnAngle=0):
 
 	return t
 
-def stopContinuousWalk(t, turnAngle=0):
+def walkFrameBack(t0, turnAngle=0):
+
+	timer = time()
+
+	t = t0
+	bufferSize = [xjus.getFreeBufferSize(node) for node in nodes]
+	print("time to get buffer size: %f" % (time()-timer))
+	#bufferHas10 = [xjus.getFreeBufferSize(node) > 9 for node in nodes]
+	
+	#for node in nodes:
+	#	print("node: %d, position: %d" % (node, xjus.getPosition(node)))
+
+	chunkSize = 5
+	
+	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
+		print("Adding %d points!" % chunkSize)
+
+		tArray = []
+		for i in range(chunkSize):
+			tArray.append(t)
+			addTrajectoryPointBack(t, turnAngle)
+			t += dt/1000.
+
+		#print("time array: %s" % tArray)
+		#timer = time()
+		#addTrajectoryArray(tArray, turnAngle)
+		#print("time of addTrajectoryArray call: %f" % (time()-timer))
+		# for _ in itertools.repeat(None, chunkSize):
+		# 	addTrajectoryPoint(t, turnAngle)
+		# 	t += dt/1000.
+
+	
+
+	print("t = %f, buffer: %s" % (t, bufferSize))
+
+	return t
+
+def stopContinuousWalk(t, turnAngle=0, back=False):
 
 	global walking, turnLeft, turnRight
 	walking = False
@@ -339,7 +430,10 @@ def stopContinuousWalk(t, turnAngle=0):
 
 	sleep(dt/1000.)
 	for node in nodes:
-		addTrajectoryPoint(t, turnAngle, end=True)
+		if back:
+			addTrajectoryPointBack(t, turnAngle, end=True)
+		else:
+			addTrajectoryPointBack(t, turnAngle, end=True)
 
 	#for node in nodes:
 	#	xjus.printIpmStatus(node)
@@ -390,6 +484,7 @@ def addTrajectoryArray(tArray, turnAngle=0):
 	timer = time()
 	addPvtAll(nA, pA, vA, tA)
 	print("time of addPvtAll call: %f" % (time() - timer))
+
 def addTrajectoryPoint(t, turnAngle=0, end=False):
 	"""
 	Calculates a PVT point for each node at time t and adds 
@@ -406,6 +501,35 @@ def addTrajectoryPoint(t, turnAngle=0, end=False):
 		offsetPos = int(round(thetaG/2 * (REV/360)))
 		p = degToPos(getTheta(t + t0[node], T, thetaG)) - offsetPos
 		v = int(round(getThetaDot(t + t0[node], T, thetaG) * ANG_VEL_TO_RPM))
+
+		nA.append(node)
+		pA.append(p)
+		if end:
+			vA.append(0)
+			tA.append(0)
+		else:
+			vA.append(v)
+			tA.append(dt)
+		#print("node: %d, P: %d, V: %d, T: %d" % (node, p, v, dt))
+
+	addPvtAll(nA, pA, vA, tA)
+
+def addTrajectoryPointBack(t, turnAngle=0, end=False):
+	"""
+	Calculates a PVT point for each node at time t and adds 
+	it to the IPM buffer.
+	"""
+	nA = []
+	pA = []
+	vA = []
+	tA = []
+
+	for node in nodes:
+
+		thetaG = baseThetaG + sign[node] * turnAngle
+		offsetPos = int(round(thetaG/2 * (REV/360)))
+		p = degToPos(-getTheta(t + t0[node], T, thetaG)) - offsetPos
+		v = int(round(-getThetaDot(t + t0[node], T, thetaG) * ANG_VEL_TO_RPM))
 
 		nA.append(node)
 		pA.append(p)
@@ -520,6 +644,11 @@ def mainLoop(clock, surface):
 					else:
 						print "Must stand first!"
 
+				elif (event.key == K_DOWN):
+					if standing and not walking:
+						print "Start walking backward!"
+						t = startContinuousWalkBack()
+
 				elif event.key == K_p:
 					if standing and not walking:
 						periods = float(raw_input('Walk forward for how many periods? '))
@@ -553,6 +682,9 @@ def mainLoop(clock, surface):
 				if event.key == K_UP:
 					if standing:
 						print "Stop walking and resume stand!"
+				elif event.key == K_DOWN:
+					if standing:
+						print "Stop walking back and resume stand!"
 
 			# Quit event, clicking the X
 			if event.type == QUIT:
@@ -573,6 +705,8 @@ def mainLoop(clock, surface):
 				timer = time()
 				t = walkFrame(t, turnAngle)
 				print("Time of walkFrame() call: %f" % (time()-timer))
+			elif keyDown(K_DOWN):
+				t = walkFrameBack(t, turnAngle)
 			else:
 				stopContinuousWalk(t, turnAngle)
 
