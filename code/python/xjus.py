@@ -32,9 +32,6 @@ dt = 100          # IPM time step (ms)
 baseThetaG = 45. # Ground contact angle
 FPS = 100        # PyGame refresh rate
 
-# Is the robot mounted in the air?
-MOUNTED = False
-
 standAngle = 145.
 mountedStandAngle = 25.
 
@@ -45,7 +42,7 @@ walkPeriods = 2
 turning = 0.4
 
 # Amount of chunking
-chunkSize = 1
+chunkSize = 3
 
 ################################################
 # System constants
@@ -104,11 +101,7 @@ tapModeBack = False
 # Command line arguments
 for arg in sys.argv:
 	if arg == "mounted":
-		MOUNTED = True
-
-if MOUNTED:
-	standAngle = mountedStandAngle
-
+		standAngle = mountedStandAngle
 
 def initialize():
 	""" Initializes xjus and pygame """
