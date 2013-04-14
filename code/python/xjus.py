@@ -358,7 +358,7 @@ def walkFrame(t0, turnAngle=0):
 	timer = time()
 
 	global T
-	T -= 0.005
+	#T -= 0.005
 	print("T = %f" % T)
 
 	t = t0
