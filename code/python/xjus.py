@@ -42,7 +42,7 @@ walkPeriods = 2
 turning = 0.4
 
 # Amount of chunking
-chunkSize = 3
+chunkSize = 5
 
 ################################################
 # System constants
