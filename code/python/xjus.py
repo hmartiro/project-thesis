@@ -27,24 +27,25 @@ xjus = CDLL(libxjus_dir)
 #################################################
 # Editable Parameters
 #################################################
-T = 1.3          # Trajectory period
+T = 2.0          # Trajectory period
 dt = 100          # IPM time step (ms)
 baseThetaG = 45. # Ground contact angle
 FPS = 100        # PyGame refresh rate
 
 # Is the robot mounted in the air?
-MOUNTED = False 
+MOUNTED = False
 
-if MOUNTED:
-	standAngle = 25.  # Mounted standing angle
-else:
-	standAngle = 145. # Standing angle
+standAngle = 145.
+mountedStandAngle = 25.
 
 # How many periods the walk is for
 walkPeriods = 2
 
 # Fraction of base ground angle modified for turning
 turning = 0.4
+
+# Amount of chunking
+chunkSize = 1
 
 ################################################
 # System constants
@@ -84,11 +85,7 @@ name = {FL: "FL", FR: "FR", ML: "ML", MR: "MR", BL: "BL", BR: "BR"}
 
 # Signs for each tripod
 tripodSign = {FL: 1, FR: -1, ML: -1, MR: 1, BL: 1, BR: -1}
-
-# Trajectory offset for legs
-t0Left  = T/2
-t0Right =  0.
-t0 = {FL: t0Left, FR: t0Right, ML: t0Right, MR: t0Left, BL: t0Left, BR: t0Right}
+zSign = {FL: 1, FR: 0, ML: 0, MR: 1, BL: 1, BR: 0}
 
 # Colors for drawing
 WHITE = (255, 255, 255)
@@ -102,6 +99,16 @@ walking = False
 tapMode = False
 turnLeft = False
 turnRight = False
+tapModeBack = False
+
+# Command line arguments
+for arg in sys.argv:
+	if arg == "mounted":
+		MOUNTED = True
+
+if MOUNTED:
+	standAngle = mountedStandAngle
+
 
 def initialize():
 	""" Initializes xjus and pygame """
@@ -293,7 +300,7 @@ def startContinuousWalk(turnAngle=0):
 	for node in nodes:
 		thetaG = baseThetaG + sign[node] * turnAngle
 		offsetPos = int(round(thetaG/2 * (REV/360)))
-		p_start = tripodSign[node] * degToPos(getTheta(t0[node], T, thetaG)) - offsetPos
+		p_start = tripodSign[node] * degToPos(getTheta(zSign[node]*T/2., T, thetaG)) - offsetPos
 		move(node, p_start, absolute=True)
 		#print("node: %d, p_start: %d, thetaG: %f" % (node, p_start, thetaG))
 
@@ -316,7 +323,12 @@ def startContinuousWalk(turnAngle=0):
 	return t;
 
 def startContinuousWalkBack(turnAngle = 0):
-	
+
+	global walking, turnLeft, turnRight
+	walking = True
+	turnLeft = False
+	turnRight = False
+
 	for node in nodes:
 		xjus.profilePositionMode(node)
 		xjus.setPositionProfile(node, 500, 10000, 5000)
@@ -325,8 +337,8 @@ def startContinuousWalkBack(turnAngle = 0):
 	for node in nodes:
 		thetaG = baseThetaG + sign[node] * turnAngle
 		offsetPos = int(round(thetaG/2 * (REV/360)))
-		p_start = tripodSign[node] * degToPos(-getTheta(t0[node], T, thetaG)) - offsetPos
-		move(node, p_start, absolute=True)
+		p_start = tripodSign[node] * degToPos(getTheta(zSign[node]*T/2., T, thetaG)) - offsetPos
+		move(node, -p_start, absolute=True)
 		#print("node: %d, p_start: %d, thetaG: %f" % (node, p_start, thetaG)
 
 	wait()
@@ -352,28 +364,29 @@ def walkFrame(t0, turnAngle=0):
 
 	timer = time()
 
+	global T
+	T -= 0.005
+	print("T = %f" % T)
+
 	t = t0
 	bufferSize = [xjus.getFreeBufferSize(node) for node in nodes]
-	print("time to get buffer size: %f" % (time()-timer))
-	#bufferHas10 = [xjus.getFreeBufferSize(node) > 9 for node in nodes]
 	
 	#for node in nodes:
 	#	print("node: %d, position: %d" % (node, xjus.getPosition(node)))
 
-	chunkSize = 5
-	
 	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
 		print("Adding %d points!" % chunkSize)
 
 		tArray = []
 		for i in range(chunkSize):
 			tArray.append(t)
+			addTrajectoryPoint(t, turnAngle)
 			t += dt/1000.
 
 		#print("time array: %s" % tArray)
-		timer = time()
-		addTrajectoryArray(tArray, turnAngle)
-		print("time of addTrajectoryArray call: %f" % (time()-timer))
+		#timer = time()
+		#addTrajectoryArray(tArray, turnAngle)
+		print("time of addTrajectoryPoint call: %f" % (time()-timer))
 		# for _ in itertools.repeat(None, chunkSize):
 		# 	addTrajectoryPoint(t, turnAngle)
 		# 	t += dt/1000.
@@ -390,14 +403,13 @@ def walkFrameBack(t0, turnAngle=0):
 
 	t = t0
 	bufferSize = [xjus.getFreeBufferSize(node) for node in nodes]
+	print("walkFrameBack called!")
 	print("time to get buffer size: %f" % (time()-timer))
 	#bufferHas10 = [xjus.getFreeBufferSize(node) > 9 for node in nodes]
 	
 	#for node in nodes:
 	#	print("node: %d, position: %d" % (node, xjus.getPosition(node)))
 
-	chunkSize = 5
-	
 	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
 		print("Adding %d points!" % chunkSize)
 
@@ -472,8 +484,8 @@ def addTrajectoryArray(tArray, turnAngle=0):
 
 			thetaG = baseThetaG + sign[node] * turnAngle
 			offsetPos = int(round(thetaG/2 * (REV/360)))
-			p = degToPos(getTheta(t + t0[node], T, thetaG)) - offsetPos
-			v = int(round(getThetaDot(t + t0[node], T, thetaG) * ANG_VEL_TO_RPM))
+			p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG)) - offsetPos
+			v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG) * ANG_VEL_TO_RPM))
 
 			nA.append(node)
 			pA.append(p)
@@ -499,8 +511,8 @@ def addTrajectoryPoint(t, turnAngle=0, end=False):
 
 		thetaG = baseThetaG + sign[node] * turnAngle
 		offsetPos = int(round(thetaG/2 * (REV/360)))
-		p = degToPos(getTheta(t + t0[node], T, thetaG)) - offsetPos
-		v = int(round(getThetaDot(t + t0[node], T, thetaG) * ANG_VEL_TO_RPM))
+		p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG)) - offsetPos
+		v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG) * ANG_VEL_TO_RPM))
 
 		nA.append(node)
 		pA.append(p)
@@ -528,16 +540,16 @@ def addTrajectoryPointBack(t, turnAngle=0, end=False):
 
 		thetaG = baseThetaG + sign[node] * turnAngle
 		offsetPos = int(round(thetaG/2 * (REV/360)))
-		p = degToPos(-getTheta(t + t0[node], T, thetaG)) - offsetPos
-		v = int(round(-getThetaDot(t + t0[node], T, thetaG) * ANG_VEL_TO_RPM))
+		p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG)) - offsetPos
+		v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG) * ANG_VEL_TO_RPM))
 
 		nA.append(node)
-		pA.append(p)
+		pA.append(-p)
 		if end:
 			vA.append(0)
 			tA.append(0)
 		else:
-			vA.append(v)
+			vA.append(-v)
 			tA.append(dt)
 		#print("node: %d, P: %d, V: %d, T: %d" % (node, p, v, dt))
 
@@ -577,6 +589,7 @@ def wait():
 	for node in nodes:
 		while not xjus.isFinished(node):
 			sleep(0.010)
+			#print(xjus.getErrorCode())
 def getCurrent():
 	""" Queries the current use for each node """
 
@@ -591,15 +604,14 @@ def mainLoop(clock, surface):
 	"""
 	printCurrent = False;
 
-	global tapMode, turnLeft, turnRight
+	global tapMode, tapModeBack, turnLeft, turnRight
 
 	# IPM time variable
 	t = 0
 
 	timer = time()
-
 	while True:
-	
+		
 		if (printCurrent):
 			getCurrent()
 
@@ -644,10 +656,19 @@ def mainLoop(clock, surface):
 					else:
 						print "Must stand first!"
 
-				elif (event.key == K_DOWN):
+				elif (event.key == K_DOWN) or ((event.key is K_s) and (tapModeBack is False)):
 					if standing and not walking:
 						print "Start walking backward!"
-						t = startContinuousWalkBack()
+						if keyDown(K_RIGHT) or turnRight:
+							print "Turning right backward!"
+							#walk(T * walkPeriods, +turning * baseThetaG)
+							t = startContinuousWalkBack(+turning * baseThetaG)
+						elif keyDown(K_LEFT) or turnLeft:
+							print "Turning left backward!"
+							#walk(T * walkPeriods, -turning * baseThetaG)
+							t = startContinuousWalkBack(-turning * baseThetaG)
+						else:
+							t = startContinuousWalkBack()
 
 				elif event.key == K_p:
 					if standing and not walking:
@@ -675,6 +696,8 @@ def mainLoop(clock, surface):
 				if (event.key is K_d):
 					turnLeft = False
 					turnRight = not turnRight
+				if (event.key is K_s):
+					tapModeBack = not tapModeBack
 
 			# Key up events
 			if event.type == KEYUP:
@@ -702,10 +725,10 @@ def mainLoop(clock, surface):
 				turnAngle = 0
 
 			if keyDown(K_UP) or tapMode:
-				timer = time()
+				#timer = time()
 				t = walkFrame(t, turnAngle)
-				print("Time of walkFrame() call: %f" % (time()-timer))
-			elif keyDown(K_DOWN):
+				#print("Time of walkFrame() call: %f" % (time()-timer))
+			elif keyDown(K_DOWN) or tapModeBack:
 				t = walkFrameBack(t, turnAngle)
 			else:
 				stopContinuousWalk(t, turnAngle)
