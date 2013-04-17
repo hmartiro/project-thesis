@@ -28,22 +28,23 @@ xjus = CDLL(libxjus_dir)
 #################################################
 # Editable Parameters
 #################################################
-T = 1.3          # Trajectory period
-dt = 120          # IPM time step (ms)
+T = 0.8         # Trajectory period
+DT = 100          # IPM time step (ms)
 FPS = 100        # PyGame refresh rate
 
 GROUND_ANGLE = 50. # Ground contact angle
 BACK_GROUND_ANGLE = 25.
 
 STAND_ANGLE = 145.
-MOUNTED_STAND_ANGLE = 25.
+MOUNTED_STAND_ANGLE = 20.
 BACK_OFFSET_ANGLE = 0.
 
 # Fraction of base ground angle modified for turning
-turning = 0.4
+TURN_FRACTION = 0.5
+GROUND_ANGLE_TURNING_REDUCTION = 0.75
 
 # Amount of chunking
-chunkSize = 7
+CHUNK_SIZE = 3
 
 ################################################
 # System constants
@@ -219,7 +220,7 @@ def plotWalk(tTotal):
 	thetaG = GROUND_ANGLE
 	offsetPos = int(round(thetaG/2 * (REV/360)))
 
-	t = np.arange((dt/1000.) / 2, tTotal, dt/1000.)
+	t = np.arange((DT/1000.) / 2, tTotal, DT/1000.)
 	t[0] = 0.0
 
 	# Vectorized functions
@@ -279,13 +280,14 @@ def getPosition(node):
 
 	return sign[node] * xjus.getPosition(node)
 
-def startTripod(turnAngle=0, back=False):
+#########################################################################
+# TRIPOD FUNCTIONS
+#########################################################################
 
-	global walking, turnLeft, turnRight
-	walking = True
-	turnLeft = False
-	turnRight = False
-	
+def startTripod(turnAngle=0, back=False):
+	""" Move to the starting position of the tripod gait and fill the
+	    buffer with some initial points. """
+
 	for node in nodes:
 		xjus.profilePositionMode(node)
 		xjus.setPositionProfile(node, 500, 10000, 5000)
@@ -293,23 +295,12 @@ def startTripod(turnAngle=0, back=False):
 	print "Moving to start position..."
 	for node in nodes:
 
+		[p, v, dt] = getTripodPVT(node, 0, turnAngle=turnAngle, back=back)
+
 		if back:
-			thetaG = BACK_GROUND_ANGLE
+			move(node, -p, absolute=True)
 		else:
-			thetaG = GROUND_ANGLE
-		thetaG += sign[node] * turnAngle
-
-		offsetPos = int(round(thetaG/2 * (REV/360)))
-		p_start = tripodSign[node] * degToPos(getTheta(zSign[node]*T/2., T, thetaG)) - offsetPos
-
-		if back:
-			backOffsetPos = int(round(BACK_OFFSET_ANGLE * (REV/360)))
-			p_start += backOffsetPos
-
-		if back:
-			move(node, -p_start, absolute=True)
-		else:
-			move(node, p_start, absolute=True)
+			move(node, p, absolute=True)
 	
 	wait()
 
@@ -317,12 +308,12 @@ def startTripod(turnAngle=0, back=False):
 		xjus.interpolationMode(node)
 
 	# Start time is half of dt
-	t = (dt/1000.) / 2
+	t = (DT/1000.) / 2
 
 	# fill buffer
 	for i in range(5):
 		addTripodPoint(t, turnAngle, back=back)
-		t += dt/1000.
+		t += DT/1000.
 
 	for node in nodes:
 		xjus.startIPM(node)
@@ -330,29 +321,29 @@ def startTripod(turnAngle=0, back=False):
 	return t;
 
 def tripodFrame(t0, turnAngle=0, back=False):
+	""" Loop function of the tripod gait - fills in trajectory points
+	    as needed to keep the controller buffers full. """
 
 	t = t0
-	bufferSize = [xjus.getFreeBufferSize(node) for node in nodes]
 
-	if len([b for b in bufferSize if b >= chunkSize]) == len(nodes):
-
-		for i in range(chunkSize):
+	bufferSize = [64 - xjus.getFreeBufferSize(node) for node in nodes]
+	bufferMaxLimit = CHUNK_SIZE * 1.5
+	
+	fillBuffer= len([b for b in bufferSize if b <= bufferMaxLimit]) == len(nodes)
+	if fillBuffer:
+		for i in range(CHUNK_SIZE):
 			addTripodPoint(t, turnAngle, back=back)
+			t += DT/1000.
 
-			t += dt/1000.
-
-	print("t = %f, buffer: %s" % (t, bufferSize))
+	print("Buffer: %s, Added points: %r" % (bufferSize, fillBuffer))
 
 	return t
 
 def stopTripod(t, turnAngle=0, back=False):
+	""" Adds an ending point to the tripod gait and returns to a
+	    standing position. """
 
-	global walking, turnLeft, turnRight
-	walking = False
-	turnLeft = False
-	turnRight = False
-
-	pytime.wait(dt)
+	pytime.wait(DT)
 	for node in nodes:
 		addTripodPoint(t, turnAngle, back=back, end=True)
 
@@ -364,10 +355,8 @@ def stopTripod(t, turnAngle=0, back=False):
 	returnToStand()
 
 def addTripodPoint(t, turnAngle=0, back=False, end=False):
-	"""
-	Calculates a PVT point for each node at time t and adds 
-	it to the IPM buffer.
-	"""
+	""" Adds a PVT point for each node, for the tripod trajectory. """
+
 	nA = []
 	pA = []
 	vA = []
@@ -375,19 +364,7 @@ def addTripodPoint(t, turnAngle=0, back=False, end=False):
 
 	for node in nodes:
 
-		if back:
-			thetaG = BACK_GROUND_ANGLE
-		else:
-			thetaG = GROUND_ANGLE
-		thetaG += sign[node] * turnAngle
-
-		offsetPos = int(round(thetaG/2 * (REV/360)))
-		p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG)) - offsetPos
-		v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG) * ANG_VEL_TO_RPM))
-
-		if back:
-			backOffsetPos = int(round(BACK_OFFSET_ANGLE * (REV/360)))
-			p += backOffsetPos
+		[p, v, dt] = getTripodPVT(node, t, turnAngle=turnAngle, back=back)
 
 		nA.append(node)
 		pA.append(p)
@@ -403,6 +380,31 @@ def addTripodPoint(t, turnAngle=0, back=False, end=False):
 		vA = [-v for v in vA]
 
 	addPvtArray(nA, pA, vA, tA)
+
+def getTripodPVT(node, t, turnAngle=0, back=False):
+	""" Given a node and time, returns a single PVT point. """
+
+	if back:
+		thetaG = BACK_GROUND_ANGLE
+	else:
+		thetaG = GROUND_ANGLE
+
+	if turnAngle != 0:
+		thetaG *= GROUND_ANGLE_TURNING_REDUCTION
+
+	if (sign[node] * turnAngle < 0):
+		thetaG += sign[node] * turnAngle * GROUND_ANGLE_TURNING_REDUCTION
+
+	offsetPos = int(round(thetaG/2 * (REV/360)))
+	p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG)) - offsetPos
+	v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG) * ANG_VEL_TO_RPM))
+	dt = DT
+
+	if back:
+		backOffsetPos = int(round(BACK_OFFSET_ANGLE * (REV/360)))
+		p += backOffsetPos
+
+	return [p, v, dt]
 
 def addPvtArray(nodes, positions, velocities, times):
 	""" Sends the given PVT points for each node to the controller. """
@@ -452,7 +454,8 @@ def mainLoop(clock, surface):
 	"""
 	printCurrent = False;
 
-	global tapMode, tapModeBack, turnLeft, turnRight
+	global walking, tapMode, tapModeBack, turnLeft, turnRight
+	global T, GROUND_ANGLE
 
 	# IPM time variable
 	t = 0
@@ -487,12 +490,10 @@ def mainLoop(clock, surface):
 				elif (event.key is K_w) and (tapMode is False):
 					if standing and not walking:
 						drawText("Walking forward")
-						if turnRight:
-							t = startTripod(+turning * GROUND_ANGLE)
-						elif turnLeft:
-							t = startTripod(-turning * GROUND_ANGLE)
-						else:
-							t = startTripod()
+						walking = True
+						turnLeft = False
+						turnRight = False
+						t = startTripod()
 
 					else:
 						print "Must stand first!"
@@ -500,12 +501,10 @@ def mainLoop(clock, surface):
 				elif (event.key is K_s) and (tapModeBack is False):
 					if standing and not walking:
 						drawText("Walking backward")
-						if turnRight:
-							t = startTripod(+turning * GROUND_ANGLE, back=True)
-						elif turnLeft:
-							t = startTripod(-turning * GROUND_ANGLE, back=True)
-						else:
-							t = startTripod(back=True)
+						walking = True
+						turnLeft = False
+						turnRight = False
+						t = startTripod(back=True)
 
 				if (event.key is K_w):
 					tapMode = not tapMode
@@ -518,6 +517,11 @@ def mainLoop(clock, surface):
 					turnLeft = False
 					turnRight = not turnRight
 		
+				if (event.key is K_t) and not walking:
+					T = float(raw_input('New movement period: '))
+				if (event.key is K_g) and not walking:
+					GROUND_ANGLE = float(raw_input('New ground angle: '))
+
 				# Exit on escape
 				if event.key == K_ESCAPE:
 					return
@@ -530,22 +534,24 @@ def mainLoop(clock, surface):
 		if walking:
 
 			# Get the turn angle
+			turnFraction = 0
 			if turnRight:
-				turnAngle = +turning * GROUND_ANGLE
+				turnFraction = +TURN_FRACTION
 			elif turnLeft:
-				turnAngle = -turning * GROUND_ANGLE
-			else:
-				turnAngle = 0
-
+				turnFraction = -TURN_FRACTION
+				
 			if tapMode:
 				#timer = time()
-				t = tripodFrame(t, turnAngle)
+				t = tripodFrame(t, turnFraction * GROUND_ANGLE)
 				#print("Time of tripodFrame() call: %f" % (time()-timer))
 			elif tapModeBack:
-				t = tripodFrame(t, turnAngle, back=True)
+				t = tripodFrame(t, turnFraction * BACK_GROUND_ANGLE, back=True)
 			else:
 				drawText("Standing up")
-				stopTripod(t, turnAngle)
+				walking = False
+				turnLeft = False
+				turnRight = False
+				stopTripod(t, turnFraction * GROUND_ANGLE)
 
 		# Pygame frame
 		pygame.display.update()
