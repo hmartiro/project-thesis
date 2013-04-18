@@ -8,6 +8,7 @@ PYTHON_EXPORT int  openDevice();
 PYTHON_EXPORT void closeDevice();
 PYTHON_EXPORT void clearFault(unsigned short node);
 PYTHON_EXPORT unsigned long getErrorCode();
+PYTHON_EXPORT unsigned short getState(unsigned short node);
 
 PYTHON_EXPORT void getPositionRegulatorGain(unsigned short node);
 PYTHON_EXPORT void setPositionRegulatorGain(unsigned short node, unsigned short P, unsigned short I, unsigned short D);
