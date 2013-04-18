@@ -28,12 +28,12 @@ xjus = CDLL(libxjus_dir)
 #################################################
 # Editable Parameters
 #################################################
-T = 0.8         # Trajectory period
+T = 1.1        # Trajectory period
 DT = 100          # IPM time step (ms)
 FPS = 100        # PyGame refresh rate
 
-GROUND_ANGLE = 50. # Ground contact angle
-BACK_GROUND_ANGLE = 25.
+GROUND_ANGLE = 80. # Ground contact angle
+BACK_GROUND_ANGLE = 40.
 
 STAND_ANGLE = 145.
 MOUNTED_STAND_ANGLE = 20.
@@ -44,7 +44,9 @@ TURN_FRACTION = 0.5
 GROUND_ANGLE_TURNING_REDUCTION = 0.75
 
 # Amount of chunking
-CHUNK_SIZE = 3
+CHUNK_SIZE = 5
+
+FOLLOWING_ERROR = 35000
 
 ################################################
 # System constants
@@ -127,7 +129,7 @@ def initialize():
 
 
 		xjus.clearIpmBuffer(node)
-		xjus.setMaxFollowingError(node, 20000)
+		xjus.setMaxFollowingError(node, FOLLOWING_ERROR)
 		xjus.setMaxVelocity(node, 8700)
 		xjus.setMaxAcceleration(node, 1000000)
 		xjus.enable(node)
@@ -154,8 +156,8 @@ def initialize():
 
 		#pI = int(float(pI) * 0.5)
 		pP = 120
-		pI =  50
-		pD = 270
+		pI =  20
+		pD = 350
 
 		xjus.setPositionRegulatorGain(node, pP, pI, pD)
 
@@ -517,9 +519,6 @@ def mainLoop(clock, surface):
 				if event.key == K_c:
 					printCurrent = not printCurrent
 
-				if event.key == K_e:
-					finishCurrentToFile(fileId)
-
 				# Tooggle stand on spacebar
 				if event.key == K_SPACE:
 
@@ -565,7 +564,8 @@ def mainLoop(clock, surface):
 					T = float(raw_input('New movement period: '))
 				if (event.key is K_g) and not walking:
 					GROUND_ANGLE = float(raw_input('New ground angle: '))
-
+				if (event.key is K_e):
+					print("Error code: %x" % xjus.getErrorCode())
 				# Exit on escape
 				if event.key == K_ESCAPE:
 					return
