@@ -50,6 +50,12 @@ int openDevice() {
 	else return -1;
 }
 
+unsigned short getState(unsigned short node) {
+	unsigned short state;
+	VCS_GetState(device, node, &state, &errorCode);
+	return state;
+}
+
 void clearFault(unsigned short node) {
 	//printf("Clearing fault at node %d...\n", node);
 	VCS_ClearFault(device, node, &errorCode);
@@ -223,7 +229,7 @@ signed short getNodeAvgCurrent(unsigned short node){
 		nodeCurrent = -nodeCurrent;
 
 
-	
+
 
 	//printf("For node %d, got current of %d\n", node, nodeCurrent);
 
