@@ -179,6 +179,7 @@ void clearIpmBuffer(unsigned short node) {
 	VCS_ClearIpmBuffer(device, node, &errorCode);
 	printError();
 }
+
 void homingMode(unsigned short node) {
 	//printf("Switching to homing position mode at node %d \n", node);
 	VCS_ActivateHomingMode(device, node, &errorCode);
@@ -200,7 +201,12 @@ void setPositionProfile(unsigned short node, long vel, long accel, long deaccel)
 void getPositionRegulatorGain(unsigned short node) {
 	unsigned short pP, pI, pD;
 	VCS_GetPositionRegulatorGain(device, node, &pP, &pI, &pD, &errorCode);
-	printf("node: %d, pP: %d, pI: %d, pD: %d \n", node, pP, pI, pD);
+    //printf("node: %d, pP: %d, pI: %d, pD: %d \n", node, pP, pI, pD);
+}
+
+void setPositionRegulatorGain(unsigned short node, unsigned short P, unsigned short I, unsigned short D) {
+	VCS_SetPositionRegulatorGain(device, node, P, I, D, &errorCode);
+	printError();
 }
 
 signed short getNodeAvgCurrent(unsigned short node){
@@ -212,15 +218,14 @@ signed short getNodeAvgCurrent(unsigned short node){
 
 	VCS_GetObject(device, node, currentObject, 0, &nodeCurrent, 2, &pNbOfBytesRead, &errorCode );
 
-	// If node is even, account for direction of motor and take absolute value
-	if (node % 2 == 0)
+	// Take the absolute value of the current, ignoring regenerative effects
+	if (nodeCurrent < 0)
 		nodeCurrent = -nodeCurrent;
 
-	// Check for energy generation, meaning a negative current is recorded
-	if (nodeCurrent < 0)
-		printf("STOP: %d was negative with a value of %d \n", node, nodeCurrent);
 
-	printf("For node %d, got current of %d\n", node, nodeCurrent);
+	
+
+	//printf("For node %d, got current of %d\n", node, nodeCurrent);
 
 	return nodeCurrent;
 }

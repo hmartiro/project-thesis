@@ -121,12 +121,21 @@ def initialize():
 		if (errorCode is 872415239) or (errorCode is 10000003):
 			pygame.quit()
 			raise Exception("No connection to device!")
+		if (errorCode == 34000007):
+			pygame.quit()
+			raise Exception("Turn on motors!")
+
 
 		xjus.clearIpmBuffer(node)
 		xjus.setMaxFollowingError(node, 20000)
 		xjus.setMaxVelocity(node, 8700)
 		xjus.setMaxAcceleration(node, 1000000)
 		xjus.enable(node)
+
+		errorCode = xjus.getErrorCode()
+		if (errorCode == 34000007):
+			pygame.quit()
+			raise Exception("Turn on motors!")
 
 	print "Ready for action!"
 
@@ -139,9 +148,9 @@ def initialize():
 
 	for node in nodes:
 		#xjus.printPositionRegulatorGain(node)
-		pP = xjus.getPositionRegulatorGain(node, 1)
-		pI = xjus.getPositionRegulatorGain(node, 2)
-		pD = xjus.getPositionRegulatorGain(node, 3)
+		#pP = xjus.getPositionRegulatorGain(node, 1)
+		#pI = xjus.getPositionRegulatorGain(node, 2)
+		#pD = xjus.getPositionRegulatorGain(node, 3)
 
 		#pI = int(float(pI) * 0.5)
 		pP = 120
@@ -149,7 +158,9 @@ def initialize():
 		pD = 270
 
 		xjus.setPositionRegulatorGain(node, pP, pI, pD)
-		xjus.printPositionRegulatorGain(node)
+
+			
+		#xjus.printPositionRegulatorGain(node)
 
 def deinitialize():
 	""" Deconstructs xjus and pygame """
@@ -440,19 +451,47 @@ def wait():
 		while not xjus.isFinished(node):
 			pytime.wait(10)
 			#print(xjus.getErrorCode())
-def getCurrent():
-	""" Queries the current use for each node """
+def printCurrentToCommand():
+	""" Queries the current use for each node and prints it to the command line """
 
 	for node in nodes:
-		measuredCurrent = xjus.getNodeCurrent(node)
-		print("output current in node %d is %d" %( node, measuredCurrent))
+		measuredCurrent = xjus.getNodeAvgCurrent(node)
+		
+		if (node == 1):
+			output = str(measuredCurrent) + ", "
+		elif (node == 6):
+			output += str(measuredCurrent)
+		else:
+			output += str(measuredCurrent) + ", "
+
+	print(output);
+
+def finishCurrentToFile(fileId):
+	""" Closes the file containing current information """
+	fileId.close()
+
+def currentToFile(fileId):
+	""" Queries the current use for each node and writes it to a specified file """
+
+	for node in nodes:
+		measuredCurrent = xjus.getNodeAvgCurrent(node)
+
+		if (node == 1):
+			output = str(measuredCurrent) + ", "
+		elif (node == 6):
+			output += str(measuredCurrent)
+		else:
+			output += str(measuredCurrent) + ", "
+
+	fileId.write(output + '\n')
 
 def mainLoop(clock, surface):
 	"""
 	Represents the main control loop, where key events are
 	processed and high-level routines activated.
 	"""
-	printCurrent = False;
+	printCurrent = False
+	fileId = open('currentOutput.txt', 'a')
 
 	global walking, tapMode, tapModeBack, turnLeft, turnRight
 	global T, GROUND_ANGLE
@@ -464,7 +503,9 @@ def mainLoop(clock, surface):
 	while True:
 		
 		if (printCurrent):
-			getCurrent()
+			printCurrentToCommand()
+			currentToFile(fileId)
+			printCurrent = False
 
 		# Processing all events for the frame
 		for event in pygame.event.get():
@@ -475,6 +516,9 @@ def mainLoop(clock, surface):
 				# Get current on request
 				if event.key == K_c:
 					printCurrent = not printCurrent
+
+				if event.key == K_e:
+					finishCurrentToFile(fileId)
 
 				# Tooggle stand on spacebar
 				if event.key == K_SPACE:
