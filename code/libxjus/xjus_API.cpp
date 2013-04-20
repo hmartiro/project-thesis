@@ -65,6 +65,10 @@ int openDevices() {
 	//VCS_SetProtocolStackSettings(device2, BAUDRATE, TIMEOUT, &errorCode);
 	printError();
 
+	clearFault(2);
+	clearFault(4);
+	clearFault(6);
+
 	return 1;
 	//if ((device1) && (device2)) return 1;
 	//else return -1;
