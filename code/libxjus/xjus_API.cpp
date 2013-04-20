@@ -55,18 +55,19 @@ int openDevices() {
 	device1 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName1, &errorCode);
 	printError();
 	printf("Connected Device 1: %p\n", device1);
-	device2 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName2, &errorCode);
-	printError();
-	printf("Connected Device 2: %p\n", device2);
+	//device2 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName2, &errorCode);
+	//printError();
+	//printf("Connected Device 2: %p\n", device2);
 
 	//printf("Protocol stack settings are ");
 	//printf("baudrate %lu and timeout %lu.\n", BAUDRATE, TIMEOUT);
 	VCS_SetProtocolStackSettings(device1, BAUDRATE, TIMEOUT, &errorCode);
-	VCS_SetProtocolStackSettings(device2, BAUDRATE, TIMEOUT, &errorCode);
+	//VCS_SetProtocolStackSettings(device2, BAUDRATE, TIMEOUT, &errorCode);
 	printError();
 
-	if ((device1) && (device2)) return 1;
-	else return -1;
+	return 1;
+	//if ((device1) && (device2)) return 1;
+	//else return -1;
 }
 
 unsigned short getState(unsigned short node) {
@@ -97,8 +98,8 @@ void closeDevices() {
 	//printf("Closing connection to device.\n");
 	VCS_CloseDevice(device1, &errorCode);
 	printError();
-	VCS_CloseDevice(device2, &errorCode);
-	printError();
+	//VCS_CloseDevice(device2, &errorCode);
+	//printError();
 }
 
 long getPosition(unsigned short node) {
@@ -170,11 +171,6 @@ void addPVT(unsigned short node, long p, long v, unsigned int t) {
 }
 
 void addPvtAll(int N, unsigned short node[], long p[], long v[], unsigned char t[]) {
-
-	//int N = sizeof(p)/sizeof(p[0]);
-
-	//printf("sizeofP = %d, sizeof(p[0]) = %d, N = %d \n", sizeof(p), sizeof(p[0]), N);
-
 	for(int i = 0; i < N; i++) {
 		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node[i], p[i], v[i], t[i]);
 		VCS_AddPvtValueToIpmBuffer(device(node[i]), node[i], p[i], v[i], t[i], &errorCode);
@@ -248,9 +244,6 @@ signed short getNodeAvgCurrent(unsigned short node){
 	// Take the absolute value of the current, ignoring regenerative effects
 	if (nodeCurrent < 0)
 		nodeCurrent = -nodeCurrent;
-
-
-
 
 	//printf("For node %d, got current of %d\n", node, nodeCurrent);
 
