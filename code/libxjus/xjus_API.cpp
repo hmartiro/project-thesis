@@ -27,8 +27,7 @@ void* device1;
 void* device2;
 
 void* device(unsigned int node) {
-	printf("Getting device ID for node %d, returning device 1\n", node);
-	return device1;
+	printf("Getting device ID for node %d", node);
 	if ((node == 1) || (node == 3) || (node == 5)) {
 		printf(", returning device 2\n");
 		return device2;
@@ -53,30 +52,23 @@ unsigned long getErrorCode() {
 
 int openDevices() {
 	printf("Attempting connection to %s", deviceName);
+
 	device1 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName1, &errorCode);
 	printError();
 	printf("Connected Device 1: %p\n", device1);
-	//device2 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName2, &errorCode);
-	//printError();
-	//printf("Connected Device 2: %p\n", device2);
+
+	device2 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName2, &errorCode);
+	printError();
+	printf("Connected Device 2: %p\n", device2);
 
 	//printf("Protocol stack settings are ");
 	//printf("baudrate %lu and timeout %lu.\n", BAUDRATE, TIMEOUT);
 	VCS_SetProtocolStackSettings(device1, BAUDRATE, TIMEOUT, &errorCode);
-	//VCS_SetProtocolStackSettings(device2, BAUDRATE, TIMEOUT, &errorCode);
+	VCS_SetProtocolStackSettings(device2, BAUDRATE, TIMEOUT, &errorCode);
 	printError();
 
-	clearFault(1);
-	clearFault(2);
-	clearFault(3);
-	clearFault(4);
-	clearFault(5);
-	clearFault(6);
-	clearFault(7);
-
-	return 1;
-	//if ((device1) && (device2)) return 1;
-	//else return -1;
+	if ((device1) && (device2)) return 1;
+	else return -1;
 }
 
 unsigned short getState(unsigned short node) {
@@ -107,8 +99,8 @@ void closeDevices() {
 	//printf("Closing connection to device.\n");
 	VCS_CloseDevice(device1, &errorCode);
 	printError();
-	//VCS_CloseDevice(device2, &errorCode);
-	//printError();
+	VCS_CloseDevice(device2, &errorCode);
+	printError();
 }
 
 long getPosition(unsigned short node) {
