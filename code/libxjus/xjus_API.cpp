@@ -27,7 +27,7 @@ void* device1;
 void* device2;
 
 void* device(unsigned int node) {
-	//printf("Getting device ID for node %d", node);
+	printf("Getting device ID for node %d, returning device 1\n", node);
 	return device1;
 	if ((node == 1) || (node == 3) || (node == 5)) {
 		printf(", returning device 2\n");
