@@ -52,7 +52,7 @@ int openDevices() {
 	printf("Connected Device 1: %p\n", device1);
 	device2 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName2, &errorCode);
 	printError();
-	printf("Connected Device 2: %p\n", device1);
+	printf("Connected Device 2: %p\n", device2);
 
 	//printf("Protocol stack settings are ");
 	//printf("baudrate %lu and timeout %lu.\n", BAUDRATE, TIMEOUT);
