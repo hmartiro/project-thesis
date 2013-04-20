@@ -29,11 +29,11 @@ void* device2;
 void* device(unsigned int node) {
 	printf("Getting device ID for node %d", node);
 	if ((node == 1) || (node == 3) || (node == 5)) {
-		printf(", returning device 1\n");
-		return device1;
-	} else if ((node == 2) || (node == 4) || (node == 6)) {
 		printf(", returning device 2\n");
 		return device2;
+	} else if ((node == 2) || (node == 4) || (node == 6)) {
+		printf(", returning device 1\n");
+		return device1;
 	} else {
 		printf("No device matched!\n");
 		return 0;
