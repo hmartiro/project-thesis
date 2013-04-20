@@ -68,6 +68,7 @@ int openDevices() {
 	clearFault(2);
 	clearFault(4);
 	clearFault(6);
+	clearFault(1);
 
 	return 1;
 	//if ((device1) && (device2)) return 1;
