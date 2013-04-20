@@ -88,7 +88,7 @@ void disable(unsigned short node) {
 	printError();
 }
 
-void closeDevice() {
+void closeDevices() {
 	//printf("Closing connection to device.\n");
 	VCS_CloseDevice(device1, &errorCode);
 	printError();

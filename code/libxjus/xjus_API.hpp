@@ -4,8 +4,8 @@
 #define PYTHON_EXPORT extern "C"
 
 // Initialization
-PYTHON_EXPORT int  openDevice();
-PYTHON_EXPORT void closeDevice();
+PYTHON_EXPORT int  openDevices();
+PYTHON_EXPORT void closeDevices();
 PYTHON_EXPORT void clearFault(unsigned short node);
 PYTHON_EXPORT unsigned long getErrorCode();
 PYTHON_EXPORT unsigned short getState(unsigned short node);
