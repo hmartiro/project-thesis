@@ -31,7 +31,7 @@ void* device(unsigned int node) {
 	if ((node == 1) || (node == 3) || (node == 5)) {
 		printf(", returning device 2\n");
 		return device2;
-	} else if ((node == 2) || (node == 4) || (node == 6)) {
+	} else if ((node == 2) || (node == 4) || (node == 6) || (node == 13)) {
 		printf(", returning device 1\n");
 		return device1;
 	} else {
@@ -68,7 +68,7 @@ int openDevices() {
 	clearFault(2);
 	clearFault(4);
 	clearFault(6);
-	clearFault(1);
+	clearFault(13);
 
 	return 1;
 	//if ((device1) && (device2)) return 1;
