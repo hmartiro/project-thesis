@@ -38,7 +38,7 @@ void* device(unsigned int node) {
 void printError() {
 	VCS_GetErrorInfo(errorCode, errorInfo, ERROR_INFO_LENGTH);
 	if (errorCode)
-		printf("ERROR: x%lx\n, Message: %s", errorCode, errorInfo);
+		printf("ERROR: x%lx, Message: %s\n", errorCode, errorInfo);
 }
 
 unsigned long getErrorCode() {
