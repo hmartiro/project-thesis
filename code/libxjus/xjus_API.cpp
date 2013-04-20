@@ -28,10 +28,11 @@ void* device2;
 
 void* device(unsigned int node) {
 	printf("Getting device ID for node %d", node);
+	return device1;
 	if ((node == 1) || (node == 3) || (node == 5)) {
 		printf(", returning device 2\n");
 		return device2;
-	} else if ((node == 2) || (node == 4) || (node == 6) || (node == 13)) {
+	} else if ((node == 2) || (node == 4) || (node == 6)) {
 		printf(", returning device 1\n");
 		return device1;
 	} else {
@@ -65,10 +66,13 @@ int openDevices() {
 	//VCS_SetProtocolStackSettings(device2, BAUDRATE, TIMEOUT, &errorCode);
 	printError();
 
+	clearFault(1);
 	clearFault(2);
+	clearFault(3);
 	clearFault(4);
+	clearFault(5);
 	clearFault(6);
-	clearFault(13);
+	clearFault(7);
 
 	return 1;
 	//if ((device1) && (device2)) return 1;
