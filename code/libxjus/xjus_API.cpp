@@ -177,6 +177,21 @@ void addPVT(unsigned short node, long p, long v, unsigned int t) {
 	printError();
 }
 
+void addPvtAll2(int N, long data[][4]) {
+
+	clock_t t0, t1;
+	t0 = clock();
+
+	for(int i = 0; i < N; i++) {
+		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node[i], p[i], v[i], t[i]);
+		VCS_AddPvtValueToIpmBuffer(device(data[i][0]), data[i][0], data[i][1], data[i][2], data[i][3], &errorCode);
+	}
+	printError();
+
+	t1 = clock();
+	printf("addPvtAll() call: %f \n", (double(t1 - t0) / CLOCKS_PER_SEC));
+}
+
 void addPvtAll(int N, unsigned short* node, long* p, long* v, unsigned char* t) {
 
 	clock_t t0, t1;
