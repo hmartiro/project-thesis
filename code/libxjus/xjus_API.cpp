@@ -256,7 +256,7 @@ unsigned short getPositionRegulatorFeedForward(unsigned short node, int index) {
 }
 
 void setPositionRegulatorFeedForward(unsigned short node,unsigned short velocityFeedForward, unsigned short accelerationFeedForward) {
-	VCS_GetPositionRegulatorFeedForward(device(node), node, &velocityFeedForward, &accelerationFeedForward, &errorCode);
+	VCS_SetPositionRegulatorFeedForward(device(node), node, velocityFeedForward, accelerationFeedForward, &errorCode);
 	printError();
 }
 
