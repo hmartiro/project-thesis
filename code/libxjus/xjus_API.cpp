@@ -221,14 +221,42 @@ void setPositionProfile(unsigned short node, long vel, long accel, long deaccel)
 	printError();
 }
 
-void getPositionRegulatorGain(unsigned short node) {
+unsigned short getPositionRegulatorGain(unsigned short node, int index) {
 	unsigned short pP, pI, pD;
 	VCS_GetPositionRegulatorGain(device(node), node, &pP, &pI, &pD, &errorCode);
-    //printf("node: %d, pP: %d, pI: %d, pD: %d \n", node, pP, pI, pD);
+	if (index == 1) return pP;
+	else if (index == 2) return pI;
+	else if (index == 3) return pD;
+	else {
+		printf("Invalid index to get regulator gain!\n");
+		return -1;
+	}
+}
+
+void printPositionRegulatorGain(unsigned short node) {
+	unsigned short pP, pI, pD;
+	VCS_GetPositionRegulatorGain(device(node), node, &pP, &pI, &pD, &errorCode);
+    printf("node: %d, pP: %d, pI: %d, pD: %d \n", node, pP, pI, pD);
 }
 
 void setPositionRegulatorGain(unsigned short node, unsigned short P, unsigned short I, unsigned short D) {
 	VCS_SetPositionRegulatorGain(device(node), node, P, I, D, &errorCode);
+	printError();
+}
+
+unsigned short getPositionRegulatorFeedForward(unsigned short node, int index) {
+	unsigned short velocityFeedForward, accelerationFeedForward;
+	VCS_GetPositionRegulatorFeedForward(device(node), node, &velocityFeedForward, &accelerationFeedForward, &errorCode);
+	if (index == 1) return velocityFeedForward;
+	else if (index == 2) return accelerationFeedForward;
+	else {
+		printf("Invalid index to get regulator feed forward!");
+		return -1;
+	}
+}
+
+void setPositionRegulatorFeedForward(unsigned short node,unsigned short velocityFeedForward, unsigned short accelerationFeedForward) {
+	VCS_GetPositionRegulatorFeedForward(device(node), node, &velocityFeedForward, &accelerationFeedForward, &errorCode);
 	printError();
 }
 

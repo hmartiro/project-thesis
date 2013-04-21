@@ -10,8 +10,11 @@ PYTHON_EXPORT void clearFault(unsigned short node);
 PYTHON_EXPORT unsigned long getErrorCode();
 PYTHON_EXPORT unsigned short getState(unsigned short node);
 
-PYTHON_EXPORT void getPositionRegulatorGain(unsigned short node);
+PYTHON_EXPORT unsigned short getPositionRegulatorGain(unsigned short node, int index);
+PYTHON_EXPORT void printPositionRegulatorGain(unsigned short node);
 PYTHON_EXPORT void setPositionRegulatorGain(unsigned short node, unsigned short P, unsigned short I, unsigned short D);
+PYTHON_EXPORT unsigned short getPositionRegulatorFeedForward(unsigned short node, int index);
+PYTHON_EXPORT void setPositionRegulatorFeedForward(unsigned short node,unsigned short velocityFeedForward, unsigned short accelerationFeedForward);
 
 // Enable / disable
 PYTHON_EXPORT void enable(unsigned short node);
