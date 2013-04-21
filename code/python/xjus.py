@@ -28,13 +28,13 @@ xjus = CDLL(libxjus_dir)
 #################################################
 # Editable Parameters
 #################################################
-T = 2.0        # Trajectory period
+T = 1.0        # Trajectory period
 DT = 100          # IPM time step (ms)
 FPS = 100        # PyGame refresh rate
 
-DUTY_CYCLE = 0.5
+DUTY_CYCLE = 0.7
 
-GROUND_ANGLE = 80. # Ground contact angle
+GROUND_ANGLE = 110. # Ground contact angle
 BACK_GROUND_ANGLE = 40.
 
 STAND_ANGLE = 145.
@@ -46,7 +46,7 @@ TURN_FRACTION = 0.5
 GROUND_ANGLE_TURNING_REDUCTION = 0.75
 
 # Amount of chunking
-CHUNK_SIZE = 10
+CHUNK_SIZE = 5
 
 FOLLOWING_ERROR = 35000
 
@@ -158,7 +158,7 @@ def initialize():
 
 		#pI = int(float(pI) * 0.5)
 		pP = 130
-		pI =  60
+		pI =  10
 		pD = 275
 
 		xjus.setPositionRegulatorGain(node, pP, pI, pD)
