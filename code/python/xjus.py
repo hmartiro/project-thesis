@@ -29,8 +29,8 @@ xjus = CDLL(libxjus_dir)
 # Editable Parameters
 #################################################
 T = 1.0        # Trajectory period
-DT = 100          # IPM time step (ms)
-FPS = 100        # PyGame refresh rate
+DT = 100         # IPM time step (ms)
+FPS = 200        # PyGame refresh rate
 
 DUTY_CYCLE = 0.7
 
@@ -133,7 +133,7 @@ def initialize():
 		xjus.clearIpmBuffer(node)
 		xjus.setMaxFollowingError(node, FOLLOWING_ERROR)
 		xjus.setMaxVelocity(node, 8700)
-		xjus.setMaxAcceleration(node, 1000000)
+		xjus.setMaxAcceleration(node, 10000000)
 		xjus.enable(node)
 
 		errorCode = xjus.getErrorCode()
@@ -143,28 +143,31 @@ def initialize():
 
 	print "Ready for action!"
 
-	# get PID | node: 1, pP: 136, pI: 322, pD: 300 
-	# get PID | node: 2, pP: 122, pI: 277, pD: 282 
-	# get PID | node: 3, pP: 124, pI: 284, pD: 285 
-	# get PID | node: 4, pP: 110, pI: 273, pD: 231 
-	# get PID | node: 5, pP: 118, pI: 274, pD: 265 
-	# get PID | node: 6, pP: 116, pI: 287, pD: 250 
+	# get PID | node: 1, pP: 136, pI: 322, pD: 300, fV: 0,    fA: 105
+	# get PID | node: 2, pP: 122, pI: 277, pD: 282, fV: 0,    fA: 95
+	# get PID | node: 3, pP: 124, pI: 284, pD: 285, fV: 0,    fA: 87
+	# get PID | node: 4, pP: 110, pI: 273, pD: 231, fV: 0,    fA: 83
+	# get PID | node: 5, pP: 118, pI: 274, pD: 265, fV: 0,    fA: 90
+	# get PID | node: 6, pP: 116, pI: 287, pD: 250, fV: 1703, fA: 99
 
 	for node in nodes:
-		#xjus.printPositionRegulatorGain(node)
-		#pP = xjus.getPositionRegulatorGain(node, 1)
-		#pI = xjus.getPositionRegulatorGain(node, 2)
-		#pD = xjus.getPositionRegulatorGain(node, 3)
 
-		#pI = int(float(pI) * 0.5)
+		pP = xjus.getPositionRegulatorGain(node, 1)
+		pI = xjus.getPositionRegulatorGain(node, 2)
+		pD = xjus.getPositionRegulatorGain(node, 3)
+		fV = xjus.getPositionRegulatorFeedForward(node, 1)
+		fA = xjus.getPositionRegulatorFeedForward(node, 2)
+
+		print("pP: %d, pI: %d, pD: %d, fV: %d, fA: %d" % (pP, pI, pD, fV, fA))
+
 		pP = 130
 		pI =  10
 		pD = 275
+		fV =   0
+		fA =   0
 
 		xjus.setPositionRegulatorGain(node, pP, pI, pD)
-
-			
-		#xjus.printPositionRegulatorGain(node)
+		xjus.setPositionRegulatorFeedForward(node, fV, fA)
 
 def deinitialize():
 	""" Deconstructs xjus and pygame """
@@ -177,6 +180,14 @@ def deinitialize():
 	print "Connection to device closed."
 
 	pygame.quit()
+
+def nodeFault():
+	""" Returns True if any node is in a fault state. """
+
+	for node in nodes:
+		if xjus.getState(node) == 3:
+			return True
+	return False
 
 def keyDown(k):
 	""" Returns True if the given k is currently down """
@@ -326,8 +337,10 @@ def startTripod(turnAngle=0, back=False):
 	t = (DT/1000.) / 2
 
 	# fill buffer
-	for i in range(5):
-		addTripodPoint(t, turnAngle, back=back)
+	for i in range(int(CHUNK_SIZE * 1.5)):
+
+		[nA, pA, vA, tA] = addTripodPoint(t, turnAngle, back=back)
+		addPvtArray(nA, pA, vA, tA)
 		t += DT/1000.
 
 	for node in nodes:
@@ -346,9 +359,26 @@ def tripodFrame(t0, turnAngle=0, back=False):
 	
 	fillBuffer= len([b for b in bufferSize if b <= bufferMaxLimit]) == len(nodes)
 	if fillBuffer:
+
+		nA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
+		pA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
+		vA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
+		tA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
+
 		for i in range(CHUNK_SIZE):
-			addTripodPoint(t, turnAngle, back=back)
+			#timer = time()
+			[pnA, ppA, pvA, ptA] = addTripodPoint(t, turnAngle, back=back)
+			#print("addTripodPoint() call: %f" % (time()-timer))
 			t += DT/1000.
+
+			nA[i, :] = pnA
+			pA[i, :] = ppA
+			vA[i, :] = pvA
+			tA[i, :] = ptA
+
+		timer = time()
+		addPvtArray(nA.flatten(), pA.flatten(), vA.flatten(), tA.flatten())
+		print("addPvtArray() call: %f" % (time() - timer))
 
 	print("Buffer: %s, Added points: %r" % (bufferSize, fillBuffer))
 
@@ -372,29 +402,33 @@ def stopTripod(t, turnAngle=0, back=False):
 def addTripodPoint(t, turnAngle=0, back=False, end=False):
 	""" Adds a PVT point for each node, for the tripod trajectory. """
 
-	nA = []
-	pA = []
-	vA = []
-	tA = []
+	nA = np.zeros(shape=(6))
+	pA = np.zeros(shape=(6))
+	vA = np.zeros(shape=(6))
+	tA = np.zeros(shape=(6))
 
-	for node in nodes:
+	for i in range(len(nodes)):
 
-		[p, v, dt] = getTripodPVT(node, t, turnAngle=turnAngle, back=back)
+		[p, v, dt] = getTripodPVT(nodes[i], t, turnAngle=turnAngle, back=back)
 
-		nA.append(node)
-		pA.append(p)
-		if end:
-			vA.append(0)
-			tA.append(0)
-		else:
-			vA.append(v)
-			tA.append(dt)
+		nA[i] = nodes[i]
+		pA[i] = p
+		vA[i] = v
+		tA[i] = dt
+
+	if end:
+		vA = [0. for v in vA]
+		tA = [0. for t in tA]
 
 	if back:
 		pA = [-p for p in pA]
 		vA = [-v for v in vA]
 
-	addPvtArray(nA, pA, vA, tA)
+	#timer = time()
+	#addPvtArray(nA, pA, vA, tA)
+	#print("addPvtArray() call: %f" % (time() - timer))
+
+	return [nA, pA, vA, tA]
 
 def getTripodPVT(node, t, turnAngle=0, back=False):
 	""" Given a node and time, returns a single PVT point. """
@@ -424,8 +458,6 @@ def getTripodPVT(node, t, turnAngle=0, back=False):
 def addPvtArray(nodes, positions, velocities, times):
 	""" Sends the given PVT points for each node to the controller. """
 
-	#print("positions: %s" % positions)
-
 	N = len(nodes)
 
 	for i in range(N):
@@ -433,13 +465,15 @@ def addPvtArray(nodes, positions, velocities, times):
 		positions[i] *= sign[node]
 		velocities[i] *= sign[node]
 
-	n = (c_ushort * N)(*nodes)
-	p = (c_long * N)(*map(int, map(round, positions)))
-	v = (c_long * N)(*map(int, map(round, velocities)))
-	t = (c_ubyte * N)(*times)
+	data_np = np.vstack([nodes, positions, velocities, times]).transpose().astype(np.long)
 
-	xjus.addPvtAll.argtypes = [c_int, (c_ushort * N), (c_long * N), (c_long * N), (c_ubyte * N)]
-	xjus.addPvtAll(N, n, p, v, t)
+	data = ((c_long * 4) * N)()
+	for i in range(N):
+		data[i] = (c_long * 4)(*data_np[i])
+
+	timer = time()
+	xjus.addPvtAll2(N, data)
+	print("xjus.addPvtAll() call: %f" % (time() - timer))
 
 def addPvt(node, position, velocity, time):
 	""" Sends the given PVT point to the controller. """
@@ -455,6 +489,7 @@ def wait():
 		while not xjus.isFinished(node):
 			pytime.wait(10)
 			#print(xjus.getErrorCode())
+
 def printCurrentToCommand():
 	""" Queries the current use for each node and prints it to the command line """
 
@@ -503,9 +538,14 @@ def mainLoop(clock, surface):
 	# IPM time variable
 	t = 0
 
-	timer = time()
 	while True:
-		
+
+		timer0 = time()
+		# if nodeFault():
+		# 	print("Error occurred!")
+		# 	return
+		# print("nodeFault() call: %f" % (time()-timer))
+
 		if (printCurrent):
 			printCurrentToCommand()
 			currentToFile(fileId)
@@ -587,9 +627,9 @@ def mainLoop(clock, surface):
 				turnFraction = -TURN_FRACTION
 				
 			if tapMode:
-				#timer = time()
+				timer = time()
 				t = tripodFrame(t, turnFraction * GROUND_ANGLE)
-				#print("Time of tripodFrame() call: %f" % (time()-timer))
+				print("tripodFrame() call: %f" % (time()-timer))
 			elif tapModeBack:
 				t = tripodFrame(t, turnFraction * BACK_GROUND_ANGLE, back=True)
 			else:
@@ -602,6 +642,8 @@ def mainLoop(clock, surface):
 		# Pygame frame
 		pygame.display.update()
 		clock.tick(FPS)
+
+		print("FULL LOOP: %f" % (time() - timer0))
 
 def drawText(string):
 	""" Draws centered text in the control window """
