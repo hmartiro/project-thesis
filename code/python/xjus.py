@@ -28,14 +28,15 @@ xjus = CDLL(libxjus_dir)
 #################################################
 # Editable Parameters
 #################################################
-T = 1.0        # Trajectory period
+T = 1.2        # Trajectory period
 DT = 100         # IPM time step (ms)
 FPS = 200        # PyGame refresh rate
 
-DUTY_CYCLE = 0.7
+PHASE_OFFSET = -45.
+DUTY_CYCLE = 0.70
 
-GROUND_ANGLE = 110. # Ground contact angle
-BACK_GROUND_ANGLE = 40.
+GROUND_ANGLE = 100. # Ground contact angle
+BACK_GROUND_ANGLE = 70.
 
 STAND_ANGLE = 145.
 MOUNTED_STAND_ANGLE = 20.
@@ -323,10 +324,13 @@ def startTripod(turnAngle=0, back=False):
 
 		[p, v, dt] = getTripodPVT(node, 0, turnAngle=turnAngle, back=back)
 
-		if back:
-			move(node, -p, absolute=True)
-		else:
-			move(node, p, absolute=True)
+		print("Start position. node: %d, p: %d, v: %d" % (node, p, v))
+
+		if node in left:
+			if back:
+				move(node, -p, absolute=True)
+			else:
+				move(node, p, absolute=True)
 	
 	wait()
 
@@ -444,8 +448,8 @@ def getTripodPVT(node, t, turnAngle=0, back=False):
 	if (sign[node] * turnAngle < 0):
 		thetaG += sign[node] * turnAngle * GROUND_ANGLE_TURNING_REDUCTION
 
-	offsetPos = int(round(thetaG/2 * (REV/360)))
-	p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG, DUTY_CYCLE)) - offsetPos
+	offsetPos = int(round(PHASE_OFFSET * (REV/360)))
+	p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG, DUTY_CYCLE)) + offsetPos
 	v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG, DUTY_CYCLE) * ANG_VEL_TO_RPM))
 	dt = DT
 
@@ -643,7 +647,7 @@ def mainLoop(clock, surface):
 		pygame.display.update()
 		clock.tick(FPS)
 
-		print("FULL LOOP: %f" % (time() - timer0))
+		#print("FULL LOOP: %f" % (time() - timer0))
 
 def drawText(string):
 	""" Draws centered text in the control window """
