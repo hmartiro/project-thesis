@@ -14,10 +14,25 @@ def getTheta(t, T, thetaG, dc):
 	contact angle. In degrees.
 	"""
 
-	def integrand(tP):
-		return getThetaDot(tP, T, thetaG, dc)
+	#def integrand(tP):
+	#	return getThetaDot(tP, T, thetaG, dc)
+	#return integrate.quad(integrand, 0, t)[0]
 
-	return integrate.quad(integrand, 0, t)[0]
+	wG = getThetaDot(  0, T, thetaG, dc)
+	wA = getThetaDot((T*dc), T, thetaG, dc)
+	
+	periods = (t - (t%T))/T
+	theta = periods * 360.
+
+	tPart = t % T
+	if tPart < (dc * T):
+		theta += tPart * wG
+	else:
+		theta += (dc * T) * wG
+		theta += (tPart - (dc * T)) * wA
+		
+	return theta
+
 
 def getThetaDot(t, T, thetaG, dc):
 	""" 
@@ -33,11 +48,12 @@ def getThetaDot(t, T, thetaG, dc):
 	return degrees(thetaDot)
 
 # T = 2.0
-
 # thetaG = 90.
-# dc = 0.7
+# dc = 0.55
 # DT = 30
 # tTotal = 2 * T
+
+#getTheta(10.2, T, thetaG, dc)
 
 # getThetaVector = np.vectorize(getTheta)
 # getThetaDotVector = np.vectorize(getThetaDot)
