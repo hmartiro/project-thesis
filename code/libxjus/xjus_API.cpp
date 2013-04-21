@@ -188,7 +188,7 @@ void addPvtAll2(int N, long data[][4]) {
 		long v = data[i][2];
 		unsigned char t = (unsigned char)data[i][3];
 
-		printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
+		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
 		VCS_AddPvtValueToIpmBuffer(device(node), node, p, v, t, &errorCode);
 	}
 	printError();
