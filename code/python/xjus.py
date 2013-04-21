@@ -19,7 +19,7 @@ from pygame import key, draw
 from pygame import time as pytime
 from pygame.locals import *
 
-from xjus_trajectory import getTheta, getThetaDot
+from xjus_trajectory2 import getTheta, getThetaDot
 
 # Import libxjus, the wrapper library for libEposCmd.so
 libxjus_dir = expanduser("~") + '/project-thesis/code/definition-files/libxjus.so'
@@ -28,9 +28,11 @@ xjus = CDLL(libxjus_dir)
 #################################################
 # Editable Parameters
 #################################################
-T = 1.1        # Trajectory period
+T = 2.0        # Trajectory period
 DT = 100          # IPM time step (ms)
 FPS = 100        # PyGame refresh rate
+
+DUTY_CYCLE = 0.5
 
 GROUND_ANGLE = 80. # Ground contact angle
 BACK_GROUND_ANGLE = 40.
@@ -44,7 +46,7 @@ TURN_FRACTION = 0.5
 GROUND_ANGLE_TURNING_REDUCTION = 0.75
 
 # Amount of chunking
-CHUNK_SIZE = 5
+CHUNK_SIZE = 10
 
 FOLLOWING_ERROR = 35000
 
@@ -113,7 +115,7 @@ def initialize():
 	pygame.font.init()
 	
 	print "Opening connection to device..."
-	xjus.openDevice()
+	xjus.openDevices()
 
 	print "Clearing faults and enabling nodes..."
 	for node in nodes:
@@ -155,9 +157,9 @@ def initialize():
 		#pD = xjus.getPositionRegulatorGain(node, 3)
 
 		#pI = int(float(pI) * 0.5)
-		pP = 120
-		pI =  20
-		pD = 350
+		pP = 130
+		pI =  60
+		pD = 275
 
 		xjus.setPositionRegulatorGain(node, pP, pI, pD)
 
@@ -171,7 +173,7 @@ def deinitialize():
 	for node in nodes:
 		xjus.disable(node)
 
-	xjus.closeDevice()
+	xjus.closeDevices()
 	print "Connection to device closed."
 
 	pygame.quit()
@@ -241,8 +243,8 @@ def plotWalk(tTotal):
 	getThetaDotVector = np.vectorize(getThetaDot)
 	degToPosVector = np.vectorize(degToPos)
 
-	thetaR = getThetaVector(t,     thetaG)
-	thetaL = getThetaVector(t+T/2., thetaG)
+	thetaR = getThetaVector(t,     thetaG, DUTY_CYCLE)
+	thetaL = getThetaVector(t+T/2., thetaG, DUTY_CYCLE)
 
 	posR = degToPosVector(thetaR) + offsetPos
 	posL = degToPosVector(thetaL) - offsetPos
@@ -409,8 +411,8 @@ def getTripodPVT(node, t, turnAngle=0, back=False):
 		thetaG += sign[node] * turnAngle * GROUND_ANGLE_TURNING_REDUCTION
 
 	offsetPos = int(round(thetaG/2 * (REV/360)))
-	p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG)) - offsetPos
-	v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG) * ANG_VEL_TO_RPM))
+	p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG, DUTY_CYCLE)) - offsetPos
+	v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG, DUTY_CYCLE) * ANG_VEL_TO_RPM))
 	dt = DT
 
 	if back:

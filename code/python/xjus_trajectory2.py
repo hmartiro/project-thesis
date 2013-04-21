@@ -14,10 +14,25 @@ def getTheta(t, T, thetaG, dc):
 	contact angle. In degrees.
 	"""
 
-	def integrand(tP):
-		return getThetaDot(tP, T, thetaG, dc)
+	#def integrand(tP):
+	#	return getThetaDot(tP, T, thetaG, dc)
+	#return integrate.quad(integrand, 0, t)[0]
 
-	return integrate.quad(integrand, 0, t)[0]
+	wG = getThetaDot(  0, T, thetaG, dc)
+	wA = getThetaDot(T/2, T, thetaG, dc)
+	
+	periods = (t - (t%T))/T
+	theta = periods * 360.
+
+	tPart = t % T
+	if tPart < (dc * T):
+		theta += tPart * wG
+	else:
+		theta += (dc * T) * wG
+		theta += (tPart - (dc * T)) * wA
+	print theta
+	return theta
+
 
 def getThetaDot(t, T, thetaG, dc):
 	""" 
@@ -32,24 +47,25 @@ def getThetaDot(t, T, thetaG, dc):
 
 	return degrees(thetaDot)
 
-# T = 2.0
+T = 2.0
+thetaG = 90.
+dc = 0.7
+DT = 30
+tTotal = 2 * T
 
-# thetaG = 90.
-# dc = 0.7
-# DT = 30
-# tTotal = 2 * T
+#getTheta(10.2, T, thetaG, dc)
 
-# getThetaVector = np.vectorize(getTheta)
-# getThetaDotVector = np.vectorize(getThetaDot)
+getThetaVector = np.vectorize(getTheta)
+getThetaDotVector = np.vectorize(getThetaDot)
 
-# t = np.arange((DT/1000.) / 2, tTotal, DT/1000.)
-# t[0] = 0.0
+t = np.arange((DT/1000.) / 2, tTotal, DT/1000.)
+t[0] = 0.0
 
-# theta = getThetaVector(t, T, thetaG, dc)
-# thetaDot = getThetaDotVector(t, T, thetaG, dc)
+theta = getThetaVector(t, T, thetaG, dc)
+thetaDot = getThetaDotVector(t, T, thetaG, dc)
 
-# plt.plot(t, theta, 'r', t, thetaDot, 'b')
-# plt.xlabel('Time (seconds)')
-# plt.ylabel('Angular Velocity (deg)')
-# plt.legend(['theta','thetaDot'])
-# plt.show()
+plt.plot(t, theta, 'r', t, thetaDot, 'b')
+plt.xlabel('Time (seconds)')
+plt.ylabel('Angular Velocity (deg)')
+plt.legend(['theta','thetaDot'])
+plt.show()
