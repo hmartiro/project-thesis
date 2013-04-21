@@ -177,7 +177,7 @@ void addPVT(unsigned short node, long p, long v, unsigned int t) {
 	printError();
 }
 
-void addPvtAll(int N, unsigned short node[], long p[], long v[], unsigned char t[]) {
+void addPvtAll(int N, unsigned short* node, long* p, long* v, unsigned char* t) {
 
 	clock_t t0, t1;
 	t0 = clock();
