@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
+#include <ctime>
+
 using namespace std;
 
 #include "Definitions.h"
@@ -78,11 +80,14 @@ void closeDevices() {
 }
 
 unsigned short getState(unsigned short node) {
-	int t0 = time(NULL);
+
+	clock_t t0, t1;
+
+	t0 = clock();
 	unsigned short state;
 	VCS_GetState(device(node), node, &state, &errorCode);
-	int t1 = time(NULL);
-	printf("getState() call: %d\n", (t1-t0));
+	t1 = clock();
+	printf("getState() call: %ld \n", (t1-t0));
 	return state;
 }
 
