@@ -78,8 +78,11 @@ void closeDevices() {
 }
 
 unsigned short getState(unsigned short node) {
+	int t0 = time(NULL);
 	unsigned short state;
 	VCS_GetState(device(node), node, &state, &errorCode);
+	int t1 = time(NULL);
+	printf("getState() call: %d\n", (t1-t0));
 	return state;
 }
 
