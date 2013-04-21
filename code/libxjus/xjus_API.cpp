@@ -87,7 +87,7 @@ unsigned short getState(unsigned short node) {
 	unsigned short state;
 	VCS_GetState(device(node), node, &state, &errorCode);
 	t1 = clock();
-	printf("getState() call: %ld \n", (t1-t0));
+	printf("getState() call: %f \n", (double(t1 - t0) / CLOCKS_PER_SEC));
 	return state;
 }
 
