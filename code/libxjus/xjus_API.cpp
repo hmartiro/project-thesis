@@ -183,7 +183,7 @@ void addPvtAll(int N, unsigned short node[], long p[], long v[], unsigned char t
 	t0 = clock();
 
 	for(int i = 0; i < N; i++) {
-		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node[i], p[i], v[i], t[i]);
+		printf("node: %u, p: %ld, v: %ld, t: %u \n", node[i], p[i], v[i], t[i]);
 		VCS_AddPvtValueToIpmBuffer(device(node[i]), node[i], p[i], v[i], t[i], &errorCode);
 	}
 	printError();
