@@ -81,13 +81,12 @@ void closeDevices() {
 
 unsigned short getState(unsigned short node) {
 
-	clock_t t0, t1;
-
-	t0 = clock();
+	//clock_t t0, t1;
+	//t0 = clock();
 	unsigned short state;
 	VCS_GetState(device(node), node, &state, &errorCode);
-	t1 = clock();
-	printf("getState() call: %f \n", (double(t1 - t0) / CLOCKS_PER_SEC));
+	//t1 = clock();
+	//printf("getState() call: %f \n", (double(t1 - t0) / CLOCKS_PER_SEC));
 	return state;
 }
 
@@ -179,11 +178,18 @@ void addPVT(unsigned short node, long p, long v, unsigned int t) {
 }
 
 void addPvtAll(int N, unsigned short node[], long p[], long v[], unsigned char t[]) {
+
+	clock_t t0, t1;
+	t0 = clock();
+
 	for(int i = 0; i < N; i++) {
 		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node[i], p[i], v[i], t[i]);
 		VCS_AddPvtValueToIpmBuffer(device(node[i]), node[i], p[i], v[i], t[i], &errorCode);
 	}
 	printError();
+
+	t1 = clock();
+	printf("addPvtAll() call: %f \n", (double(t1 - t0) / CLOCKS_PER_SEC));
 }
 
 void startIPM(unsigned short node) {
