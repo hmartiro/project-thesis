@@ -24,7 +24,7 @@ from xjus_trajectory2 import getTheta, getThetaDot
 #libxjus_dir = expanduser("~") + '/project-thesis/code/definition-files/libxjus.so'
 #xjus = CDLL(libxjus_dir)
 sys.path.insert(0, '../libxjus')
-import xjus_API as xjus
+import xjus_API as xj
 
 #################################################
 # Editable Parameters
