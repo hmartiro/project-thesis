@@ -68,10 +68,6 @@ except AttributeError:
 
 
 
-def set_vector(*args):
-  return _xjus_API.set_vector(*args)
-set_vector = _xjus_API.set_vector
-
 def openDevices():
   return _xjus_API.openDevices()
 openDevices = _xjus_API.openDevices
@@ -148,21 +144,9 @@ def addPVT(*args):
   return _xjus_API.addPVT(*args)
 addPVT = _xjus_API.addPVT
 
-def addPvtAll(*args):
-  return _xjus_API.addPvtAll(*args)
-addPvtAll = _xjus_API.addPvtAll
-
-def addPvtAll2(*args):
-  return _xjus_API.addPvtAll2(*args)
-addPvtAll2 = _xjus_API.addPvtAll2
-
-def addPvtAll3(*args):
-  return _xjus_API.addPvtAll3(*args)
-addPvtAll3 = _xjus_API.addPvtAll3
-
-def addPvtAll4(*args):
-  return _xjus_API.addPvtAll4(*args)
-addPvtAll4 = _xjus_API.addPvtAll4
+def addPvtFrame(*args):
+  return _xjus_API.addPvtFrame(*args)
+addPvtFrame = _xjus_API.addPvtFrame
 
 def startIPM(*args):
   return _xjus_API.startIPM(*args)

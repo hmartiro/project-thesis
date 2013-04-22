@@ -8,7 +8,6 @@ import sys, os
 from os.path import expanduser
 
 from time import time
-from ctypes import *
 from math import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -44,12 +43,11 @@ STAND_ANGLE = 145.
 MOUNTED_STAND_ANGLE = 20.
 BACK_OFFSET_ANGLE = 0.
 
+BUFFER_MAX_LIMIT = 10
+
 # Fraction of base ground angle modified for turning
 TURN_FRACTION = 0.5
 GROUND_ANGLE_TURNING_REDUCTION = 0.75
-
-# Amount of chunking
-CHUNK_SIZE = 1
 
 FOLLOWING_ERROR = 35000
 
@@ -343,10 +341,9 @@ def startTripod(turnAngle=0, back=False):
 	t = (DT/1000.) / 2
 
 	# fill buffer
-	for i in range(int(CHUNK_SIZE * 1.5 + 5)):
+	for i in range(BUFFER_MAX_LIMIT):
 
-		[nA, pA, vA, tA] = addTripodPoint(t, turnAngle, back=back)
-		addPvtArray(nA, pA, vA, tA)
+		addTripodPoint(t, turnAngle, back=back)
 		t += DT/1000.
 
 	for node in nodes:
@@ -359,33 +356,18 @@ def tripodFrame(t0, turnAngle=0, back=False):
 	    as needed to keep the controller buffers full. """
 
 	t = t0
-
+	timer = time()
 	bufferSize = [64 - xjus.getFreeBufferSize(node) for node in nodes]
-	bufferMaxLimit = CHUNK_SIZE * 1.5 + 5
-	
-	fillBuffer= len([b for b in bufferSize if b <= bufferMaxLimit]) == len(nodes)
+	print("Time to check buffer size: %fs" % (time() - timer))
+	fillBuffer= len([b for b in bufferSize if b <= BUFFER_MAX_LIMIT]) == len(nodes)
 	if fillBuffer:
 
-		#nA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
-		#pA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
-		#vA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
-		#tA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
-
 		timer = time()
-		for i in range(CHUNK_SIZE):
-			#timer = time()
-			[pnA, ppA, pvA, ptA] = addTripodPoint(t, turnAngle, back=back)
-			#print("addTripodPoint() call: %f" % (time()-timer))
-			addPvtArray(pnA, ppA, pvA, ptA)
-			t += DT/1000.
 
-			#nA[i, :] = pnA
-			#pA[i, :] = ppA
-			#vA[i, :] = pvA
-			#tA[i, :] = ptA
-		
-		#addPvtArray(nA.flatten(), pA.flatten(), vA.flatten(), tA.flatten())
-		print("TIME TO ADD PVT: %f" % (time() - timer))
+		addTripodPoint(t, turnAngle, back=back)
+		t += DT/1000.
+
+		print("Add PVT time in Python: %fs" % (time() - timer))
 
 	print("Buffer: %s, Added points: %r" % (bufferSize, fillBuffer))
 
@@ -409,10 +391,10 @@ def stopTripod(t, turnAngle=0, back=False):
 def addTripodPoint(t, turnAngle=0, back=False, end=False):
 	""" Adds a PVT point for each node, for the tripod trajectory. """
 
-	nA = np.zeros(shape=(6))
-	pA = np.zeros(shape=(6))
-	vA = np.zeros(shape=(6))
-	tA = np.zeros(shape=(6))
+	nA = np.zeros(shape=(len(nodes)))
+	pA = np.zeros(shape=(len(nodes)))
+	vA = np.zeros(shape=(len(nodes)))
+	tA = np.zeros(shape=(len(nodes)))
 
 	for i in range(len(nodes)):
 
@@ -431,9 +413,7 @@ def addTripodPoint(t, turnAngle=0, back=False, end=False):
 		pA = [-p for p in pA]
 		vA = [-v for v in vA]
 
-	#timer = time()
-	#addPvtArray(nA, pA, vA, tA)
-	#print("addPvtArray() call: %f" % (time() - timer))
+	addPvtArray(nA, pA, vA, tA)
 
 	return [nA, pA, vA, tA]
 
@@ -472,48 +452,12 @@ def addPvtArray(nodes, positions, velocities, times):
 		positions[i] *= sign[node]
 		velocities[i] *= sign[node]
 
-	data_np = np.vstack([nodes, positions, velocities, times]).transpose().astype(int)
-	data_npC = np.ascontiguousarray(data_np)
+	pvt = np.vstack([nodes, positions, velocities, times])
+	pvt = np.ascontiguousarray(pvt.transpose().astype(int))
 
-	#data = ((c_long * 4) * N)()
-	#for i in range(N):
-	#	data[i] = (c_long * 4)(*data_np[i])
-
-	# n = nodes.astype(np.long)
-	# p = nodes.astype(np.long)
-	# v = nodes.astype(np.long)
-	# t = nodes.astype(np.long)
-
-	# nC = xjus.shortArray(N)
-	# pC = xjus.longArray(N)
-	# vC = xjus.longArray(N)
-	# tC = xjus.shortArray(N)
-
-	# for i in range(N):
-	# 	nC[i] = int(nodes[i])
-	# 	pC[i] = int(positions[i])
-	# 	vC[i] = int(velocities[i])
-	# 	tC[i] = int(times[i])
-
-	#for i in range(N):
-	#	xjus.addPVT(int(nodes[i]), int(positions[i]), int(velocities[i]), int(times[i]))
-
-	#xjus.addPvtAll2(N, data_np)
 	timer = time()
-	#xjus.addPvtAll(N, nC, pC, vC, tC)
-	if (len(data_np) == 6):
-		xjus.addPvtAll3(data_npC)
-	elif (len(data_np) == 30):
-		xjus.addPvtAll4(data_npC)
-	print("xjus.addPvtAll3() call: %f" % (time() - timer))
-
-def addPvt(node, position, velocity, time):
-	""" Sends the given PVT point to the controller. """
-
-	p = sign[node] * int(round(position))
-	v = sign[node] * int(round(velocity))
-	t = int(round(time))
-	xjus.addPVT(node, p, v, t)
+	xjus.addPvtFrame(pvt)
+	print("Add PVT time to C code: %fs" % (time() - timer))
 
 def wait():
 	""" Waits until all nodes are inactive. """
@@ -573,10 +517,13 @@ def mainLoop(clock, surface):
 	while True:
 
 		timer0 = time()
+
+		print("--------- Main loop frame ----------")
+
 		# if nodeFault():
 		# 	print("Error occurred!")
 		# 	return
-		# print("nodeFault() call: %f" % (time()-timer))
+		# print("nodeFault() call: %f" % (time()-timer0))
 
 		if (printCurrent):
 			printCurrentToCommand()
@@ -675,7 +622,7 @@ def mainLoop(clock, surface):
 		pygame.display.update()
 		clock.tick(FPS)
 
-		print("FULL LOOP: %f" % (time() - timer0))
+		print("Total frame time: %fs" % (time() - timer0))
 
 def drawText(string):
 	""" Draws centered text in the control window """

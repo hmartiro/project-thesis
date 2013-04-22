@@ -178,36 +178,16 @@ void addPVT(unsigned short node, long p, long v, unsigned int t) {
 	printError();
 }
 
-void addPvtAll2(int N, long data[][4]) {
-
-	clock_t t0, t1;
-	t0 = clock();
-
-	for(int i = 0; i < N; i++) {
-		unsigned short node = (unsigned short)data[i][0];
-		long p = data[i][1];
-		long v = data[i][2];
-		unsigned char t = (unsigned char)data[i][3];
-
-		printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
-		VCS_AddPvtValueToIpmBuffer(device(node), node, p, v, t, &errorCode);
-	}
-	printError();
-
-	t1 = clock();
-	printf("addPvtAll() call: %f \n", (double(t1 - t0) / CLOCKS_PER_SEC));
-}
-
-void addPvtAll3(int data[6][4]) {
+void addPvtFrame(int pvt[6][4]) {
 
 	timeval start,stop,result;
 	gettimeofday(&start, NULL);
 
 	for(int i = 0; i < 6; i++) {
-		unsigned short node = (unsigned short)data[i][0];
-		long p = (long)data[i][1];
-		long v = (long)data[i][2];
-		unsigned char t = (unsigned char)data[i][3];
+		unsigned short node = (unsigned short)pvt[i][0];
+		long p = (long)pvt[i][1];
+		long v = (long)pvt[i][2];
+		unsigned char t = (unsigned char)pvt[i][3];
 
 		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
 		VCS_AddPvtValueToIpmBuffer(device(node), node, p, v, t, &errorCode);
@@ -216,58 +196,7 @@ void addPvtAll3(int data[6][4]) {
 
 	gettimeofday(&stop, NULL);
 	timersub(&start,&stop,&result);
-	printf("addPvtAll4() call: %f \n", -(result.tv_sec + result.tv_usec/1000000.0));
-}
-
-void addPvtAll4(int data[6*5][4]) {
-
-	timeval start,stop,result;
-	gettimeofday(&start, NULL);
-
-	for(int i = 0; i < 6*5; i++) {
-		unsigned short node = (unsigned short)data[i][0];
-		long p = (long)data[i][1];
-		long v = (long)data[i][2];
-		unsigned char t = (unsigned char)data[i][3];
-
-		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
-		VCS_AddPvtValueToIpmBuffer(device(node), node, p, v, t, &errorCode);
-	}
-	printError();
-
-	gettimeofday(&stop, NULL);
-	timersub(&start,&stop,&result);
-	printf("addPvtAll4() call: %f \n", -(result.tv_sec + result.tv_usec/1000000.0));
-}
-
-void set_vector(float value[6][4]) {
-	int i, j;
-	printf("set vector. [");
-	for (i = 0; i < 6; i++) {
-		for (j = 0; j < 4; j++) {
-			printf("%f ", value[i][j]);
-		}
-	}
-	printf("]\n");
-}
-
-void addPvtAll(int N, int nodeA[], int pA[], int vA[], int tA[]) {
-
-	clock_t t0, t1;
-	t0 = clock();
-
-	for(int i = 0; i < N; i++) {
-		unsigned short node = (unsigned short)nodeA[i];
-		long p = (long)pA[i];
-		long v = (long)vA[i];
-		unsigned char t = (unsigned char)tA[i];
-		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
-		VCS_AddPvtValueToIpmBuffer(device(node), node, p, v, (unsigned char)t, &errorCode);
-	}
-	printError();
-
-	t1 = clock();
-	printf("addPvtAll() call: %f \n", (double(t1 - t0) / CLOCKS_PER_SEC));
+	printf("Add PVT time in C code: %fs\n", -(result.tv_sec + result.tv_usec/1000000.0));
 }
 
 void startIPM(unsigned short node) {
