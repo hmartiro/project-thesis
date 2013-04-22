@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctime>
+#include <sys/time.h>
 
 using namespace std;
 
@@ -54,7 +55,7 @@ unsigned long getErrorCode() {
 }
 
 int openDevices() {
-	printf("Attempting connection to %s", deviceName);
+	printf("Attempting connection to %s \n", deviceName);
 
 	device1 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName1, &errorCode);
 	printError();
@@ -188,7 +189,7 @@ void addPvtAll2(int N, long data[][4]) {
 		long v = data[i][2];
 		unsigned char t = (unsigned char)data[i][3];
 
-		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
+		printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
 		VCS_AddPvtValueToIpmBuffer(device(node), node, p, v, t, &errorCode);
 	}
 	printError();
@@ -197,14 +198,71 @@ void addPvtAll2(int N, long data[][4]) {
 	printf("addPvtAll() call: %f \n", (double(t1 - t0) / CLOCKS_PER_SEC));
 }
 
-void addPvtAll(int N, unsigned short* node, long* p, long* v, unsigned char* t) {
+void addPvtAll3(int data[6][4]) {
+
+	timeval start,stop,result;
+	gettimeofday(&start, NULL);
+
+	for(int i = 0; i < 6; i++) {
+		unsigned short node = (unsigned short)data[i][0];
+		long p = (long)data[i][1];
+		long v = (long)data[i][2];
+		unsigned char t = (unsigned char)data[i][3];
+
+		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
+		VCS_AddPvtValueToIpmBuffer(device(node), node, p, v, t, &errorCode);
+	}
+	printError();
+
+	gettimeofday(&stop, NULL);
+	timersub(&start,&stop,&result);
+	printf("addPvtAll4() call: %f \n", -(result.tv_sec + result.tv_usec/1000000.0));
+}
+
+void addPvtAll4(int data[6*5][4]) {
+
+	timeval start,stop,result;
+	gettimeofday(&start, NULL);
+
+	for(int i = 0; i < 6*5; i++) {
+		unsigned short node = (unsigned short)data[i][0];
+		long p = (long)data[i][1];
+		long v = (long)data[i][2];
+		unsigned char t = (unsigned char)data[i][3];
+
+		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
+		VCS_AddPvtValueToIpmBuffer(device(node), node, p, v, t, &errorCode);
+	}
+	printError();
+
+	gettimeofday(&stop, NULL);
+	timersub(&start,&stop,&result);
+	printf("addPvtAll4() call: %f \n", -(result.tv_sec + result.tv_usec/1000000.0));
+}
+
+void set_vector(float value[6][4]) {
+	int i, j;
+	printf("set vector. [");
+	for (i = 0; i < 6; i++) {
+		for (j = 0; j < 4; j++) {
+			printf("%f ", value[i][j]);
+		}
+	}
+	printf("]\n");
+}
+
+void addPvtAll(int N, int nodeA[], int pA[], int vA[], int tA[]) {
 
 	clock_t t0, t1;
 	t0 = clock();
 
 	for(int i = 0; i < N; i++) {
-		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node[i], p[i], v[i], t[i]);
-		VCS_AddPvtValueToIpmBuffer(device(node[i]), node[i], p[i], v[i], t[i], &errorCode);
+		unsigned short node = (unsigned short)nodeA[i];
+		long p = (long)pA[i];
+		long v = (long)vA[i];
+		unsigned char t = (unsigned char)tA[i];
+		//printf("node: %u, p: %ld, v: %ld, t: %u \n", node, p, v, t);
+		VCS_AddPvtValueToIpmBuffer(device(node), node, p, v, (unsigned char)t, &errorCode);
 	}
 	printError();
 
@@ -290,7 +348,7 @@ unsigned short getPositionRegulatorFeedForward(unsigned short node, int index) {
 }
 
 void setPositionRegulatorFeedForward(unsigned short node,unsigned short velocityFeedForward, unsigned short accelerationFeedForward) {
-	printf("velocity: %u, acceleration: %u \n", velocityFeedForward, accelerationFeedForward);
+	//printf("velocity: %u, acceleration: %u \n", velocityFeedForward, accelerationFeedForward);
 	VCS_SetPositionRegulatorFeedForward(device(node), node, velocityFeedForward, accelerationFeedForward, &errorCode);
 	printError();
 }

@@ -22,15 +22,17 @@ from pygame.locals import *
 from xjus_trajectory2 import getTheta, getThetaDot
 
 # Import libxjus, the wrapper library for libEposCmd.so
-libxjus_dir = expanduser("~") + '/project-thesis/code/definition-files/libxjus.so'
-xjus = CDLL(libxjus_dir)
+#libxjus_dir = expanduser("~") + '/project-thesis/code/definition-files/libxjus.so'
+#xjus = CDLL(libxjus_dir)
+sys.path.insert(0, '../libxjus')
+import xjus_API as xjus
 
 #################################################
 # Editable Parameters
 #################################################
 T = 1.2        # Trajectory period
 DT = 100         # IPM time step (ms)
-FPS = 200        # PyGame refresh rate
+FPS = 50        # PyGame refresh rate
 
 PHASE_OFFSET = -45.
 DUTY_CYCLE = 0.70
@@ -47,7 +49,7 @@ TURN_FRACTION = 0.5
 GROUND_ANGLE_TURNING_REDUCTION = 0.75
 
 # Amount of chunking
-CHUNK_SIZE = 5
+CHUNK_SIZE = 1
 
 FOLLOWING_ERROR = 35000
 
@@ -341,7 +343,7 @@ def startTripod(turnAngle=0, back=False):
 	t = (DT/1000.) / 2
 
 	# fill buffer
-	for i in range(int(CHUNK_SIZE * 1.5)):
+	for i in range(int(CHUNK_SIZE * 1.5 + 5)):
 
 		[nA, pA, vA, tA] = addTripodPoint(t, turnAngle, back=back)
 		addPvtArray(nA, pA, vA, tA)
@@ -359,30 +361,31 @@ def tripodFrame(t0, turnAngle=0, back=False):
 	t = t0
 
 	bufferSize = [64 - xjus.getFreeBufferSize(node) for node in nodes]
-	bufferMaxLimit = CHUNK_SIZE * 1.5
+	bufferMaxLimit = CHUNK_SIZE * 1.5 + 5
 	
 	fillBuffer= len([b for b in bufferSize if b <= bufferMaxLimit]) == len(nodes)
 	if fillBuffer:
 
-		nA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
-		pA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
-		vA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
-		tA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
+		#nA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
+		#pA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
+		#vA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
+		#tA = np.zeros(shape=(CHUNK_SIZE, len(nodes)))
 
+		timer = time()
 		for i in range(CHUNK_SIZE):
 			#timer = time()
 			[pnA, ppA, pvA, ptA] = addTripodPoint(t, turnAngle, back=back)
 			#print("addTripodPoint() call: %f" % (time()-timer))
+			addPvtArray(pnA, ppA, pvA, ptA)
 			t += DT/1000.
 
-			nA[i, :] = pnA
-			pA[i, :] = ppA
-			vA[i, :] = pvA
-			tA[i, :] = ptA
-
-		timer = time()
-		addPvtArray(nA.flatten(), pA.flatten(), vA.flatten(), tA.flatten())
-		print("addPvtArray() call: %f" % (time() - timer))
+			#nA[i, :] = pnA
+			#pA[i, :] = ppA
+			#vA[i, :] = pvA
+			#tA[i, :] = ptA
+		
+		#addPvtArray(nA.flatten(), pA.flatten(), vA.flatten(), tA.flatten())
+		print("TIME TO ADD PVT: %f" % (time() - timer))
 
 	print("Buffer: %s, Added points: %r" % (bufferSize, fillBuffer))
 
@@ -469,15 +472,40 @@ def addPvtArray(nodes, positions, velocities, times):
 		positions[i] *= sign[node]
 		velocities[i] *= sign[node]
 
-	data_np = np.vstack([nodes, positions, velocities, times]).transpose().astype(np.long)
+	data_np = np.vstack([nodes, positions, velocities, times]).transpose().astype(int)
+	data_npC = np.ascontiguousarray(data_np)
 
-	data = ((c_long * 4) * N)()
-	for i in range(N):
-		data[i] = (c_long * 4)(*data_np[i])
+	#data = ((c_long * 4) * N)()
+	#for i in range(N):
+	#	data[i] = (c_long * 4)(*data_np[i])
 
+	# n = nodes.astype(np.long)
+	# p = nodes.astype(np.long)
+	# v = nodes.astype(np.long)
+	# t = nodes.astype(np.long)
+
+	# nC = xjus.shortArray(N)
+	# pC = xjus.longArray(N)
+	# vC = xjus.longArray(N)
+	# tC = xjus.shortArray(N)
+
+	# for i in range(N):
+	# 	nC[i] = int(nodes[i])
+	# 	pC[i] = int(positions[i])
+	# 	vC[i] = int(velocities[i])
+	# 	tC[i] = int(times[i])
+
+	#for i in range(N):
+	#	xjus.addPVT(int(nodes[i]), int(positions[i]), int(velocities[i]), int(times[i]))
+
+	#xjus.addPvtAll2(N, data_np)
 	timer = time()
-	xjus.addPvtAll2(N, data)
-	print("xjus.addPvtAll() call: %f" % (time() - timer))
+	#xjus.addPvtAll(N, nC, pC, vC, tC)
+	if (len(data_np) == 6):
+		xjus.addPvtAll3(data_npC)
+	elif (len(data_np) == 30):
+		xjus.addPvtAll4(data_npC)
+	print("xjus.addPvtAll3() call: %f" % (time() - timer))
 
 def addPvt(node, position, velocity, time):
 	""" Sends the given PVT point to the controller. """
@@ -647,7 +675,7 @@ def mainLoop(clock, surface):
 		pygame.display.update()
 		clock.tick(FPS)
 
-		#print("FULL LOOP: %f" % (time() - timer0))
+		print("FULL LOOP: %f" % (time() - timer0))
 
 def drawText(string):
 	""" Draws centered text in the control window """

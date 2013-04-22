@@ -1,7 +1,9 @@
 #ifndef XJUS_EPOS_H_
 #define XJUS_EPOS_H_
 
-#define PYTHON_EXPORT extern "C"
+#define PYTHON_EXPORT
+
+void set_vector(float value[6][4]);
 
 // Initialization
 PYTHON_EXPORT int  openDevices();
@@ -30,8 +32,10 @@ PYTHON_EXPORT void moveAbsolute(unsigned short node, long pos);
 PYTHON_EXPORT void interpolationMode(unsigned short node);
 PYTHON_EXPORT long getFreeBufferSize(unsigned short node);
 PYTHON_EXPORT void addPVT(unsigned short node, long p, long v, unsigned int t);
-PYTHON_EXPORT void addPvtAll(int N, unsigned short node[], long p[], long v[], unsigned char t[]);
+PYTHON_EXPORT void addPvtAll(int N, int nodeA[], int pA[], int vA[], int tA[]);
 PYTHON_EXPORT void addPvtAll2(int N, long data[][4]);
+void addPvtAll3(int data[6][4]);
+void addPvtAll4(int data[6*5][4]);
 PYTHON_EXPORT void startIPM(unsigned short node);
 PYTHON_EXPORT void stopIPM(unsigned short node);
 PYTHON_EXPORT void printIpmStatus(unsigned short node);
