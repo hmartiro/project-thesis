@@ -154,14 +154,6 @@ def initialize():
 
 	for node in nodes:
 
-		pP = xjus.getPositionRegulatorGain(node, 1)
-		pI = xjus.getPositionRegulatorGain(node, 2)
-		pD = xjus.getPositionRegulatorGain(node, 3)
-		fV = xjus.getPositionRegulatorFeedForward(node, 1)
-		fA = xjus.getPositionRegulatorFeedForward(node, 2)
-
-		print("pP: %d, pI: %d, pD: %d, fV: %d, fA: %d" % (pP, pI, pD, fV, fA))
-
 		pP = 200
 		pI =  10
 		pD = 200
@@ -170,6 +162,14 @@ def initialize():
 
 		xjus.setPositionRegulatorGain(node, pP, pI, pD)
 		xjus.setPositionRegulatorFeedForward(node, fV, fA)
+
+		pP = xjus.getPositionRegulatorGain(node, 1)
+		pI = xjus.getPositionRegulatorGain(node, 2)
+		pD = xjus.getPositionRegulatorGain(node, 3)
+		fV = xjus.getPositionRegulatorFeedForward(node, 1)
+		fA = xjus.getPositionRegulatorFeedForward(node, 2)
+
+		print("pP: %d, pI: %d, pD: %d, fV: %d, fA: %d" % (pP, pI, pD, fV, fA))
 
 def deinitialize():
 	""" Deconstructs xjus and pygame """

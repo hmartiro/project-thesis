@@ -287,9 +287,21 @@ unsigned short getPositionRegulatorFeedForward(unsigned short node, int index) {
 
 void setPositionRegulatorFeedForward(unsigned short node,unsigned short velocityFeedForward, unsigned short accelerationFeedForward) {
 	printf("velocity: %u, acceleration: %u \n", velocityFeedForward, accelerationFeedForward);
-	VCS_SetPositionRegulatorFeedForward(device(node), node, velocityFeedForward, accelerationFeedForward, &errorCode);
+	//VCS_SetPositionRegulatorFeedForward(device(node), node, velocityFeedForward, accelerationFeedForward, &errorCode);
+
+	unsigned long bytesWritten;
+	unsigned long bytesToWrite = 2;
+
+	unsigned short objectIndex = 0x60FB;
+	unsigned char velocitySubIndex = 4;
+	unsigned char accelerationSubIndex = 5;
+
+	VCS_SetObject(device(node), node, objectIndex, velocitySubIndex, &velocityFeedForward, bytesToWrite, &bytesWritten, &errorCode);
+	VCS_SetObject(device(node), node, objectIndex, accelerationSubIndex, &accelerationFeedForward, bytesToWrite, &bytesWritten, &errorCode);
+
 	printError();
 }
+
 
 signed short getNodeAvgCurrent(unsigned short node){
 	signed short nodeCurrent;   // INT16
