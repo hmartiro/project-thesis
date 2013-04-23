@@ -19,8 +19,9 @@ def getTheta(t, T, thetaG, dc):
 	#return integrate.quad(integrand, 0, t)[0]
 
 	wG = getThetaDot(  0, T, thetaG, dc)
-	wA = getThetaDot((T*dc), T, thetaG, dc)
-	
+	wA = getThetaDot((T*dc)+.01, T, thetaG, dc)
+	#print(wG, wA)
+
 	periods = (t - (t%T))/T
 	theta = periods * 360.
 
@@ -47,13 +48,13 @@ def getThetaDot(t, T, thetaG, dc):
 
 	return degrees(thetaDot)
 
-# T = 2.0
-# thetaG = 90.
-# dc = 0.55
+# T = 0.7
+# thetaG = 80.
+# dc = 0.40
 # DT = 30
 # tTotal = 2 * T
 
-#getTheta(10.2, T, thetaG, dc)
+# getTheta(10.2, T, thetaG, dc)
 
 # getThetaVector = np.vectorize(getTheta)
 # getThetaDotVector = np.vectorize(getThetaDot)

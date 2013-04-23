@@ -29,14 +29,14 @@ import xjus_API as xjus
 #################################################
 # Editable Parameters
 #################################################
-T = 1.2         # Trajectory period
-DT = 90         # IPM time step (ms)
+T =  1.0        # Trajectory period
+DT = 110         # IPM time step (ms)
 FPS = 50        # PyGame refresh rate
 
 GROUND_ANGLE = 100. # Ground contact angle
 BACK_GROUND_ANGLE = 70.
 
-DUTY_CYCLE = 0.70
+DUTY_CYCLE = 0.65
 
 PHASE_OFFSET = -GROUND_ANGLE/2
 TIME_OFFSET = T * (DUTY_CYCLE / 2)
@@ -45,13 +45,24 @@ STAND_ANGLE = 145.
 MOUNTED_STAND_ANGLE = 20.
 BACK_OFFSET_ANGLE = 0.
 
-BUFFER_MAX_LIMIT = 10
+BUFFER_MAX_LIMIT = 6
 
 # Fraction of base ground angle modified for turning
-TURN_FRACTION = 0.5
-GROUND_ANGLE_TURNING_REDUCTION = 0.75
+TURN_FRACTION = 0.3
+DUTY_TURN_FRACTION = 0.1
+GROUND_ANGLE_TURNING_REDUCTION = 1.0
 
 FOLLOWING_ERROR = 35000
+MAX_VELOCITY = 10000
+MAX_ACCELERATION = 1000000
+
+P_GAIN = 200
+I_GAIN = 10
+D_GAIN = 200
+FEEDFORWARD_VELOCITY = 0
+FEEDFORWARD_ACCELERATION = 100
+
+ACCELERATION_RATE = 1.010
 
 ################################################
 # System constants
@@ -134,8 +145,14 @@ def initialize():
 
 		xjus.clearIpmBuffer(node)
 		xjus.setMaxFollowingError(node, FOLLOWING_ERROR)
-		xjus.setMaxVelocity(node, 8700)
-		xjus.setMaxAcceleration(node, 10000000)
+		xjus.setMaxVelocity(node, MAX_VELOCITY)
+		xjus.setMaxAcceleration(node, MAX_ACCELERATION)
+
+		err = xjus.getMaxFollowingError(node)
+		vel = xjus.getMaxVelocity(node)
+		acc = xjus.getMaxAcceleration(node)
+		print("node: %d, following error: %d, max velocity: %d, max acceleration: %d" % (node, err, vel, acc))
+
 		xjus.enable(node)
 
 		errorCode = xjus.getErrorCode()
@@ -154,14 +171,8 @@ def initialize():
 
 	for node in nodes:
 
-		pP = 200
-		pI =  10
-		pD = 200
-		fV =   0
-		fA = 100
-
-		xjus.setPositionRegulatorGain(node, pP, pI, pD)
-		xjus.setPositionRegulatorFeedForward(node, fV, fA)
+		xjus.setPositionRegulatorGain(node, P_GAIN, I_GAIN, D_GAIN)
+		xjus.setPositionRegulatorFeedForward(node, FEEDFORWARD_VELOCITY, FEEDFORWARD_ACCELERATION)
 
 		pP = xjus.getPositionRegulatorGain(node, 1)
 		pI = xjus.getPositionRegulatorGain(node, 2)
@@ -216,7 +227,7 @@ def stand():
 	standing = True
 
  	for node in nodes:
-		xjus.setPositionProfile(node, 500, 5000, 5000)
+		xjus.setPositionProfile(node, 500, 10000, 10000)
 
 	for node in nodes:
 		move(node, degToPos(STAND_ANGLE))
@@ -233,41 +244,12 @@ def sit():
 	standing = False
 
  	for node in nodes:
-		xjus.setPositionProfile(node, 500, 5000, 5000)
+		xjus.setPositionProfile(node, 500, 10000, 10000)
 
 	for node in nodes:
 		move(node, -degToPos(STAND_ANGLE))
 
 	wait()
-
-def plotWalk(tTotal):
-	""" Creates a plot of the trajectories created for the equivalent
-		call of walk(). Does not plot turning.
-	"""
-
-	thetaG = GROUND_ANGLE
-	offsetPos = int(round(thetaG/2 * (REV/360)))
-
-	t = np.arange((DT/1000.) / 2, tTotal, DT/1000.)
-	t[0] = 0.0
-
-	# Vectorized functions
-	getThetaVector = np.vectorize(getTheta)
-	getThetaDotVector = np.vectorize(getThetaDot)
-	degToPosVector = np.vectorize(degToPos)
-
-	thetaR = getThetaVector(t,     thetaG, DUTY_CYCLE)
-	thetaL = getThetaVector(t+T/2., thetaG, DUTY_CYCLE)
-
-	posR = degToPosVector(thetaR) + offsetPos
-	posL = degToPosVector(thetaL) - offsetPos
-
-	plt.plot(t, posR, 'r', t, posL, 'b')
-	plt.xlabel('Time (seconds)')
-	plt.ylabel('Position (ticks)')
-	plt.title('Walking Trajectory')
-	plt.legend(('Right Tripod', 'Left Tripod'))
-	plt.show()
 
 def moveToFullRotation(node):
 
@@ -280,7 +262,7 @@ def moveToFullRotation(node):
 
 	#print("node: %s, p: %d, forward: %d, back: %d" % (name[node], p, forwardDist, backwardDist))
 
-	xjus.setPositionProfile(node, 1000, 10000, 5000)
+	xjus.setPositionProfile(node, 1500, 10000, 5000)
 
 	if (backwardDist < REV/15.):
 		#print("moving backward to %d" % targetBack)
@@ -291,12 +273,27 @@ def moveToFullRotation(node):
 
 def returnToStand():
 
+	leftCurrent = 0
 	for node in left:
+		leftCurrent += xjus.getNodeAvgCurrent(node)
+
+	rightCurrent = 0
+	for node in right:
+		rightCurrent += xjus.getNodeAvgCurrent(node)
+
+	if leftCurrent > rightCurrent:
+		first = right
+		second = left
+	else:
+		first = left
+		second = right
+
+	for node in first:
 		moveToFullRotation(node)
 
 	wait()
 
-	for node in right:
+	for node in second:
 		moveToFullRotation(node)
 
 	wait()
@@ -312,13 +309,13 @@ def getPosition(node):
 # TRIPOD FUNCTIONS
 #########################################################################
 
-def startTripod(turnAngle=0, back=False):
+def startTripod(turnAngle=0, back=False, duty_turn=0):
 	""" Move to the starting position of the tripod gait and fill the
 	    buffer with some initial points. """
 
 	for node in nodes:
 		xjus.profilePositionMode(node)
-		xjus.setPositionProfile(node, 500, 10000, 5000)
+		xjus.setPositionProfile(node, 1500, 10000, 5000)
 
 	print "Moving to start position..."
 	for node in nodes:
@@ -342,9 +339,9 @@ def startTripod(turnAngle=0, back=False):
 	t = (DT/1000.) / 2 + TIME_OFFSET
 
 	# fill buffer
-	for i in range(BUFFER_MAX_LIMIT):
+	for i in range(BUFFER_MAX_LIMIT/2):
 
-		addTripodPoint(t, turnAngle, back=back)
+		addTripodPoint(t, turnAngle, back=back, duty_turn=duty_turn)
 		t += DT/1000.
 
 	for node in nodes:
@@ -352,7 +349,7 @@ def startTripod(turnAngle=0, back=False):
 
 	return t;
 
-def tripodFrame(t0, turnAngle=0, back=False):
+def tripodFrame(t0, turnAngle=0, back=False, duty_turn=0):
 	""" Loop function of the tripod gait - fills in trajectory points
 	    as needed to keep the controller buffers full. """
 
@@ -368,7 +365,7 @@ def tripodFrame(t0, turnAngle=0, back=False):
 
 		timer = time()
 
-		addTripodPoint(t, turnAngle, back=back)
+		addTripodPoint(t, turnAngle, back=back, duty_turn=duty_turn)
 		t += DT/1000.
 
 		print("Add PVT time in Python: %fs" % (time() - timer))
@@ -377,13 +374,13 @@ def tripodFrame(t0, turnAngle=0, back=False):
 
 	return t
 
-def stopTripod(t, turnAngle=0, back=False):
+def stopTripod(t, turnAngle=0, back=False, duty_turn=0):
 	""" Adds an ending point to the tripod gait and returns to a
 	    standing position. """
 
 	pytime.wait(DT)
 	for node in nodes:
-		addTripodPoint(t, turnAngle, back=back, end=True)
+		addTripodPoint(t, turnAngle, back=back, end=True, duty_turn=duty_turn)
 
 	for node in nodes:
 		xjus.stopIPM(node)
@@ -392,7 +389,7 @@ def stopTripod(t, turnAngle=0, back=False):
 
 	returnToStand()
 
-def addTripodPoint(t, turnAngle=0, back=False, end=False):
+def addTripodPoint(t, turnAngle=0, back=False, end=False, duty_turn=0):
 	""" Adds a PVT point for each node, for the tripod trajectory. """
 
 	nA = np.zeros(shape=(len(nodes)))
@@ -402,7 +399,7 @@ def addTripodPoint(t, turnAngle=0, back=False, end=False):
 
 	for i in range(len(nodes)):
 
-		[p, v, dt] = getTripodPVT(nodes[i], t, turnAngle=turnAngle, back=back)
+		[p, v, dt] = getTripodPVT(nodes[i], t, turnAngle=turnAngle, back=back, duty_turn=duty_turn)
 
 		nA[i] = nodes[i]
 		pA[i] = p
@@ -421,7 +418,7 @@ def addTripodPoint(t, turnAngle=0, back=False, end=False):
 
 	return [nA, pA, vA, tA]
 
-def getTripodPVT(node, t, turnAngle=0, back=False):
+def getTripodPVT(node, t, turnAngle=0, back=False, duty_turn=0):
 	""" Given a node and time, returns a single PVT point. """
 
 	if back:
@@ -432,12 +429,17 @@ def getTripodPVT(node, t, turnAngle=0, back=False):
 	if turnAngle != 0:
 		thetaG *= GROUND_ANGLE_TURNING_REDUCTION
 
-	if (sign[node] * turnAngle < 0):
-		thetaG += sign[node] * turnAngle * GROUND_ANGLE_TURNING_REDUCTION
+	dc = DUTY_CYCLE
+
+	#if (sign[node] * duty_turn < 0):
+	dc -= sign[node] * duty_turn
+
+	#if (sign[node] * turnAngle < 0):
+	#	thetaG += sign[node] * turnAngle * GROUND_ANGLE_TURNING_REDUCTION
 
 	offsetPos = int(round(PHASE_OFFSET * (REV/360)))
-	p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG, DUTY_CYCLE)) + offsetPos
-	v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG, DUTY_CYCLE) * ANG_VEL_TO_RPM))
+	p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG, dc)) + offsetPos
+	v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG, dc) * ANG_VEL_TO_RPM))
 	dt = DT
 
 	if back:
@@ -459,9 +461,9 @@ def addPvtArray(nodes, positions, velocities, times):
 	pvt = np.vstack([nodes, positions, velocities, times])
 	pvt = np.ascontiguousarray(pvt.transpose().astype(int))
 
-	timer = time()
+	#timer = time()
 	xjus.addPvtFrame(pvt)
-	print("Add PVT time to C code: %fs" % (time() - timer))
+	#print("Add PVT time to C code: %fs" % (time() - timer))
 
 def wait():
 	""" Waits until all nodes are inactive. """
@@ -524,12 +526,12 @@ def mainLoop(clock, surface):
 		timer0 = time()
 
 		frame += 1
-
-		print("--------- Main loop frame %d ----------" % frame)
+		print("--------- Main loop frame %d ---------- error code %d" % (frame, xjus.getErrorCode()))
 		
-		if (frame % 10) == 0:
+		# Once a second, stops the program if there is a node in fault state
+		if (frame % FPS) == 0:
 			if nodeFault():
-			 	print("Error occurred!")
+			 	print("Error occurred! Error code: %d" % xjus.getErrorCode())
 			 	return
 			print("nodeFault() call: %f" % (time()-timer0))
 
@@ -537,6 +539,22 @@ def mainLoop(clock, surface):
 			printCurrentToCommand()
 			currentToFile(fileId)
 			printCurrent = False
+
+		if keyDown(K_EQUALS):
+			Tnew = T * ACCELERATION_RATE
+			t = (Tnew/T) * t
+			T = Tnew
+
+		if keyDown(K_MINUS):
+			Tnew = T / ACCELERATION_RATE
+			t = (Tnew/T) * t
+			T = Tnew
+
+		if keyDown(K_RIGHTBRACKET):
+			GROUND_ANGLE += 1
+
+		if keyDown(K_LEFTBRACKET):
+			GROUND_ANGLE -= 1
 
 		# Processing all events for the frame
 		for event in pygame.event.get():
@@ -552,16 +570,16 @@ def mainLoop(clock, surface):
 				if event.key == K_SPACE:
 
 					if standing and not walking:
-						drawText("Sitting down")
 						sit()
-					else:
-						drawText("Standing up")
+					elif not walking:
 						stand()
+					else:
+						tapMode = False
+						tapModeBack = False
 
 				# Toggle continuous walking
 				elif (event.key is K_w) and (tapMode is False):
 					if standing and not walking:
-						drawText("Walking forward")
 						walking = True
 						turnLeft = False
 						turnRight = False
@@ -572,7 +590,6 @@ def mainLoop(clock, surface):
 
 				elif (event.key is K_s) and (tapModeBack is False):
 					if standing and not walking:
-						drawText("Walking backward")
 						walking = True
 						turnLeft = False
 						turnRight = False
@@ -593,8 +610,7 @@ def mainLoop(clock, surface):
 					T = float(raw_input('New movement period: '))
 				if (event.key is K_g) and not walking:
 					GROUND_ANGLE = float(raw_input('New ground angle: '))
-				if (event.key is K_e):
-					print("Error code: %x" % xjus.getErrorCode())
+
 				# Exit on escape
 				if event.key == K_ESCAPE:
 					return
@@ -608,23 +624,47 @@ def mainLoop(clock, surface):
 
 			# Get the turn angle
 			turnFraction = 0
+			duty_turn = 0
 			if turnRight:
 				turnFraction = +TURN_FRACTION
+				duty_turn = +DUTY_TURN_FRACTION
 			elif turnLeft:
 				turnFraction = -TURN_FRACTION
+				duty_turn = -DUTY_TURN_FRACTION
 
 			if tapMode:
 				timer = time()
-				t = tripodFrame(t, turnFraction * GROUND_ANGLE)
+				t = tripodFrame(t, turnFraction * GROUND_ANGLE, duty_turn=duty_turn)
 				print("tripodFrame() call: %f" % (time()-timer))
 			elif tapModeBack:
-				t = tripodFrame(t, turnFraction * BACK_GROUND_ANGLE, back=True)
+				t = tripodFrame(t, turnFraction * BACK_GROUND_ANGLE, back=True, duty_turn=duty_turn)
 			else:
-				drawText("Standing up")
 				walking = False
 				turnLeft = False
 				turnRight = False
-				stopTripod(t, turnFraction * GROUND_ANGLE)
+				stopTripod(t, turnFraction * GROUND_ANGLE, duty_turn=duty_turn)
+
+		
+		if ((frame % 5) == 0):
+			timer = time()
+			# Drawing
+			screen.fill(WHITE)
+			renderText("t = %.2f" % t, -80, 60)
+			renderText("T = %.2f" % T, -80, 90)
+			renderText("DC = %.2f" % DUTY_CYCLE, -80, 120)
+			renderText("GA = %.1f" % GROUND_ANGLE, -80, 150)
+
+			if standing and not walking:
+				stateText = "Standing up."
+			elif walking and tapMode:
+				stateText = "Walking forward."
+			elif walking and tapModeBack:
+				stateText = "Walking backward."
+			elif not standing:
+				stateText = "Lying down."
+
+			renderText(stateText, 0, -100, size=40)
+			print("Time of drawing text: %f" % (time() - timer))
 
 		# Pygame frame
 		pygame.display.update()
@@ -632,15 +672,14 @@ def mainLoop(clock, surface):
 
 		print("Total frame time: %fs" % (time() - timer0))
 
-def drawText(string):
-	""" Draws centered text in the control window """
+def renderText(string, x, y, size=35):
 
-	screen.fill(WHITE)
-	font = pygame.font.SysFont(None, 48)
+	font = pygame.font.SysFont(None, size)
+
 	text = font.render(string, True, BLACK)
 	textRect = text.get_rect()
-	textRect.centerx = screen.get_rect().centerx
-	textRect.centery = screen.get_rect().centery
+	textRect.centerx = screen.get_rect().centerx + x
+	textRect.centery = screen.get_rect().centery + y
 	screen.blit(text, textRect)
 
 def main():
@@ -653,9 +692,9 @@ def main():
 	# Creates the control window
 	screen = pygame.display.set_mode((400, 400))
 	pygame.display.set_caption("xJüs Control Window")
-	screen.fill(WHITE)
 
-	drawText('Control Window')
+	screen.fill(WHITE)
+	renderText('Welcome to xJus', 0, 0)
 
 	# Object that maintains a constant FPS
 	clock = pygame.time.Clock()
