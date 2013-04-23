@@ -220,6 +220,12 @@ void stopIPM(unsigned short node) {
 	printError();
 }
 
+long getTargetPosition(unsigned short node) {
+	long targetPosition;
+	VCS_GetTargetPosition(device(node), node, &targetPosition, &errorCode);
+	return targetPosition;
+}
+
 long getFreeBufferSize(unsigned short node) {
 	unsigned long bufferSize;
 	VCS_GetFreeIpmBufferSize(device(node), node, &bufferSize, &errorCode);

@@ -132,6 +132,10 @@ def moveAbsolute(*args):
   return _xjus_API.moveAbsolute(*args)
 moveAbsolute = _xjus_API.moveAbsolute
 
+def getTargetPosition(*args):
+  return _xjus_API.getTargetPosition(*args)
+getTargetPosition = _xjus_API.getTargetPosition
+
 def interpolationMode(*args):
   return _xjus_API.interpolationMode(*args)
 interpolationMode = _xjus_API.interpolationMode

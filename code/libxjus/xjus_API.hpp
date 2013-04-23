@@ -23,6 +23,7 @@ void profilePositionMode(unsigned short node);
 void setPositionProfile(unsigned short node, long vel, long accel, long deaccel);
 void moveRelative(unsigned short node, long pos);
 void moveAbsolute(unsigned short node, long pos);
+long getTargetPosition(unsigned short node);
 
 // Interpolated position mode
 void interpolationMode(unsigned short node);
