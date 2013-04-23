@@ -30,16 +30,16 @@ void* device1;
 void* device2;
 
 void* device(unsigned int node) {
-	return device1;
-	printf("Getting device ID for node %d", node);
-	if ((node == 1) || (node == 3) || (node == 5)) {
-		printf(", returning device 2\n");
-		return device2;
-	} else if ((node == 2) || (node == 4) || (node == 6)) {
-		printf(", returning device 1\n");
+
+	//printf("Getting device ID for node %d", node);
+	if ((node == 1) || (node == 2) || (node == 3) || (node == 4) || (node == 5) || (node == 6)) {
+		//printf(", returning device 1\n");
 		return device1;
+	} else if (false) {
+		//printf(", returning device 2\n");
+		return device2;
 	} else {
-		printf("No device matched!\n");
+		printf(", no device matched!\n");
 		return 0;
 	}
 }
@@ -62,10 +62,19 @@ int openDevices() {
 	printf("Connected Device 1: %p\n", device1);
 	VCS_SetProtocolStackSettings(device1, BAUDRATE, TIMEOUT, &errorCode);
 
-	//device2 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName2, &errorCode);
-	//printError();
-	//printf("Connected Device 2: %p\n", device2);
-	//VCS_SetProtocolStackSettings(device2, BAUDRATE, TIMEOUT, &errorCode);
+	/*
+	device2 = VCS_OpenDevice(deviceName, protocolStackName, interfaceName, portName2, &errorCode);
+	printError();
+	printf("Connected Device 2: %p\n", device2);
+	VCS_SetProtocolStackSettings(device2, BAUDRATE, TIMEOUT, &errorCode);
+
+	clearFault(1);
+	clearFault(2);
+	clearFault(3);
+	clearFault(4);
+	clearFault(5);
+	clearFault(6);
+	*/
 
 	//if ((device1) && (device2)) return 1;
 	if (device1) return 1;
@@ -73,7 +82,7 @@ int openDevices() {
 }
 
 void closeDevices() {
-	//printf("Closing connection to device.\n");
+	printf("Closing connection to device.\n");
 	VCS_CloseDevice(device1, &errorCode);
 	printError();
 	//VCS_CloseDevice(device2, &errorCode);
@@ -92,7 +101,7 @@ unsigned short getState(unsigned short node) {
 }
 
 void clearFault(unsigned short node) {
-	//printf("Clearing fault at node %d...\n", node);
+	printf("Clearing fault at node %d...\n", node);
 	VCS_ClearFault(device(node), node, &errorCode);
 	printError();
 }
@@ -277,7 +286,7 @@ unsigned short getPositionRegulatorFeedForward(unsigned short node, int index) {
 }
 
 void setPositionRegulatorFeedForward(unsigned short node,unsigned short velocityFeedForward, unsigned short accelerationFeedForward) {
-	//printf("velocity: %u, acceleration: %u \n", velocityFeedForward, accelerationFeedForward);
+	printf("velocity: %u, acceleration: %u \n", velocityFeedForward, accelerationFeedForward);
 	VCS_SetPositionRegulatorFeedForward(device(node), node, velocityFeedForward, accelerationFeedForward, &errorCode);
 	printError();
 }

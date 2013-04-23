@@ -24,20 +24,22 @@ from xjus_trajectory2 import getTheta, getThetaDot
 #libxjus_dir = expanduser("~") + '/project-thesis/code/definition-files/libxjus.so'
 #xjus = CDLL(libxjus_dir)
 sys.path.insert(0, '../libxjus')
-import xjus_API as xj
+import xjus_API as xjus
 
 #################################################
 # Editable Parameters
 #################################################
-T = 1.2        # Trajectory period
-DT = 100         # IPM time step (ms)
+T = 1.2         # Trajectory period
+DT = 90         # IPM time step (ms)
 FPS = 50        # PyGame refresh rate
-
-PHASE_OFFSET = -45.
-DUTY_CYCLE = 0.70
 
 GROUND_ANGLE = 100. # Ground contact angle
 BACK_GROUND_ANGLE = 70.
+
+DUTY_CYCLE = 0.70
+
+PHASE_OFFSET = -GROUND_ANGLE/2
+TIME_OFFSET = T * (DUTY_CYCLE / 2)
 
 STAND_ANGLE = 145.
 MOUNTED_STAND_ANGLE = 20.
@@ -130,7 +132,6 @@ def initialize():
 			pygame.quit()
 			raise Exception("Turn on motors!")
 
-
 		xjus.clearIpmBuffer(node)
 		xjus.setMaxFollowingError(node, FOLLOWING_ERROR)
 		xjus.setMaxVelocity(node, 8700)
@@ -161,11 +162,11 @@ def initialize():
 
 		print("pP: %d, pI: %d, pD: %d, fV: %d, fA: %d" % (pP, pI, pD, fV, fA))
 
-		pP = 130
+		pP = 200
 		pI =  10
-		pD = 275
+		pD = 200
 		fV =   0
-		fA =   0
+		fA = 100
 
 		xjus.setPositionRegulatorGain(node, pP, pI, pD)
 		xjus.setPositionRegulatorFeedForward(node, fV, fA)
@@ -322,23 +323,23 @@ def startTripod(turnAngle=0, back=False):
 	print "Moving to start position..."
 	for node in nodes:
 
-		[p, v, dt] = getTripodPVT(node, 0, turnAngle=turnAngle, back=back)
+		[p, v, dt] = getTripodPVT(node, TIME_OFFSET, turnAngle=turnAngle, back=back)
 
 		print("Start position. node: %d, p: %d, v: %d" % (node, p, v))
 
-		if node in left:
-			if back:
-				move(node, -p, absolute=True)
-			else:
-				move(node, p, absolute=True)
-	
+		#if node in left:
+		if back:
+			move(node, -p, absolute=True)
+		else:
+			move(node, p, absolute=True)
+
 	wait()
 
 	for node in nodes:
 		xjus.interpolationMode(node)
 
 	# Start time is half of dt
-	t = (DT/1000.) / 2
+	t = (DT/1000.) / 2 + TIME_OFFSET
 
 	# fill buffer
 	for i in range(BUFFER_MAX_LIMIT):
@@ -357,9 +358,12 @@ def tripodFrame(t0, turnAngle=0, back=False):
 
 	t = t0
 	timer = time()
-	bufferSize = [64 - xjus.getFreeBufferSize(node) for node in nodes]
+
+	#bufferSize = [64 - xjus.getFreeBufferSize(node) for node in nodes]
+	bufferSize = 64 - xjus.getFreeBufferSize(FR)
 	print("Time to check buffer size: %fs" % (time() - timer))
-	fillBuffer= len([b for b in bufferSize if b <= BUFFER_MAX_LIMIT]) == len(nodes)
+	#fillBuffer= len([b for b in bufferSize if b <= BUFFER_MAX_LIMIT]) == len(nodes)
+	fillBuffer = (bufferSize <= BUFFER_MAX_LIMIT)
 	if fillBuffer:
 
 		timer = time()
@@ -513,17 +517,21 @@ def mainLoop(clock, surface):
 
 	# IPM time variable
 	t = 0
+	frame = 0
 
 	while True:
 
 		timer0 = time()
 
-		print("--------- Main loop frame ----------")
+		frame += 1
 
-		# if nodeFault():
-		# 	print("Error occurred!")
-		# 	return
-		# print("nodeFault() call: %f" % (time()-timer0))
+		print("--------- Main loop frame %d ----------" % frame)
+		
+		if (frame % 10) == 0:
+			if nodeFault():
+			 	print("Error occurred!")
+			 	return
+			print("nodeFault() call: %f" % (time()-timer0))
 
 		if (printCurrent):
 			printCurrentToCommand()
@@ -604,7 +612,7 @@ def mainLoop(clock, surface):
 				turnFraction = +TURN_FRACTION
 			elif turnLeft:
 				turnFraction = -TURN_FRACTION
-				
+
 			if tapMode:
 				timer = time()
 				t = tripodFrame(t, turnFraction * GROUND_ANGLE)

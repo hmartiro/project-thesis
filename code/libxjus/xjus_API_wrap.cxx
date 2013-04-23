@@ -1128,6 +1128,7 @@ typedef struct swig_const_info {
   swig_type_info **ptype;
 } swig_const_info;
 
+
 /* -----------------------------------------------------------------------------
  * Wrapper of PyInstanceMethod_New() used in Python 3
  * It is exported to the generated module, used for -fastproxy
