@@ -20,49 +20,44 @@ from pygame.locals import *
 
 from xjus_trajectory2 import getTheta, getThetaDot
 
-# Import libxjus, the wrapper library for libEposCmd.so
-#libxjus_dir = expanduser("~") + '/project-thesis/code/definition-files/libxjus.so'
-#xjus = CDLL(libxjus_dir)
-sys.path.insert(0, '../libxjus')
+sys.path.insert(0, '/home/xjus/project-thesis/code/libxjus')
 import xjus_API as xjus
 
 #################################################
 # Editable Parameters
 #################################################
-T =  1.0        # Trajectory period
-DT = 110         # IPM time step (ms)
+T =  0.90        # Trajectory period
+DT = 120         # IPM time step (ms)
 FPS = 50        # PyGame refresh rate
 
-GROUND_ANGLE = 100. # Ground contact angle
-BACK_GROUND_ANGLE = 70.
+GROUND_ANGLE = 110. # Ground contact angle
+BACK_GROUND_ANGLE = 100.
 
 DUTY_CYCLE = 0.65
 
 PHASE_OFFSET = -GROUND_ANGLE/2
 TIME_OFFSET = T * (DUTY_CYCLE / 2)
 
-STAND_ANGLE = 145.
+STAND_ANGLE = 140.
 MOUNTED_STAND_ANGLE = 20.
 BACK_OFFSET_ANGLE = 0.
 
-BUFFER_MAX_LIMIT = 6
+BUFFER_MAX_LIMIT = 5
 
 # Fraction of base ground angle modified for turning
-TURN_FRACTION = 0.3
-DUTY_TURN_FRACTION = 0.1
+TURN_FRACTION = 0.2
+DUTY_TURN_FRACTION = 0.07
 GROUND_ANGLE_TURNING_REDUCTION = 1.0
 
-FOLLOWING_ERROR = 35000
-MAX_VELOCITY = 10000
+FOLLOWING_ERROR = 50000
+MAX_VELOCITY = 8700
 MAX_ACCELERATION = 1000000
 
 P_GAIN = 200
-I_GAIN = 10
+I_GAIN =  10
 D_GAIN = 200
 FEEDFORWARD_VELOCITY = 0
 FEEDFORWARD_ACCELERATION = 100
-
-ACCELERATION_RATE = 1.010
 
 ################################################
 # System constants
@@ -341,7 +336,8 @@ def startTripod(turnAngle=0, back=False, duty_turn=0):
 	# fill buffer
 	for i in range(BUFFER_MAX_LIMIT/2):
 
-		addTripodPoint(t, turnAngle, back=back, duty_turn=duty_turn)
+		[nA, pA, vA, tA] = addTripodPoint(t, turnAngle, back=back, duty_turn=duty_turn)
+		addPvtArray(nA, pA, vA, tA)
 		t += DT/1000.
 
 	for node in nodes:
@@ -358,19 +354,30 @@ def tripodFrame(t0, turnAngle=0, back=False, duty_turn=0):
 
 	#bufferSize = [64 - xjus.getFreeBufferSize(node) for node in nodes]
 	bufferSize = 64 - xjus.getFreeBufferSize(FR)
-	print("Time to check buffer size: %fs" % (time() - timer))
+	#print("Time to check buffer size: %fs" % (time() - timer))
 	#fillBuffer= len([b for b in bufferSize if b <= BUFFER_MAX_LIMIT]) == len(nodes)
 	fillBuffer = (bufferSize <= BUFFER_MAX_LIMIT)
 	if fillBuffer:
 
 		timer = time()
 
-		addTripodPoint(t, turnAngle, back=back, duty_turn=duty_turn)
+		[nA, pA, vA, tA] = addTripodPoint(t, turnAngle, back=back, duty_turn=duty_turn)
+		addPvtArray(nA, pA, vA, tA)
 		t += DT/1000.
 
-		print("Add PVT time in Python: %fs" % (time() - timer))
+		#print("Add PVT time in Python: %fs" % (time() - timer))
 
 	print("Buffer: %s, Added points: %r" % (bufferSize, fillBuffer))
+
+	# [nA, pA, vA, tA] = addTripodPoint(t-(DT/1000.)*bufferSize, turnAngle, back=back, duty_turn=duty_turn)
+	# current = [xjus.getPosition(node) for node in nodes]
+	# for i in range(6):
+	# 	node = nodes[i]
+	# 	current[i] *= sign[node]
+
+	#errors = [pA[i]-current[i] for i in range(len(nodes))]
+	#print("following error: %s" % errors)
+
 
 	return t
 
@@ -380,10 +387,13 @@ def stopTripod(t, turnAngle=0, back=False, duty_turn=0):
 
 	pytime.wait(DT)
 	for node in nodes:
-		addTripodPoint(t, turnAngle, back=back, end=True, duty_turn=duty_turn)
+		[nA, pA, vA, tA] = addTripodPoint(t, turnAngle, back=back, end=True, duty_turn=duty_turn)
+		addPvtArray(nA, pA, vA, tA)
 
 	for node in nodes:
 		xjus.stopIPM(node)
+		xjus.printIpmStatus(node)
+
 
 	wait()
 
@@ -414,8 +424,6 @@ def addTripodPoint(t, turnAngle=0, back=False, end=False, duty_turn=0):
 		pA = [-p for p in pA]
 		vA = [-v for v in vA]
 
-	addPvtArray(nA, pA, vA, tA)
-
 	return [nA, pA, vA, tA]
 
 def getTripodPVT(node, t, turnAngle=0, back=False, duty_turn=0):
@@ -434,8 +442,8 @@ def getTripodPVT(node, t, turnAngle=0, back=False, duty_turn=0):
 	#if (sign[node] * duty_turn < 0):
 	dc -= sign[node] * duty_turn
 
-	#if (sign[node] * turnAngle < 0):
-	#	thetaG += sign[node] * turnAngle * GROUND_ANGLE_TURNING_REDUCTION
+	if (sign[node] * turnAngle < 0):
+		thetaG += sign[node] * turnAngle * GROUND_ANGLE_TURNING_REDUCTION
 
 	offsetPos = int(round(PHASE_OFFSET * (REV/360)))
 	p = degToPos(getTheta(t + zSign[node]*T/2., T, thetaG, dc)) + offsetPos
@@ -448,17 +456,17 @@ def getTripodPVT(node, t, turnAngle=0, back=False, duty_turn=0):
 
 	return [p, v, dt]
 
-def addPvtArray(nodes, positions, velocities, times):
+def addPvtArray(nA, pA, vA, tA):
 	""" Sends the given PVT points for each node to the controller. """
 
-	N = len(nodes)
+	N = len(nA)
 
 	for i in range(N):
-		node = nodes[i]
-		positions[i] *= sign[node]
-		velocities[i] *= sign[node]
+		node = nA[i]
+		pA[i] *= sign[node]
+		vA[i] *= sign[node]
 
-	pvt = np.vstack([nodes, positions, velocities, times])
+	pvt = np.vstack([nA, pA, vA, tA])
 	pvt = np.ascontiguousarray(pvt.transpose().astype(int))
 
 	#timer = time()
@@ -527,34 +535,23 @@ def mainLoop(clock, surface):
 
 		frame += 1
 		print("--------- Main loop frame %d ---------- error code %d" % (frame, xjus.getErrorCode()))
-		
-		# Once a second, stops the program if there is a node in fault state
-		if (frame % FPS) == 0:
+
+		# Stops the program if there is a node in fault state
+		if (frame % 10) == 0:
+
+	 		timer = time()
 			if nodeFault():
 			 	print("Error occurred! Error code: %d" % xjus.getErrorCode())
-			 	return
-			print("nodeFault() call: %f" % (time()-timer0))
+			 	
+			 	for node in nodes:
+	 				xjus.printIpmStatus(node)
+	 			return
+			print("nodeFault() call: %f" % (time()-timer))
 
 		if (printCurrent):
 			printCurrentToCommand()
 			currentToFile(fileId)
 			printCurrent = False
-
-		if keyDown(K_EQUALS):
-			Tnew = T * ACCELERATION_RATE
-			t = (Tnew/T) * t
-			T = Tnew
-
-		if keyDown(K_MINUS):
-			Tnew = T / ACCELERATION_RATE
-			t = (Tnew/T) * t
-			T = Tnew
-
-		if keyDown(K_RIGHTBRACKET):
-			GROUND_ANGLE += 1
-
-		if keyDown(K_LEFTBRACKET):
-			GROUND_ANGLE -= 1
 
 		# Processing all events for the frame
 		for event in pygame.event.get():
@@ -565,6 +562,22 @@ def mainLoop(clock, surface):
 				# Get current on request
 				if event.key == K_c:
 					printCurrent = not printCurrent
+
+				if event.key == (K_EQUALS):
+					Tnew = T + 0.05
+					t = (Tnew/T) * t
+					T = Tnew
+
+				if event.key == (K_MINUS):
+					Tnew = T - 0.05
+					t = (Tnew/T) * t
+					T = Tnew
+
+				if event.key == (K_RIGHTBRACKET):
+					GROUND_ANGLE += 5
+
+				if event.key == (K_LEFTBRACKET):
+					GROUND_ANGLE -= 5
 
 				# Tooggle stand on spacebar
 				if event.key == K_SPACE:
@@ -635,7 +648,7 @@ def mainLoop(clock, surface):
 			if tapMode:
 				timer = time()
 				t = tripodFrame(t, turnFraction * GROUND_ANGLE, duty_turn=duty_turn)
-				print("tripodFrame() call: %f" % (time()-timer))
+				#print("tripodFrame() call: %f" % (time()-timer))
 			elif tapModeBack:
 				t = tripodFrame(t, turnFraction * BACK_GROUND_ANGLE, back=True, duty_turn=duty_turn)
 			else:
@@ -645,7 +658,7 @@ def mainLoop(clock, surface):
 				stopTripod(t, turnFraction * GROUND_ANGLE, duty_turn=duty_turn)
 
 		
-		if ((frame % 5) == 0):
+		if ((frame % 7) == 0):
 			timer = time()
 			# Drawing
 			screen.fill(WHITE)
