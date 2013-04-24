@@ -20,6 +20,8 @@ from pygame.locals import *
 
 from xjus_trajectory2 import getTheta, getThetaDot
 
+import xjusAnalysis
+
 sys.path.insert(0, '/home/xjus/project-thesis/code/libxjus')
 import xjus_API as xjus
 
@@ -343,6 +345,9 @@ def startTripod(turnAngle=0, back=False, duty_turn=0):
 	for node in nodes:
 		xjus.startIPM(node)
 
+	xjusAnalysis.startAccel(2, False)
+	xjusAnalysis.startAvgCurrent(2, False)
+
 	return t;
 
 def tripodFrame(t0, turnAngle=0, back=False, duty_turn=0):
@@ -378,6 +383,9 @@ def tripodFrame(t0, turnAngle=0, back=False, duty_turn=0):
 	#errors = [pA[i]-current[i] for i in range(len(nodes))]
 	#print("following error: %s" % errors)
 
+	timer = time()
+	xjus.sampleAvgCurrent()
+	print("Time to sample current: %f" % (time() - timer))
 
 	return t
 
@@ -385,6 +393,14 @@ def stopTripod(t, turnAngle=0, back=False, duty_turn=0):
 	""" Adds an ending point to the tripod gait and returns to a
 	    standing position. """
 
+	xjusAnalysis.endAccel(False)
+	acc = xjusAnalysis.getAvgAbsZAccel()
+	print("===============================================")
+	print("Stability measure: %.4f" % (acc))
+	current = xjusAnalysis.getAvgCurrent()
+	print("Power usage measure: %.4f" % (current))
+	print("===============================================")
+	
 	pytime.wait(DT)
 	for node in nodes:
 		[nA, pA, vA, tA] = addTripodPoint(t, turnAngle, back=back, end=True, duty_turn=duty_turn)
@@ -393,7 +409,6 @@ def stopTripod(t, turnAngle=0, back=False, duty_turn=0):
 	for node in nodes:
 		xjus.stopIPM(node)
 		xjus.printIpmStatus(node)
-
 
 	wait()
 
@@ -480,47 +495,12 @@ def wait():
 			pytime.wait(10)
 			#print(xjus.getErrorCode())
 
-def printCurrentToCommand():
-	""" Queries the current use for each node and prints it to the command line """
-
-	for node in nodes:
-		measuredCurrent = xjus.getNodeAvgCurrent(node)
-		
-		if (node == 1):
-			output = str(measuredCurrent) + ", "
-		elif (node == 6):
-			output += str(measuredCurrent)
-		else:
-			output += str(measuredCurrent) + ", "
-
-	print(output);
-
-def finishCurrentToFile(fileId):
-	""" Closes the file containing current information """
-	fileId.close()
-
-def currentToFile(fileId):
-	""" Queries the current use for each node and writes it to a specified file """
-
-	for node in nodes:
-		measuredCurrent = xjus.getNodeAvgCurrent(node)
-
-		if (node == 1):
-			output = str(measuredCurrent) + ", "
-		elif (node == 6):
-			output += str(measuredCurrent)
-		else:
-			output += str(measuredCurrent) + ", "
-
-	fileId.write(output + '\n')
-
 def mainLoop(clock, surface):
 	"""
 	Represents the main control loop, where key events are
 	processed and high-level routines activated.
 	"""
-	printCurrent = False
-	fileId = open('currentOutput.txt', 'a')
+
 
 	global walking, tapMode, tapModeBack, turnLeft, turnRight
 	global T, GROUND_ANGLE
@@ -548,10 +528,6 @@ def mainLoop(clock, surface):
 	 			return
 			print("nodeFault() call: %f" % (time()-timer))
 
-		if (printCurrent):
-			printCurrentToCommand()
-			currentToFile(fileId)
-			printCurrent = False
 
 		# Processing all events for the frame
 		for event in pygame.event.get():
@@ -559,9 +535,6 @@ def mainLoop(clock, surface):
 			# Key down events
 			if event.type == KEYDOWN:
 
-				# Get current on request
-				if event.key == K_c:
-					printCurrent = not printCurrent
 
 				if event.key == (K_EQUALS):
 					Tnew = T + 0.05
