@@ -22,7 +22,6 @@ sys.path.insert(0, '../libxjus')
 import xjus_API as xjus
 
 
-
 def startAccel(trialId, graph):
     global accelFilename
     global outPutTxt_a
@@ -227,7 +226,7 @@ def sampleAvgCurrent():
     global totalSamplesTaken_c
     totalSamplesTaken_c = totalSamplesTaken_c + 1
 
-    for node in range(1,6)
+    for node in range(1, 6):
         global totalCurrent
         totalCurrent += xjus.getNodeAvgCurrent(node)
 
