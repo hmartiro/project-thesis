@@ -48,13 +48,13 @@ def getThetaDot(t, T, thetaG, dc):
 
 	return degrees(thetaDot)
 
-# T = 0.7
-# thetaG = 80.
-# dc = 0.40
-# DT = 30
-# tTotal = 2 * T
+# T = 0.9
+# thetaG = 110.
+# dc = 0.6
+# DT = 120
+# tTotal = 4 * T
 
-# getTheta(10.2, T, thetaG, dc)
+# #getTheta(10.2, T, thetaG, dc)
 
 # getThetaVector = np.vectorize(getTheta)
 # getThetaDotVector = np.vectorize(getThetaDot)
