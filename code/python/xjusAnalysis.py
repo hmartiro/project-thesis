@@ -42,7 +42,6 @@ def startAccel(trialId, graph):
     if graph:
         accelFilename = str(trialId) + "_accelOutput.txt"
         fA = open(accelFilename, 'w')  #WRITES OVER PREVIOUS DATA
-        trialNumber = 001  #MAKE THIS AN ARGUMENT
         header = "#Trial: " + str(trialNumber) + "  (x[g], y[g], z[g], t[us]) \n"
         fA.write(header)
 
@@ -117,6 +116,10 @@ def SpatialData(e):
     
     global totalSamplesTaken_a
     totalSamplesTaken_a = totalSamplesTaken_a + 1.0;
+    global orientation
+    global a_z
+    global totalAbsZAccel
+    global avgAbsZAccel
 
     source = e.device
     for index, spatialData in enumerate(e.spatialData):
@@ -129,25 +132,18 @@ def SpatialData(e):
             fA.write(textValues + '\n')
 
         # Set the current average acceleration
-        global a_z
         a_z = spatialData.Acceleration[2]
 
         if  a_z > 0: # Positive Z axis
-            global orientation
             orientation = True
         else:
-            global orientation
             orientation = False
 
     if a_z < 0:
-        global a_z
         a_z = -a_z
 
-
-    global totalAbsZAccel
     totalAbsZAccel += a_z
 
-    global avgAbsZAccel
     avgAbsZAccel = totalAbsZAccel / totalSamplesTaken_a
 
 #Returns avg deviation from gravity
@@ -156,9 +152,7 @@ def getAvgAbsZAccel():
     avgAbsZAccel = avgAbsZAccel - 1
 
     if avgAbsZAccel < 0:
-        global avgAbsZAccel
         avgAbsZAccel = -avgAbsZAccel
-
 
     return avgAbsZAccel
 
@@ -208,54 +202,75 @@ def startAvgCurrent(trialId, graph):
 
     global totalSamplesTaken_c 
     global totalCurrent
+    global outPutTxt_c
 
+
+    outPutTxt_c = graph
     totalSamplesTaken_c = 0
     totalCurrent = 0
 
+    if graph:
+        global currentFilename
+        currentFilename = str(trialId) + "_currentOutput.txt"
+        global fC
+        fC = open(currentFilename, 'w')  #WRITES OVER PREVIOUS DATA
+        header = "#Trial: " + str(trialId) + "  Nodes(1-6) mA, sample number \n"
+        fC.write(header)
 
-    # Placeholder
-   
-
-# # Open file for current data storage
-# fC = open('currentOutput.txt', 'w')  #WRITES OVER PREVIOUS DATA
-# header = "#Trial: " + str(trialNumber) + " Node 1-6 in mA \n"
-# fC.write(header)
 
 def sampleAvgCurrent():
 
     global totalSamplesTaken_c
-    totalSamplesTaken_c = totalSamplesTaken_c + 1
+    totalSamplesTaken_c = totalSamplesTaken_c + 1.0
+    global totalCurrent
+    global AvgCurrent
 
-    for node in range(1, 6):
-        global totalCurrent
-        totalCurrent += xjus.getNodeAvgCurrent(node)
+    if (outPutTxt_c):
+        for node in range(1, 7):
+            measuredCurrent = xjus.getNodeAvgCurrent(node)
+            
+            if (node == 1):
+                output = str(measuredCurrent) + ", "
+                totalCurrent += measuredCurrent
+            else:
+                output += str(measuredCurrent) + ", "
+                totalCurrent += measuredCurrent
+
+            
+
+        fC.write(output + str(totalSamplesTaken_c) + '\n')
+
+        # Update Avg Current
+        AvgCurrent = totalCurrent / totalSamplesTaken_c
+
+    else: 
+
+        for node in range(1, 6):
+            totalCurrent += xjus.getNodeAvgCurrent(node)
 
     # Update Avg Current
-    global AvgCurrent
     AvgCurrent = totalCurrent / totalSamplesTaken_c
 
 def getAvgCurrent():
+
+    if (outPutTxt_c):
+        fC.close()
+
+        a, b, c, d, e, f, s = np.loadtxt(currentFilename, delimiter = ",", unpack = True)
+
+        fig = plt.figure()
+        ax1 = fig.add_subplot(111)
+
+        ax1.plot(s,a, label = "node1")
+        plt.hold(True)
+        plt.plot(s,b, label = "node2")
+        plt.plot(s,c, label = "node3")
+        plt.plot(s,d, label = "node4")
+        plt.plot(s,e, label = "node5")
+        plt.plot(s,f, label = "node6")
+        plt.legend()
+
+        plt.show()
+
+
     return AvgCurrent
-
-
-
-
-# Iterate through all nodes and record their current values 
-    # for node in nodes:
-    #     measuredCurrent = xjus.getNodeAvgCurrent(node)
-        
-    #     if (node == 1):
-    #         output = str(measuredCurrent) + ", "
-    #     elif (node == 6):
-    #         output += str(measuredCurrent)
-    #     else:
-    #         output += str(measuredCurrent) + ", "
-
-
-
-
-
-    #fC.write(output + '\n')
-
-#def process Current():
-# Used if data needs to be outputted and then averaged
