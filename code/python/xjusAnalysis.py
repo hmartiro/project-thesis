@@ -42,7 +42,7 @@ def startAccel(trialId, graph):
     if graph:
         accelFilename = str(trialId) + "_accelOutput.txt"
         fA = open(accelFilename, 'w')  #WRITES OVER PREVIOUS DATA
-        header = "#Trial: " + str(trialNumber) + "  (x[g], y[g], z[g], t[us]) \n"
+        header = "#Trial: " + str(trialId) + "  (x[g], y[g], z[g], t[us]) \n"
         fA.write(header)
 
     #Create an accelerometer object
@@ -148,24 +148,26 @@ def SpatialData(e):
 
 #Returns avg deviation from gravity
 def getAvgAbsZAccel():
-    global avgAbsZAccel
-    avgAbsZAccel = avgAbsZAccel - 1
 
-    if avgAbsZAccel < 0:
-        avgAbsZAccel = -avgAbsZAccel
+    localCopyAvgAbsZAccel = avgAbsZAccel
+    localCopyAvgAbsZAccel = localCopyAvgAbsZAccel - 1
 
-    return avgAbsZAccel
+    if localCopyAvgAbsZAccel < 0:
+        localCopyAvgAbsZAccel = -localCopyAvgAbsZAccel
+
+    return localCopyAvgAbsZAccel
 
 
 def getAbsZAccel():
     # Take the absolute acceleration
-    global a_z
-    if a_z < 0:
-       a_z = -a_z
+   
+    localCopyA_z =  a_z
+    if localCopyA_z < 0:
+       localCopyA_z = - localCopyA_z
     # Remove gravity
     # a_z = a_z - 1
 
-    return a_z
+    return localCopyA_z
 
 def getOrientation():
     return orientation
@@ -182,19 +184,7 @@ def endAccel(graph):
     if graph:
         fA.close()
 
-        x, y, z, t = np.loadtxt(accelFilename, delimiter = ",", unpack = True)
-
-        # Convert t to seconds
-        t = t/1000000.
-        fig = plt.figure()
-        ax1 = fig.add_subplot(111)
-
-        ax1.plot(t,z, label = "z")
-
-        #plt.hold(True)
-        #plt.plot(t,y, label = "y")
-        #plt.plot(t,z, label = "z")
-        plt.show()
+ 
 
 
 
@@ -237,7 +227,6 @@ def sampleAvgCurrent():
                 totalCurrent += measuredCurrent
 
             
-
         fC.write(output + str(totalSamplesTaken_c) + '\n')
 
         # Update Avg Current
@@ -256,10 +245,16 @@ def getAvgCurrent():
     if (outPutTxt_c):
         fC.close()
 
+    return AvgCurrent
+
+
+
+def plotAll():
+
         a, b, c, d, e, f, s = np.loadtxt(currentFilename, delimiter = ",", unpack = True)
 
         fig = plt.figure()
-        ax1 = fig.add_subplot(111)
+        ax1 = fig.add_subplot(212)
 
         ax1.plot(s,a, label = "node1")
         plt.hold(True)
@@ -270,7 +265,23 @@ def getAvgCurrent():
         plt.plot(s,f, label = "node6")
         plt.legend()
 
+        #plt.show()
+
+
+        x, y, z, t = np.loadtxt(accelFilename, delimiter = ",", unpack = True)
+
+        # Convert t to seconds
+        t = t/1000000.
+        ax1 = fig.add_subplot(211)
+
+        ax1.plot(t,z, label = "z")
+
+        #plt.hold(True)
+        #plt.plot(t,y, label = "y")
+        #plt.plot(t,z, label = "z")
+        plt.title("AvgAbsZAccel: %.4f, AvgCurrent: %.4f, CurrentSamples: %.4f" % (getAvgAbsZAccel(), getAvgCurrent(),totalSamplesTaken_c))
         plt.show()
 
 
-    return AvgCurrent
+
+    

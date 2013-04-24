@@ -48,10 +48,10 @@ def getThetaDot(t, T, thetaG, dc):
 
 	return degrees(thetaDot)
 
-# T = 0.9
+# T = 0.75
 # thetaG = 110.
-# dc = 0.6
-# DT = 120
+# dc = 0.7
+# DT = 150
 # tTotal = 4 * T
 
 # #getTheta(10.2, T, thetaG, dc)

@@ -29,8 +29,9 @@ import xjus_API as xjus
 # Editable Parameters
 #################################################
 T =  0.90        # Trajectory period
-DT = 120         # IPM time step (ms)
+DT = 150      # IPM time step (ms)
 FPS = 50        # PyGame refresh rate
+PLOT_ANALYSIS = True
 
 GROUND_ANGLE = 110. # Ground contact angle
 BACK_GROUND_ANGLE = 100.
@@ -44,7 +45,7 @@ STAND_ANGLE = 140.
 MOUNTED_STAND_ANGLE = 20.
 BACK_OFFSET_ANGLE = 0.
 
-BUFFER_MAX_LIMIT = 5
+BUFFER_MAX_LIMIT = 10
 
 # Fraction of base ground angle modified for turning
 TURN_FRACTION = 0.2
@@ -345,8 +346,8 @@ def startTripod(turnAngle=0, back=False, duty_turn=0):
 	for node in nodes:
 		xjus.startIPM(node)
 
-	xjusAnalysis.startAccel(2, False)
-	xjusAnalysis.startAvgCurrent(2, False)
+	xjusAnalysis.startAccel(2, PLOT_ANALYSIS)
+	xjusAnalysis.startAvgCurrent(2, PLOT_ANALYSIS)
 
 	return t;
 
@@ -384,7 +385,7 @@ def tripodFrame(t0, turnAngle=0, back=False, duty_turn=0):
 	#print("following error: %s" % errors)
 
 	timer = time()
-	xjus.sampleAvgCurrent()
+	xjusAnalysis.sampleAvgCurrent()
 	print("Time to sample current: %f" % (time() - timer))
 
 	return t
@@ -393,7 +394,7 @@ def stopTripod(t, turnAngle=0, back=False, duty_turn=0):
 	""" Adds an ending point to the tripod gait and returns to a
 	    standing position. """
 
-	xjusAnalysis.endAccel(False)
+	xjusAnalysis.endAccel(PLOT_ANALYSIS)
 	acc = xjusAnalysis.getAvgAbsZAccel()
 	print("===============================================")
 	print("Stability measure: %.4f" % (acc))
@@ -514,7 +515,7 @@ def mainLoop(clock, surface):
 		timer0 = time()
 
 		frame += 1
-		print("--------- Main loop frame %d ---------- error code %d" % (frame, xjus.getErrorCode()))
+		#print("--------- Main loop frame %d ---------- error code %d" % (frame, xjus.getErrorCode()))
 
 		# Stops the program if there is a node in fault state
 		if (frame % 10) == 0:
@@ -650,7 +651,7 @@ def mainLoop(clock, surface):
 				stateText = "Lying down."
 
 			renderText(stateText, 0, -100, size=40)
-			print("Time of drawing text: %f" % (time() - timer))
+			#print("Time of drawing text: %f" % (time() - timer))
 
 		# Pygame frame
 		pygame.display.update()
@@ -688,6 +689,8 @@ def main():
 	mainLoop(clock, screen)
 
 	deinitialize()
+	if(PLOT_ANALYSIS):
+		xjusAnalysis.plotAll()
 	return
 
 # Call the main function when script is executed
