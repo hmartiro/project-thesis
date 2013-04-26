@@ -1,0 +1,60 @@
+T =  0.90        # Trajectory period
+DT = 150      # IPM time step (ms)
+FPS = 50        # PyGame refresh rate
+PLOT_ANALYSIS = True
+
+GROUND_ANGLE = 95. # Ground contact angle
+BACK_GROUND_ANGLE = 100.
+
+DUTY_CYCLE = 0.65
+
+PHASE_OFFSET = -GROUND_ANGLE/2
+TIME_OFFSET = T * (DUTY_CYCLE / 2)
+
+STAND_ANGLE = 145.
+MOUNTED_STAND_ANGLE = 20.
+BACK_OFFSET_ANGLE = 0.
+
+---------------------------------------------------------
+
+# Rigid, 15s, linoleum flat ground, voltage ~3.83v
+0.0175 3279 94
+0.0163 3263 96
+0.0121 3277 96
+0.0075 3023 96
+0.0172 3122 98
+
+Average:
+0.0141 3192 96
+
+# Fully flexible, 15s, linoleum flat ground, voltage ~3.77v
+0.0096 2859 93
+0.0163 2836 98
+0.0370 2807 97
+0.0299 2869 97
+0.0137 2983 96
+
+Average:
+0.0213 2870 96
+
+# Fully flexible, 15s, linoleum flat ground, voltage ~3.72v
+0.0151 2712 94
+0.0401 2782 98
+0.0046 2892 96
+0.0157 2870 96
+0.0098 2869 97
+
+Average:
+0.0170 
+
+# Fully flexible, linoleum over broom thing, 6s, voltage ~3.71v
+.0641 3277 36
+.0406 3352 31
+
+# Rigid, 15s, linoleum flat ground, voltage ~3.71v
+.0089 3233 98
+
+# Rigid, linoleum over broom thing, 6s, voltage ~3.70v
+0.0534 4245 29
+0.0256 3520 32
+

@@ -29,11 +29,11 @@ import xjus_API as xjus
 # Editable Parameters
 #################################################
 T =  0.90        # Trajectory period
-DT = 150      # IPM time step (ms)
+DT = 150    # IPM time step (ms)
 FPS = 50        # PyGame refresh rate
 PLOT_ANALYSIS = True
 
-GROUND_ANGLE = 110. # Ground contact angle
+GROUND_ANGLE = 95. # Ground contact angle
 BACK_GROUND_ANGLE = 100.
 
 DUTY_CYCLE = 0.65
@@ -41,18 +41,18 @@ DUTY_CYCLE = 0.65
 PHASE_OFFSET = -GROUND_ANGLE/2
 TIME_OFFSET = T * (DUTY_CYCLE / 2)
 
-STAND_ANGLE = 140.
+STAND_ANGLE = 145.
 MOUNTED_STAND_ANGLE = 20.
 BACK_OFFSET_ANGLE = 0.
 
 BUFFER_MAX_LIMIT = 10
 
 # Fraction of base ground angle modified for turning
-TURN_FRACTION = 0.2
-DUTY_TURN_FRACTION = 0.07
+TURN_FRACTION = 0.1
+DUTY_TURN_FRACTION = 0.03
 GROUND_ANGLE_TURNING_REDUCTION = 1.0
 
-FOLLOWING_ERROR = 50000
+FOLLOWING_ERROR = 150000
 MAX_VELOCITY = 8700
 MAX_ACCELERATION = 1000000
 
@@ -395,12 +395,12 @@ def stopTripod(t, turnAngle=0, back=False, duty_turn=0):
 	    standing position. """
 
 	xjusAnalysis.endAccel(PLOT_ANALYSIS)
-	acc = xjusAnalysis.getAvgAbsZAccel()
-	print("===============================================")
-	print("Stability measure: %.4f" % (acc))
+	#acc = xjusAnalysis.getAvgAbsZAccel()
+	#print("===============================================")
+	#print("Stability measure: %.4f" % (acc))
 	current = xjusAnalysis.getAvgCurrent()
-	print("Power usage measure: %.4f" % (current))
-	print("===============================================")
+	#print("Power usage measure: %.4f" % (current))
+	#print("===============================================")
 	
 	pytime.wait(DT)
 	for node in nodes:
@@ -515,7 +515,9 @@ def mainLoop(clock, surface):
 		timer0 = time()
 
 		frame += 1
-		#print("--------- Main loop frame %d ---------- error code %d" % (frame, xjus.getErrorCode()))
+		print("--------- Main loop frame %d ---------- error code %d" % (frame, xjus.getErrorCode()))
+
+
 
 		# Stops the program if there is a node in fault state
 		if (frame % 10) == 0:
@@ -622,7 +624,7 @@ def mainLoop(clock, surface):
 			if tapMode:
 				timer = time()
 				t = tripodFrame(t, turnFraction * GROUND_ANGLE, duty_turn=duty_turn)
-				#print("tripodFrame() call: %f" % (time()-timer))
+				print("tripodFrame() call: %f" % (time()-timer))
 			elif tapModeBack:
 				t = tripodFrame(t, turnFraction * BACK_GROUND_ANGLE, back=True, duty_turn=duty_turn)
 			else:
@@ -675,6 +677,8 @@ def main():
 	global screen
 
 	initialize()
+
+
 
 	# Creates the control window
 	screen = pygame.display.set_mode((400, 400))

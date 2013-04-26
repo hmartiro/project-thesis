@@ -10,6 +10,7 @@ import sys
 #Graphic processing
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 #Accelerometer specific imports
 from Phidgets.Phidget import Phidget
@@ -18,7 +19,7 @@ from Phidgets.Events.Events import SpatialDataEventArgs, AttachEventArgs, Detach
 from Phidgets.Devices.Spatial import Spatial, SpatialEventData, TimeSpan
 
 # xJus 
-sys.path.insert(0, '../libxjus')
+sys.path.insert(0, "/home/xjus/project-thesis/code/libxjus")
 import xjus_API as xjus
 
 
@@ -30,7 +31,11 @@ def startAccel(trialId, graph):
     global totalTimeElapsed
     global totalSamplesTaken_a
     global totalAbsZAccel 
+    global totalAVec
+    global totalAvgAVec
 
+    totalAvgAVec = 0;
+    totalAVec = 0;
     totalAbsZAccel = 0;
     totalSamplesTaken_a = 0;
     totalTimeElapsed = 0;
@@ -42,7 +47,7 @@ def startAccel(trialId, graph):
     if graph:
         accelFilename = str(trialId) + "_accelOutput.txt"
         fA = open(accelFilename, 'w')  #WRITES OVER PREVIOUS DATA
-        header = "#Trial: " + str(trialId) + "  (x[g], y[g], z[g], t[us]) \n"
+        header = "#Trial: " + str(trialId) + "  (x[g], y[g], z[g], 3D A_Vec, samples) \n"
         fA.write(header)
 
     #Create an accelerometer object
@@ -89,7 +94,7 @@ def startAccel(trialId, graph):
         print("Exiting....")
         exit(1)
     else:
-        spatial.setDataRate(96)  ############### Sample rate is 24ms averaged
+        spatial.setDataRate(24)  ############### Sample rate is 24ms averaged
         #DisplayDeviceInfo()
 
 #Information Display Function
@@ -120,6 +125,8 @@ def SpatialData(e):
     global a_z
     global totalAbsZAccel
     global avgAbsZAccel
+    global totalAVec
+    global totalAvgAVec
 
     source = e.device
     for index, spatialData in enumerate(e.spatialData):
@@ -128,23 +135,39 @@ def SpatialData(e):
             # Write a full value out to file for graphical processing
             global totalTimeElapsed
             totalTimeElapsed += spatialData.Timestamp.microSeconds # In u seconds
-            textValues = str(spatialData.Acceleration[0]) + ", " + str(spatialData.Acceleration[1]) + ", " + str(spatialData.Acceleration[2]) + ", " + str(totalTimeElapsed)
+
+            # Set the current average acceleration
+            a_x = spatialData.Acceleration[0]
+            a_y = spatialData.Acceleration[1]
+            a_z = spatialData.Acceleration[2]
+
+            a_vec = math.sqrt( (a_x*a_x*1.0) + (a_y*a_y*1.0) + (a_z*a_z*1.0) )
+
+            textValues = str(spatialData.Acceleration[0]) + ", " + str(spatialData.Acceleration[1]) + ", " + str(spatialData.Acceleration[2]) + ", " + str(a_vec) + ", " + str(totalSamplesTaken_a)
             fA.write(textValues + '\n')
 
-        # Set the current average acceleration
-        a_z = spatialData.Acceleration[2]
+
 
         if  a_z > 0: # Positive Z axis
             orientation = True
         else:
             orientation = False
 
+ 
+
     if a_z < 0:
         a_z = -a_z
+
+    
+
+    totalAVec += a_vec
 
     totalAbsZAccel += a_z
 
     avgAbsZAccel = totalAbsZAccel / totalSamplesTaken_a
+
+    totalAvgAVec = totalAVec / totalSamplesTaken_a
+
 
 #Returns avg deviation from gravity
 def getAvgAbsZAccel():
@@ -157,6 +180,16 @@ def getAvgAbsZAccel():
 
     return localCopyAvgAbsZAccel
 
+def getAvgAccel():
+
+    localCopy = totalAvgAVec
+
+    localCopy = localCopy - 1.0
+
+    if (localCopy < 0):
+        localCopy = -localCopy
+  
+    return localCopy
 
 def getAbsZAccel():
     # Take the absolute acceleration
@@ -263,25 +296,60 @@ def plotAll():
         plt.plot(s,d, label = "node4")
         plt.plot(s,e, label = "node5")
         plt.plot(s,f, label = "node6")
+        totalCurrentArray = a+b+c+d+e+f
+        plt.plot(s, totalCurrentArray, label ="total")
         plt.legend()
+
+        plt.xlabel("Samples")
+        plt.ylabel("mA")
 
         #plt.show()
 
 
-        x, y, z, t = np.loadtxt(accelFilename, delimiter = ",", unpack = True)
+        # User input
+        speed = float(raw_input("What was the trial time for 40ft[s]?"))
+
+        speed = (12.192 / speed) #For 40ft course
+
+        voltage = float(raw_input("What was the trial voltage [V]? "))
+
+        specificR = (voltage*getAvgCurrent()) / speed
+
+
+
+
+        x, y, z, vec, sample_a = np.loadtxt(accelFilename, delimiter = ",", unpack = True)
+
+        vec_var = np.var(vec)
+
 
         # Convert t to seconds
-        t = t/1000000.
         ax1 = fig.add_subplot(211)
 
-        ax1.plot(t,z, label = "z")
+        ax1.plot(sample_a, vec, label = "total_g")
+        plt.xlabel("time [s]")
+        plt.ylabel("Total Acceleration [g]")
 
         #plt.hold(True)
         #plt.plot(t,y, label = "y")
         #plt.plot(t,z, label = "z")
-        plt.title("AvgAbsZAccel: %.4f, AvgCurrent: %.4f, CurrentSamples: %.4f" % (getAvgAbsZAccel(), getAvgCurrent(),totalSamplesTaken_c))
+        plt.title("AvgAccelMag Less Gravity: %.4f, AccelMagVar: %.4f, AvgCurrent: %.4f, (Current)(Accel)Samples: (%.4f)(%.4f)" % (getAvgAccel(), vec_var, getAvgCurrent(),totalSamplesTaken_c,totalSamplesTaken_a) )
         plt.show()
 
+        trial = np.loadtxt("trialNumKeeper.txt")
+
+        trial = trial + 1
 
 
-    
+        fR = open("trialResults.txt", 'a')
+        outputInfo = "[" + str(trial) +"], " + str(getAvgAccel())  + ", " + str(vec_var) + ", " + str(getAvgCurrent()) + ", " + str(speed) + ", " + str(voltage) + ", " + str(specificR) + ", " + str(totalSamplesTaken_c) + ", " + str(totalSamplesTaken_a) + "\n"
+
+        outputInfo = ("[%d], %1.5f, %0.5f, %5.0f, %1.2f, %2.2f, %5.1f, %5d, %5d \n" % (trial, getAvgAccel(), vec_var, getAvgCurrent(), speed, voltage, specificR, totalSamplesTaken_c, totalSamplesTaken_a))
+
+        fT = open("trialNumKeeper.txt", 'w')
+        fT.write(str(trial))
+        fT.close()
+
+        fR.write("[%d], %1.6f, %0.6f, %5.0f, %1.2f, %2.2f, %5.1f, %5d, %5d \n" % (trial, getAvgAccel(), vec_var, getAvgCurrent(), speed, voltage, specificR, totalSamplesTaken_c, totalSamplesTaken_a))
+        fR.close()
+
