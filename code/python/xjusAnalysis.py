@@ -306,10 +306,17 @@ def plotAll():
         #plt.show()
 
 
-        # User input
-        speed = float(raw_input("What was the trial time for 40ft[s]?"))
+        # User inpute 
 
-        speed = (12.192 / speed) #For 40ft course
+        distance = float(raw_input("What was the trial distance[ft]?"))
+
+        distance_m = distance * 0.3048 # convert ft to m
+
+        string = "What was the trial time for the " + str(distance)+ " [ft] trial?"
+
+        speed = float(raw_input(string))
+
+        speed = (distance_m/ speed) 
 
         voltage = float(raw_input("What was the trial voltage [V]? "))
 
