@@ -38,10 +38,14 @@ BACK_GROUND_ANGLE = 100.
 
 DUTY_CYCLE = 0.65
 
-PHASE_OFFSET = -GROUND_ANGLE/2
+BASE_PHASE_OFFSET = -GROUND_ANGLE/2
+PHASE_OFFSET = BASE_PHASE_OFFSET
 TIME_OFFSET = T * (DUTY_CYCLE / 2)
 
-STAND_ANGLE = 145.
+UPRIGHT_STAND_ANGLE = 145.
+INVERTED_STAND_ANGLE = 80.
+STAND_ANGLE = INVERTED_STAND_ANGLE
+
 MOUNTED_STAND_ANGLE = 20.
 BACK_OFFSET_ANGLE = 0.
 
@@ -228,7 +232,12 @@ def stand():
 		xjus.setPositionProfile(node, 500, 10000, 10000)
 
 	for node in nodes:
-		move(node, degToPos(STAND_ANGLE))
+		standAngle = STAND_ANGLE
+		# if xjusAnalysis.orientation is False:
+		# 	standAngle = INVERTED_STAND_ANGLE
+		# print([xjusAnalysis.orientation, standAngle])
+
+		move(node, degToPos(standAngle))
 
 	wait()
 	
@@ -245,7 +254,11 @@ def sit():
 		xjus.setPositionProfile(node, 500, 10000, 10000)
 
 	for node in nodes:
-		move(node, -degToPos(STAND_ANGLE))
+		standAngle = STAND_ANGLE
+		# if xjusAnalysis.orientation is False:
+		# 	standAngle = INVERTED_STAND_ANGLE
+
+		move(node, -degToPos(standAngle))
 
 	wait()
 
@@ -466,6 +479,8 @@ def getTripodPVT(node, t, turnAngle=0, back=False, duty_turn=0):
 	v = int(round(getThetaDot(t + zSign[node]*T/2., T, thetaG, dc) * ANG_VEL_TO_RPM))
 	dt = DT
 
+	print([p, v, dt])
+
 	if back:
 		backOffsetPos = int(round(BACK_OFFSET_ANGLE * (REV/360)))
 		p += backOffsetPos
@@ -504,7 +519,7 @@ def mainLoop(clock, surface):
 
 
 	global walking, tapMode, tapModeBack, turnLeft, turnRight
-	global T, GROUND_ANGLE
+	global T, GROUND_ANGLE, PHASE_OFFSET
 
 	# IPM time variable
 	t = 0
@@ -517,7 +532,10 @@ def mainLoop(clock, surface):
 		frame += 1
 		print("--------- Main loop frame %d ---------- error code %d" % (frame, xjus.getErrorCode()))
 
-
+		# if (xjusAnalysis.orientation is True) and (not standing):
+		# 	PHASE_OFFSET = BASE_PHASE_OFFSET
+		# else:
+		# 	PHASE_OFFSET = BASE_PHASE_OFFSET + 180.
 
 		# Stops the program if there is a node in fault state
 		if (frame % 10) == 0:

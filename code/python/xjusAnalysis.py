@@ -22,6 +22,7 @@ from Phidgets.Devices.Spatial import Spatial, SpatialEventData, TimeSpan
 sys.path.insert(0, "/home/xjus/project-thesis/code/libxjus")
 import xjus_API as xjus
 
+orientation = True
 
 def startAccel(trialId, graph):
     global accelFilename
