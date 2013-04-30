@@ -249,7 +249,7 @@ def startAvgVelocity(trialId):
     global velocityFilename
     velocityFilename = str(trialId) + "_veclocityOutput.txt"
     global fV
-    fV = open(currentFilename, 'w')  #WRITES OVER PREVIOUS DATA
+    fV = open(velocityFilename, 'w')  #WRITES OVER PREVIOUS DATA
     header = "#Trial: " + str(trialId) + "  Nodes(1-6) mA, rpm \n"
     fV.write(header)
 
@@ -260,7 +260,7 @@ def sampleAvgVelocity():
     totalSamplesTaken_v = totalSamplesTaken_v + 1.0
 
     for node in range(1,7):
-        measuredVelocity = xjus.getVelocityAveraged(node)
+        measuredVelocity = xjus.getVelocity(node)
             
         if (node == 1):
             output = str(measuredVelocity) + ", "

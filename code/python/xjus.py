@@ -29,10 +29,10 @@ import xjus_API as xjus
 # Editable Parameters
 #################################################
 T =  0.90        # Trajectory period
-DT = 150    # IPM time step (ms)
+DT = 190    # IPM time step (ms)
 FPS = 50        # PyGame refresh rate
 PLOT_ANALYSIS = True
-TRIAL_ID = 50
+TRIAL_ID = 51
 
 GROUND_ANGLE = 95. # Ground contact angle
 BACK_GROUND_ANGLE = 100.
@@ -348,7 +348,7 @@ def startTripod(turnAngle=0, back=False, duty_turn=0):
 		xjus.startIPM(node)
 
 	xjusAnalysis.startAccel(TRIAL_ID, PLOT_ANALYSIS)
-	xjusAnalysis.startAccel(TRIAL_ID)
+	xjusAnalysis.startAvgVelocity(TRIAL_ID)
 	xjusAnalysis.startAvgCurrent(TRIAL_ID, PLOT_ANALYSIS)
 
 	return t;
