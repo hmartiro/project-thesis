@@ -122,8 +122,19 @@ void disable(unsigned short node) {
 long getPosition(unsigned short node) {
 	long pos;
 	VCS_GetPositionIs(device(node), node, &pos, &errorCode);
-	printError();
 	return pos;
+}
+
+long getVelocity(unsigned short node) {
+	long vel;
+	VCS_GetVelocityIs(device(node), node, &vel, &errorCode);
+	return vel;
+}
+
+long getVelocityAveraged(unsigned short node) {
+	long vel;
+	VCS_GetVelocityIsAveraged(device(node), node, &vel, &errorCode);
+	return vel;
 }
 
 unsigned long getMaxFollowingError(unsigned short node) {
