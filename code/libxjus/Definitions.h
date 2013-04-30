@@ -160,7 +160,6 @@
     MotionInfo_DllExport int  VCS_GetMovementState(void* KeyHandle, unsigned short NodeId, int* pTargetReached, unsigned long* pErrorCode);
     MotionInfo_DllExport int  VCS_GetPositionIs(void* KeyHandle, unsigned short NodeId, long* pPositionIs, unsigned long* pErrorCode);
     MotionInfo_DllExport int  VCS_GetVelocityIs(void* KeyHandle, unsigned short NodeId, long* pVelocityIs, unsigned long* pErrorCode);
-    MotionInfo_DllExport int  VCS_GetVelocityIsAveraged(void* KeyHandle, unsigned short NodeId, long* pVelocityIs, unsigned long* pErrorCode);
     MotionInfo_DllExport int  VCS_GetCurrentIs(void* KeyHandle, unsigned short NodeId, short* pCurrentIs, unsigned long* pErrorCode);
     MotionInfo_DllExport int  VCS_WaitForTargetReached(void* KeyHandle, unsigned short NodeId, unsigned long Timeout, unsigned long* pErrorCode);
 

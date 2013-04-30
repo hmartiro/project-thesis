@@ -131,12 +131,6 @@ long getVelocity(unsigned short node) {
 	return vel;
 }
 
-long getVelocityAveraged(unsigned short node) {
-	long vel;
-	VCS_GetVelocityIsAveraged(device(node), node, &vel, &errorCode);
-	return vel;
-}
-
 unsigned long getMaxFollowingError(unsigned short node) {
 	unsigned long followingError;
 	VCS_GetMaxFollowingError(device(node), node, &followingError, &errorCode);

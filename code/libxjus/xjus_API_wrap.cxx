@@ -4210,28 +4210,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_getVelocityAveraged(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  unsigned short arg1 ;
-  unsigned short val1 ;
-  int ecode1 = 0 ;
-  PyObject * obj0 = 0 ;
-  long result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:getVelocityAveraged",&obj0)) SWIG_fail;
-  ecode1 = SWIG_AsVal_unsigned_SS_short(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "getVelocityAveraged" "', argument " "1"" of type '" "unsigned short""'");
-  } 
-  arg1 = static_cast< unsigned short >(val1);
-  result = (long)getVelocityAveraged(arg1);
-  resultobj = SWIG_From_long(static_cast< long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_interpolationMode(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   unsigned short arg1 ;
@@ -4727,7 +4705,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"moveAbsolute", _wrap_moveAbsolute, METH_VARARGS, NULL},
 	 { (char *)"getTargetPosition", _wrap_getTargetPosition, METH_VARARGS, NULL},
 	 { (char *)"getVelocity", _wrap_getVelocity, METH_VARARGS, NULL},
-	 { (char *)"getVelocityAveraged", _wrap_getVelocityAveraged, METH_VARARGS, NULL},
 	 { (char *)"interpolationMode", _wrap_interpolationMode, METH_VARARGS, NULL},
 	 { (char *)"getFreeBufferSize", _wrap_getFreeBufferSize, METH_VARARGS, NULL},
 	 { (char *)"addPVT", _wrap_addPVT, METH_VARARGS, NULL},

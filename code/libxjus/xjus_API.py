@@ -140,10 +140,6 @@ def getVelocity(*args):
   return _xjus_API.getVelocity(*args)
 getVelocity = _xjus_API.getVelocity
 
-def getVelocityAveraged(*args):
-  return _xjus_API.getVelocityAveraged(*args)
-getVelocityAveraged = _xjus_API.getVelocityAveraged
-
 def interpolationMode(*args):
   return _xjus_API.interpolationMode(*args)
 interpolationMode = _xjus_API.interpolationMode

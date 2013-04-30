@@ -26,7 +26,6 @@ void moveAbsolute(unsigned short node, long pos);
 long getTargetPosition(unsigned short node);
 
 long getVelocity(unsigned short node);
-long getVelocityAveraged(unsigned short node);
 
 // Interpolated position mode
 void interpolationMode(unsigned short node);
