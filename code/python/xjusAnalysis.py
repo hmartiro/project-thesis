@@ -241,6 +241,39 @@ def startAvgCurrent(trialId, graph):
         header = "#Trial: " + str(trialId) + "  Nodes(1-6) mA, sample number \n"
         fC.write(header)
 
+def startAvgVelocity(trialId):
+
+    global totalSamplesTaken_v
+    totalSamplesTaken_v = 0
+
+    global velocityFilename
+    velocityFilename = str(trialId) + "_veclocityOutput.txt"
+    global fV
+    fV = open(currentFilename, 'w')  #WRITES OVER PREVIOUS DATA
+    header = "#Trial: " + str(trialId) + "  Nodes(1-6) mA, rpm \n"
+    fV.write(header)
+
+
+def sampleAvgVelocity():
+
+    global totalSamplesTaken_v 
+    totalSamplesTaken_v = totalSamplesTaken_v + 1.0
+
+    for node in range(1,7):
+        measuredVelocity = xjus.getVelocityAveraged(node)
+            
+        if (node == 1):
+            output = str(measuredVelocity) + ", "
+        else:
+            output += str(measuredVelocity) + ", "
+
+            
+    fV.write(output + str(totalSamplesTaken_v) + '\n')
+
+def endAvgVelocity():
+    fV.close()
+
+
 
 def sampleAvgCurrent():
 
